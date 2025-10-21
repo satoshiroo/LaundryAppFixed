@@ -1,0 +1,109 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site1.master.cs" Inherits="LandryApp.Site1" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title></title>
+
+    <%--bootstrap css--%>
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <%--user css--%>
+    <link href="css/Styles.css" rel="stylesheet" />
+
+    <%--bootstrap js--%>
+    <script src="bootstrap/js/bootstrap.bundle.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet" />
+
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+
+</head>
+
+<body>
+    <form id="form1" runat="server">
+        
+        <!-- Navbar (Visible only on mobile) -->
+        <div class="top-navbar d-lg-none">
+            <button class="btn btn-outline-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarOffcanvas">
+                <i class="bi bi-list"></i>
+            </button>
+            <span class="fw-bold text-primary">FreshPress</span>
+        </div>
+
+        <!-- Sidebar for Desktop -->
+        <div class="sidebar d-none d-lg-flex flex-column position-fixed">
+            <div>
+                <div class="brand">
+                    <i class="bi bi-geo-alt fs-4 text-primary"></i>
+                    <div>
+                        <strong>PressN'Dry</strong><br>
+                        <small class="text-muted">Laundry & Dry Clean</small>
+                    </div>
+                </div>
+
+                <h6>MANAGEMENT</h6>
+                <ul class="nav flex-column">
+                    <li class="nav-item"><a id="dashboardLink" runat="server" class="nav-link" href="Dashboard.aspx"><i class="bi bi-speedometer2"></i> Dashboard</a>
+                    </li>
+                    <li class="nav-item"><a id="ordersLink" runat="server" class="nav-link" href="Orders.aspx"><i class="bi bi-bag"></i> Orders</a>
+                    </li>
+                    <li class="nav-item"><a id="newOrderLink" runat="server" class="nav-link" href="NewOrder.aspx"><i class="bi bi-plus-circle"></i> New Order</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="user-info d-flex align-items-center">
+                <img src="https://via.placeholder.com/40" alt="user" />
+                <div>
+                    <strong>Eric Dacuba</strong><br>
+                    <small>ericdacuba@gmail.com</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Offcanvas Sidebar (Mobile) -->
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarOffcanvas">
+            <div class="offcanvas-body p-0">
+                <div class="sidebar">
+                    <div>
+                        <div class="brand">
+                            <i class="bi bi-geo-alt fs-4 text-primary"></i>
+                            <div>
+                                <strong>FreshPress</strong><br>
+                                <small class="text-muted">Laundry & Dry Clean</small>
+                            </div>
+                        </div>
+
+                        <h6>MANAGEMENT</h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item"><a id="A1" runat="server" class="nav-link" href="Dashboard.aspx"><i class="bi bi-speedometer2"></i> Dashboard</a>
+                            </li>
+                            <li class="nav-item"><a id="A2" runat="server" class="nav-link" href="Orders.aspx"><i class="bi bi-bag"></i> Orders</a>
+                            </li>
+                            <li class="nav-item"><a id="A3" runat="server" class="nav-link" href="NewOrder.aspx"><i class="bi bi-plus-circle"></i> New Order</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="user-info d-flex align-items-center">
+                        <img src="https://via.placeholder.com/40" alt="user" />
+                        <div>
+                            <strong>Eric Dacuba</strong><br>
+                            <small>ericdacuba@gmail.com</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
+        </div>
+
+        
+    </form>
+</body>
+</html>
