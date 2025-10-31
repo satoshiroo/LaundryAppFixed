@@ -11,7 +11,7 @@ namespace LaundryApp
 {
 
 
-    public partial class WebForm1
+    public partial class Dashboard
     {
     }
 }

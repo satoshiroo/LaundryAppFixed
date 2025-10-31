@@ -1,145 +1,114 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="Dashboard.aspx.cs" Inherits="LaundryApp.WebForm1" %>
+﻿<%@ Page Title="Dashboard" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="Dashboard.aspx.cs" Inherits="LaundryApp.Dashboard" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <style>
+        /* Page-Specific Styles */
+        .dashboard-header h3 {
+            font-weight: 600;
+            color: #333;
+        }
 
-    <div class="dashboard-container p-4">
+        .dashboard-header p {
+            color: #6c757d;
+            margin-bottom: 30px;
+        }
 
-        <h3 class="fw-bold mb-3">Welcome Back</h3>
-        <p class="text-muted mb-4">Here's what's happening today</p>
+        .dashboard-stats .card {
+            border-radius: 15px;
+            border: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
 
-        <!-- Dashboard Cards -->
-        <div class="row g-3 mb-4">
-            <div class="col-md-3">
-                <div class="card stat-card shadow-sm">
-                    <div class="card-body text-center">
-                        <i class="bi bi-box-seam fs-3 text-primary mb-2"></i>
-                        <h6>Today's Orders</h6>
-                        <h4 class="fw-bold text-dark">0</h4>
+        .dashboard-stats .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .dashboard-stats .card-body i {
+            font-size: 2rem;
+            color: #84C0C6;
+        }
+
+        .dashboard-stats h5 {
+            margin-top: 10px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .dashboard-stats p {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        /* Center cards on smaller screens */
+        @media (max-width: 768px) {
+            .dashboard-stats {
+                text-align: center;
+            }
+        }
+    </style>
+</asp:Content>
+
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+    <div class="container-fluid py-4 px-3 px-md-4 px-lg-5">
+        <!-- Header -->
+        <div class="dashboard-header text-start">
+            <h3 class="fw-bold mb-1">Dashboard</h3>
+            <p class="text-muted">Overview of your laundry operations and statistics</p>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="row g-4 dashboard-stats">
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <i class="bi bi-bag-check"></i>
+                        <h5>120</h5>
+                        <p>Completed Orders</p>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-3">
-                <div class="card stat-card shadow-sm">
-                    <div class="card-body text-center">
-                        <i class="bi bi-clock-history fs-3 text-primary mb-2"></i>
-                        <h6>In Progress</h6>
-                        <h4 class="fw-bold text-dark">5</h4>
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <i class="bi bi-hourglass-split"></i>
+                        <h5>35</h5>
+                        <p>In Progress</p>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-3">
-                <div class="card stat-card shadow-sm">
-                    <div class="card-body text-center">
-                        <i class="bi bi-check2-circle fs-3 text-success mb-2"></i>
-                        <h6>Ready for Pickup</h6>
-                        <h4 class="fw-bold text-dark">0</h4>
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <i class="bi bi-person"></i>
+                        <h5>58</h5>
+                        <p>Active Customers</p>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-3">
-                <div class="card stat-card shadow-sm">
-                    <div class="card-body text-center">
-                        <i class="bi bi-currency-dollar fs-3 text-success mb-2"></i>
-                        <h6>Total Revenue</h6>
-                        <h4 class="fw-bold text-dark">$300.50</h4>
-                        <small class="text-success fw-semibold">↑ +12% this week</small>
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <i class="bi bi-cash-stack"></i>
+                        <h5>$2,450</h5>
+                        <p>Total Revenue</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Recent Orders Section -->
-        <div class="row">
-            <div class="col-md-8">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <h5 class="fw-bold mb-3">Recent Orders</h5>
-
-                        <div class="order-item d-flex justify-content-between align-items-center border-bottom py-2">
-                            <div>
-                                <h6 class="mb-0">Sarah Johnson</h6>
-                                <small class="text-muted">+1 (555) 234-5678</small>
-                            </div>
-                            <span class="badge bg-warning text-dark">Drying</span>
-                            <span class="fw-semibold">$45.50</span>
-                        </div>
-
-                        <div class="order-item d-flex justify-content-between align-items-center border-bottom py-2">
-                            <div>
-                                <h6 class="mb-0">Michael Chen</h6>
-                                <small class="text-muted">+1 (555) 345-6789</small>
-                            </div>
-                            <span class="badge bg-info text-dark">Washing</span>
-                            <span class="fw-semibold">$72.00</span>
-                        </div>
-
-                        <div class="order-item d-flex justify-content-between align-items-center border-bottom py-2">
-                            <div>
-                                <h6 class="mb-0">Emma Williams</h6>
-                                <small class="text-muted">+1 (555) 456-7890</small>
-                            </div>
-                            <span class="badge bg-success">Ironing</span>
-                            <span class="fw-semibold">$95.00</span>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-            <!-- Order Status Section -->
-            <div class="col-md-4">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <h5 class="fw-bold mb-3">Order Status</h5>
-
-                        <div class="status-item mb-2">
-                            <small>Received</small>
-                            <div class="progress" style="height: 8px;">
-                                <div class="progress-bar bg-secondary" style="width: 10%;"></div>
-                            </div>
-                        </div>
-
-                        <div class="status-item mb-2">
-                            <small>Washing</small>
-                            <div class="progress" style="height: 8px;">
-                                <div class="progress-bar bg-info" style="width: 40%;"></div>
-                            </div>
-                        </div>
-
-                        <div class="status-item mb-2">
-                            <small>Drying</small>
-                            <div class="progress" style="height: 8px;">
-                                <div class="progress-bar bg-warning" style="width: 20%;"></div>
-                            </div>
-                        </div>
-
-                        <div class="status-item mb-2">
-                            <small>Ironing</small>
-                            <div class="progress" style="height: 8px;">
-                                <div class="progress-bar bg-success" style="width: 20%;"></div>
-                            </div>
-                        </div>
-
-                        <div class="status-item mb-2">
-                            <small>Ready</small>
-                            <div class="progress" style="height: 8px;">
-                                <div class="progress-bar bg-primary" style="width: 0%;"></div>
-                            </div>
-                        </div>
-
-                        <div class="status-item">
-                            <small>Delivered</small>
-                            <div class="progress" style="height: 8px;">
-                                <div class="progress-bar bg-dark" style="width: 0%;"></div>
-                            </div>
-                        </div>
-
-                    </div>
+        <!-- Example Chart Section -->
+        <div class="row mt-5">
+            <div class="col-12 col-lg-8 mx-auto">
+                <div class="card p-4">
+                    <h5 class="mb-3">Recent Orders Activity</h5>
+                    <p class="text-muted mb-0">Coming soon — add your chart here</p>
                 </div>
             </div>
         </div>
     </div>
-
 </asp:Content>
