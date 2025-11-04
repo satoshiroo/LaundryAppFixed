@@ -11,7 +11,7 @@ namespace LaundryApp
 {
 
 
-    public partial class Dashboard
+    public partial class AdminDashboard
     {
     }
 }

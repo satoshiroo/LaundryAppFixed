@@ -15,13 +15,13 @@ namespace LaundryApp
     {
 
         /// <summary>
-        /// RepeaterOrders control.
+        /// GridViewOrders control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater RepeaterOrders;
+        protected global::System.Web.UI.WebControls.GridView GridViewOrders;
 
         /// <summary>
         /// txtCustomerName control.
@@ -42,15 +42,6 @@ namespace LaundryApp
         protected global::System.Web.UI.WebControls.TextBox txtContact;
 
         /// <summary>
-        /// ddlStatus control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlStatus;
-
-        /// <summary>
         /// txtTotal control.
         /// </summary>
         /// <remarks>
@@ -60,12 +51,21 @@ namespace LaundryApp
         protected global::System.Web.UI.WebControls.TextBox txtTotal;
 
         /// <summary>
-        /// btnSaveOrder control.
+        /// ddlStatus control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSaveOrder;
+        protected global::System.Web.UI.WebControls.DropDownList ddlStatus;
+
+        /// <summary>
+        /// btnAddOrder control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAddOrder;
     }
 }

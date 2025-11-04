@@ -11,115 +11,115 @@ namespace LaundryApp
 {
 
 
-    public partial class Site1
+    public partial class Login
     {
 
         /// <summary>
-        /// HeadContent control.
+        /// MainForm control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder HeadContent;
+        protected global::System.Web.UI.HtmlControls.HtmlForm MainForm;
 
         /// <summary>
-        /// head control.
+        /// lblSignUpMessage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder head;
+        protected global::System.Web.UI.WebControls.Label lblSignUpMessage;
 
         /// <summary>
-        /// form1 control.
+        /// txtusernamesignup control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
+        protected global::System.Web.UI.WebControls.TextBox txtusernamesignup;
 
         /// <summary>
-        /// ScriptManager1 control.
+        /// txtcontactnumber control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.ScriptManager ScriptManager1;
+        protected global::System.Web.UI.WebControls.TextBox txtcontactnumber;
 
         /// <summary>
-        /// dashboardLink control.
+        /// txtemailsignup control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor dashboardLink;
+        protected global::System.Web.UI.WebControls.TextBox txtemailsignup;
 
         /// <summary>
-        /// ordersLink control.
+        /// txtpasswordsignup control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor ordersLink;
+        protected global::System.Web.UI.WebControls.TextBox txtpasswordsignup;
 
         /// <summary>
-        /// customersLink control.
+        /// SignupBtn control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor customersLink;
+        protected global::System.Web.UI.WebControls.Button SignupBtn;
 
         /// <summary>
-        /// inventoryLink control.
+        /// lblSignInMessage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor inventoryLink;
+        protected global::System.Web.UI.WebControls.Label lblSignInMessage;
 
         /// <summary>
-        /// machinesLink control.
+        /// email control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor machinesLink;
+        protected global::System.Web.UI.WebControls.TextBox email;
 
         /// <summary>
-        /// messagesLink control.
+        /// password control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor messagesLink;
+        protected global::System.Web.UI.WebControls.TextBox password;
 
         /// <summary>
-        /// MainContent control.
+        /// chkRemember control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder MainContent;
+        protected global::System.Web.UI.HtmlControls.HtmlInputCheckBox chkRemember;
 
         /// <summary>
-        /// Scripts control.
+        /// Submit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder Scripts;
+        protected global::System.Web.UI.WebControls.Button Submit;
     }
 }

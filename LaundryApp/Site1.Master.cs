@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Web.UI.HtmlControls;
 
 namespace LaundryApp
@@ -8,26 +7,41 @@ namespace LaundryApp
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            string currentPage = Path.GetFileName(Request.Url.AbsolutePath).ToLower();
+            // Highlight the active link based on the current page
+            string currentPage = System.IO.Path.GetFileName(Request.Url.AbsolutePath);
 
-            SetActiveClass(dashboardLink, currentPage.Contains("dashboard"));
-            SetActiveClass(ordersLink, currentPage.Contains("orders"));
-            SetActiveClass(inventoryLink, currentPage.Contains("inventory"));
-            SetActiveClass(machinesLink, currentPage.Contains("machines"));
-            SetActiveClass(messagesLink, currentPage.Contains("messages"));
+            SetActiveLink(currentPage);
         }
 
-        private void SetActiveClass(HtmlAnchor link, bool isActive)
+        private void SetActiveLink(string page)
         {
-            string existingClass = link.Attributes["class"] ?? "";
-            if (isActive)
+            // Reset all link classes
+            dashboardLink.Attributes["class"] = "nav-link";
+            ordersLink.Attributes["class"] = "nav-link";
+            inventoryLink.Attributes["class"] = "nav-link";
+            machinesLink.Attributes["class"] = "nav-link";
+            messagesLink.Attributes["class"] = "nav-link";
+
+            // Add 'active' class to current page
+            switch (page.ToLower())
             {
-                if (!existingClass.Contains("active"))
-                    link.Attributes["class"] = existingClass + " active";
-            }
-            else
-            {
-                link.Attributes["class"] = existingClass.Replace(" active", "");
+                case "dashboard.aspx":
+                    dashboardLink.Attributes["class"] += " active";
+                    break;
+                case "orders.aspx":
+                    ordersLink.Attributes["class"] += " active";
+                    break;
+                case "inventory.aspx":
+                    inventoryLink.Attributes["class"] += " active";
+                    break;
+                case "machines.aspx":
+                    machinesLink.Attributes["class"] += " active";
+                    break;
+                case "messages.aspx":
+                    messagesLink.Attributes["class"] += " active";
+                    break;
+                default:
+                    break;
             }
         }
     }
