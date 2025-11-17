@@ -5,6 +5,10 @@
 <head runat="server">
     <title>Login / Register</title>
     <link href="Login.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+
+    </style>
 </head>
 <body>
     <form id="MainForm" runat="server">

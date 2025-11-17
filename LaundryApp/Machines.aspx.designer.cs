@@ -15,6 +15,42 @@ namespace LaundryApp
     {
 
         /// <summary>
+        /// lblTotalMachines control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTotalMachines;
+
+        /// <summary>
+        /// lblAvailable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblAvailable;
+
+        /// <summary>
+        /// lblInUse control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblInUse;
+
+        /// <summary>
+        /// lblMaintenance control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblMaintenance;
+
+        /// <summary>
         /// txtSearch control.
         /// </summary>
         /// <remarks>
@@ -78,30 +114,48 @@ namespace LaundryApp
         protected global::System.Web.UI.WebControls.Button btnSaveMachine;
 
         /// <summary>
-        /// hiddenEditMachineId control.
+        /// hiddenEditMachineIdModal control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hiddenEditMachineId;
+        protected global::System.Web.UI.WebControls.HiddenField hiddenEditMachineIdModal;
 
         /// <summary>
-        /// ddlEditStatus control.
+        /// txtEditMachineName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlEditStatus;
+        protected global::System.Web.UI.WebControls.TextBox txtEditMachineName;
 
         /// <summary>
-        /// btnUpdateStatus control.
+        /// ddlEditStatusModal control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnUpdateStatus;
+        protected global::System.Web.UI.WebControls.DropDownList ddlEditStatusModal;
+
+        /// <summary>
+        /// btnUpdateMachine control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnUpdateMachine;
+
+        /// <summary>
+        /// btnDeleteMachine control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnDeleteMachine;
     }
 }
