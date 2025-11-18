@@ -11,52 +11,61 @@ namespace Laundry_Login
 {
 
 
-    public partial class Login
+    public partial class ForgotPassword
     {
 
         /// <summary>
-        /// msg control.
+        /// form1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label msg;
+        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
-        /// emailTB control.
+        /// txtLoginEmail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox emailTB;
+        protected global::System.Web.UI.WebControls.TextBox txtLoginEmail;
 
         /// <summary>
-        /// passwordTB control.
+        /// txtLoginPassword control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox passwordTB;
+        protected global::System.Web.UI.WebControls.TextBox txtLoginPassword;
 
         /// <summary>
-        /// RememberBox control.
+        /// btnSignIn control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox RememberBox;
+        protected global::System.Web.UI.WebControls.Button btnSignIn;
 
         /// <summary>
-        /// signin control.
+        /// txtResetEmail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button signin;
+        protected global::System.Web.UI.WebControls.TextBox txtResetEmail;
+
+        /// <summary>
+        /// btnResetPassword control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnResetPassword;
     }
 }

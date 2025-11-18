@@ -1,103 +1,90 @@
 ﻿using System;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web.UI;
 
-namespace LaundryApp
+namespace Laundry_Login
 {
     public partial class Login : Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            // Any page load logic if needed
         }
 
-        protected void Submit_Click(object sender, EventArgs e)
+        protected void SignIn_Click(object sender, EventArgs e)
         {
-            string email = this.email.Text.Trim();
-            string password = this.password.Text.Trim();
+            string email = emailTB.Text;
+            string password = passwordTB.Text;
+            string hashedPassword = HashPassword(password);
 
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["LaundryConnection"].ConnectionString))
+            Debug.WriteLine("Username: " + email); // This will show in the Output window
+            Debug.WriteLine("Hashed Password: " + hashedPassword);
+
+            string connString = ConfigurationManager.ConnectionStrings["LaundryConnection"].ConnectionString;
+            string query = "SELECT UserRole FROM Users WHERE Email = @Email AND Password = @Password";
+
+            using (SqlConnection conn = new SqlConnection(connString))
             {
-                con.Open();
-                SqlCommand cmd = new SqlCommand("SELECT * FROM Users WHERE Email = @Email", con);
-                cmd.Parameters.AddWithValue("@Email", email);
-
-                SqlDataReader reader = cmd.ExecuteReader();
-                if (reader.HasRows)
+                using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
-                    reader.Read();
-                    string storedHashPassword = reader["Password"].ToString();
-                    string storedSalt = reader["Salt"].ToString();
+                    cmd.Parameters.AddWithValue("@Email", email);
+                    cmd.Parameters.AddWithValue("@Password", hashedPassword);
 
-                    // Hash the entered password with the stored salt
-                    string enteredHashedPassword = CreatePasswordHash(password, storedSalt);
-
-                    if (storedHashPassword == enteredHashedPassword)
+                    try
                     {
-                        // Successful login
-                        Response.Redirect("HomePage.aspx");  // Redirect to the home page after successful login
+                        conn.Open();
+                        var result = cmd.ExecuteScalar();
+                        if (result != null)
+                        {
+                            string userRole = result.ToString();
+                            if (userRole == "Admin")
+                            {
+                                Response.Redirect("AdminDashboard.aspx");
+                            }
+                            else
+                            {
+                                Response.Redirect("UserDashboard.aspx");
+                            }
+                        }
+                        else
+                        {
+                            msg.Text = "Invalid username or password!";
+                            msg.ForeColor = System.Drawing.Color.Red;
+                        }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        lblSignInMessage.Text = "Invalid password!";
+                        // Log the error (optional)
+                        msg.Text = "An error occurred: " + ex.Message;
+                        msg.ForeColor = System.Drawing.Color.Red;
                     }
                 }
-                else
+            }
+        }
+
+
+
+        // Method to hash the password using SHA256
+        public string HashPassword(string password)
+        {
+            using (SHA256 sha256Hash = SHA256.Create())
+            {
+                // Convert the string to a byte array and compute the hash.
+                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
+
+                // Convert the byte array to a string.
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < bytes.Length; i++)
                 {
-                    lblSignInMessage.Text = "Email not registered!";
+                    builder.Append(bytes[i].ToString("x2"));
                 }
+                return builder.ToString();
             }
         }
-
-
-        protected void SignUpBtn_Click(object sender, EventArgs e)
-        {
-            string username = txtusernamesignup.Text.Trim();
-            string email = txtemailsignup.Text.Trim();
-            string password = txtpasswordsignup.Text.Trim();
-            string contactNumber = txtcontactnumber.Text.Trim();
-
-            // Generate a salt for the password
-            string salt = GenerateSalt();
-            string hashedPassword = CreatePasswordHash(password, salt);
-
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["LaundryConnection"].ConnectionString))
-            {
-                con.Open();
-                SqlCommand cmd = new SqlCommand("INSERT INTO Users (Username, Email, Password, ContactNumber, Salt) VALUES (@Username, @Email, @Password, @ContactNumber, @Salt)", con);
-                cmd.Parameters.AddWithValue("@Username", username);
-                cmd.Parameters.AddWithValue("@Email", email);
-                cmd.Parameters.AddWithValue("@Password", hashedPassword);
-                cmd.Parameters.AddWithValue("@ContactNumber", contactNumber);
-                cmd.Parameters.AddWithValue("@Salt", salt);
-
-                cmd.ExecuteNonQuery();
-            }
-
-            lblSignUpMessage.Text = "Account created successfully!";
-        }
-
-
-        public static string CreatePasswordHash(string password, string salt)
-        {
-            using (var sha256 = new SHA256Managed())
-            {
-                var saltedPassword = password + salt;
-                byte[] hash = sha256.ComputeHash(Encoding.UTF8.GetBytes(saltedPassword));
-                return Convert.ToBase64String(hash);
-            }
-        }
-
-        public static string GenerateSalt()
-        {
-            var rng = new RNGCryptoServiceProvider();
-            byte[] saltBytes = new byte[16];
-            rng.GetBytes(saltBytes);
-            return Convert.ToBase64String(saltBytes);
-        }
-
 
     }
 }

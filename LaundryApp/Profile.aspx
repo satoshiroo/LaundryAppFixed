@@ -91,6 +91,10 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container-fluid mt-4">
+        <div>
+            <h2 class="fw-bold mb-0">Profile</h2>
+            <small class="text-muted">Manage your User Profile</small>
+        </div>
         <!-- Profile Card -->
         <div class="row">
             <div class="col-md-12">
