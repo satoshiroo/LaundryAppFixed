@@ -1,47 +1,35 @@
 ﻿using System;
-using System.Web.UI.HtmlControls;
+using System.Web.UI;
 
 namespace LaundryApp
 {
-    public partial class Site1 : System.Web.UI.MasterPage
+    public partial class Site1 : MasterPage
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            // Highlight the active link based on the current page
-            string currentPage = System.IO.Path.GetFileName(Request.Url.AbsolutePath);
-
-            SetActiveLink(currentPage);
-        }
-
-        private void SetActiveLink(string page)
-        {
-            // Reset all link classes
-            dashboardLink.Attributes["class"] = "nav-link";
-            ordersLink.Attributes["class"] = "nav-link";
-            inventoryLink.Attributes["class"] = "nav-link";
-            machinesLink.Attributes["class"] = "nav-link";
-            messagesLink.Attributes["class"] = "nav-link";
-
-            // Add 'active' class to current page
-            switch (page.ToLower())
+            if (Session["UserRole"] != null)
             {
-                case "dashboard.aspx":
-                    dashboardLink.Attributes["class"] += " active";
-                    break;
-                case "orders.aspx":
-                    ordersLink.Attributes["class"] += " active";
-                    break;
-                case "inventory.aspx":
-                    inventoryLink.Attributes["class"] += " active";
-                    break;
-                case "machines.aspx":
-                    machinesLink.Attributes["class"] += " active";
-                    break;
-                case "messages.aspx":
-                    messagesLink.Attributes["class"] += " active";
-                    break;
-                default:
-                    break;
+                string userRole = Session["UserRole"].ToString();
+
+                if (userRole == "Admin")
+                {
+                    // Admin: Show admin-specific links
+                    customersLink.Visible = true;
+                    inventoryLink.Visible = true;
+                    machinesLink.Visible = true;
+                }
+                else if (userRole == "Customer")
+                {
+                    // User: Hide admin-specific links
+                    customersLink.Visible = false;
+                    inventoryLink.Visible = false;
+                    machinesLink.Visible = false;
+                }
+            }
+            else
+            {
+                // If not logged in, redirect to login page
+                Response.Redirect("Login.aspx");
             }
         }
     }

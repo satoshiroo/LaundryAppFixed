@@ -92,7 +92,7 @@
     <Content Include="Login.css" />
     <Content Include="img\pfp.jpg" />
     <Content Include="Web.config" />
-    <Content Include="AdminDashboard.aspx" />
+    <Content Include="Dashboard.aspx" />
     <Content Include="Orders.aspx" />
     <Content Include="Inventory.aspx" />
     <Content Include="Machines.aspx" />
@@ -112,12 +112,12 @@
     <Compile Include="Site1.Master.designer.cs">
       <DependentUpon>Site1.Master</DependentUpon>
     </Compile>
-    <Compile Include="AdminDashboard.aspx.cs">
-      <DependentUpon>AdminDashboard.aspx</DependentUpon>
+    <Compile Include="Dashboard.aspx.cs">
+      <DependentUpon>Dashboard.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="AdminDashboard.aspx.designer.cs">
-      <DependentUpon>AdminDashboard.aspx</DependentUpon>
+    <Compile Include="Dashboard.aspx.designer.cs">
+      <DependentUpon>Dashboard.aspx</DependentUpon>
     </Compile>
     <Compile Include="Orders.aspx.cs">
       <DependentUpon>Orders.aspx</DependentUpon>

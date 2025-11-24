@@ -17,7 +17,8 @@
 body {
     display: flex;
     justify-content: center;
-    min-height: 100vh;
+    align-items: center;  /* Vertically centers the content */
+    min-height: 100vh;  /* Makes sure the body takes up the full height of the viewport */
     padding: 20px;
     background: linear-gradient(90deg, #e2e2e2, #c9d6ff);
 }
@@ -27,16 +28,18 @@ body {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    max-width: 1000px;
+    max-width: 800px; /* Adjust to the desired width */
     width: 100%;
     background: #fff;
     border-radius: 20px;
     box-shadow: 0 0 30px rgba(0, 0, 0, .2);
     overflow: hidden;
-    height: auto;
+    height: 650px;
     padding: 20px;
-    margin: 0 auto;
+    margin: 0 auto; /* This ensures horizontal centering */
 }
+
+
 
 .left-container {
     flex: 1;

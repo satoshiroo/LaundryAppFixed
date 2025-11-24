@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
+using System.Web;
 using System.Web.UI;
 
 namespace Laundry_Login
@@ -12,8 +13,19 @@ namespace Laundry_Login
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            // Any page load logic if needed
+            // Prevent caching of the login page to avoid the page being cached in history
+            Response.Cache.SetExpires(DateTime.Now.AddMinutes(-1));  // Set expiration to a past date
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);  // Prevent caching
+            Response.Cache.SetNoStore();  // Do not store the page in cache
+
+            // If the user is already logged in (session exists), redirect them to the Dashboard
+            if (Session["UserRole"] != null)
+            {
+                Response.Redirect("Dashboard.aspx");
+            }
         }
+
+
 
         protected void SignIn_Click(object sender, EventArgs e)
         {
@@ -41,14 +53,12 @@ namespace Laundry_Login
                         if (result != null)
                         {
                             string userRole = result.ToString();
-                            if (userRole == "Admin")
-                            {
-                                Response.Redirect("AdminDashboard.aspx");
-                            }
-                            else
-                            {
-                                Response.Redirect("UserDashboard.aspx");
-                            }
+
+                            // Store the user role in session
+                            Session["UserRole"] = userRole;
+
+                            // Redirect to Dashboard (this is the unified dashboard for both Admin and User)
+                            Response.Redirect("Dashboard.aspx");
                         }
                         else
                         {
@@ -65,8 +75,6 @@ namespace Laundry_Login
                 }
             }
         }
-
-
 
         // Method to hash the password using SHA256
         public string HashPassword(string password)
@@ -85,6 +93,5 @@ namespace Laundry_Login
                 return builder.ToString();
             }
         }
-
     }
 }

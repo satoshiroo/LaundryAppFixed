@@ -1,53 +1,90 @@
 ﻿using System;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Configuration;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace LaundryApp
 {
-    public partial class Customers : System.Web.UI.Page
+    public partial class Customers : Page
     {
-        SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["LaundryConnection"].ConnectionString);
-
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
-                LoadCustomers();
+            {
+                // Call method to load customer data into the table
+                LoadCustomerData();
+            }
         }
 
-        void LoadCustomers()
+        private void LoadCustomerData()
         {
-            SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM Customers ORDER BY CustomerID DESC", con);
-            DataTable dt = new DataTable();
-            da.Fill(dt);
-            GridCustomers.DataSource = dt;
-            GridCustomers.DataBind();
+            string connString = "Server=TSUJIN\\SQLEXPRESS; Database=LaundryDB; Integrated Security=True;";
+            string query = "SELECT UserID, CONCAT(FirstName, ' ', LastName) AS Name, ContactNumber, Address FROM Users WHERE UserRole = 'Customer'";  // Corrected query
+
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                SqlDataAdapter da = new SqlDataAdapter(query, conn);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+
+                // Bind the data to the GridView
+                CustomerTable.DataSource = dt;
+                CustomerTable.DataBind();
+            }
         }
 
-        protected void btnAdd_Click(object sender, EventArgs e)
+        // Event handlers for editing and deleting rows
+        protected void CustomerTable_RowEditing(object sender, GridViewEditEventArgs e)
         {
-            con.Open();
-            SqlCommand cmd = new SqlCommand("INSERT INTO Customers(Name, Contact, Address) VALUES(@Name, @Contact, @Address)", con);
-            cmd.Parameters.AddWithValue("@Name", txtName.Text);
-            cmd.Parameters.AddWithValue("@Contact", txtContact.Text);
-            cmd.Parameters.AddWithValue("@Address", txtAddress.Text);
-            cmd.ExecuteNonQuery();
-            con.Close();
-
-            txtName.Text = txtContact.Text = txtAddress.Text = "";
-            LoadCustomers();
+            // Implement edit functionality (e.g., redirect to an edit page or show a modal)
+            int customerId = Convert.ToInt32(CustomerTable.DataKeys[e.NewEditIndex].Value);
+            Response.Redirect($"EditCustomer.aspx?CustomerID={customerId}");
         }
 
-        protected void GridCustomers_RowDeleting(object sender, System.Web.UI.WebControls.GridViewDeleteEventArgs e)
+        protected void CustomerTable_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
-            int id = Convert.ToInt32(GridCustomers.DataKeys[e.RowIndex].Value);
-            con.Open();
-            SqlCommand cmd = new SqlCommand("DELETE FROM Customers WHERE CustomerID=@id", con);
-            cmd.Parameters.AddWithValue("@id", id);
-            cmd.ExecuteNonQuery();
-            con.Close();
+            // Implement delete functionality
+            int customerId = Convert.ToInt32(CustomerTable.DataKeys[e.RowIndex].Value);
 
-            LoadCustomers();
+            string connString = "your_connection_string";  // Update with your connection string
+            string query = "DELETE FROM Users WHERE UserID = @CustomerID";
+
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@CustomerID", customerId);
+                conn.Open();
+                cmd.ExecuteNonQuery();
+                conn.Close();
+            }
+
+            // Reload the customer data to reflect the deletion
+            LoadCustomerData();
+        }
+
+        protected void btnSaveCustomer_Click(object sender, EventArgs e)
+        {
+            // Save new customer logic
+            string connString = "your_connection_string"; // Your actual connection string
+            string query = "INSERT INTO Users (FirstName, LastName, ContactNumber, Address, UserRole) VALUES (@FirstName, @LastName, @ContactNumber, @Address, 'Customer')";
+
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@FirstName", txtFirstName.Text);
+                cmd.Parameters.AddWithValue("@LastName", txtLastName.Text);
+                cmd.Parameters.AddWithValue("@ContactNumber", txtContactNumber.Text);
+                cmd.Parameters.AddWithValue("@Address", txtAddress.Text);
+
+                conn.Open();
+                cmd.ExecuteNonQuery();
+                conn.Close();
+            }
+
+            // Refresh the customer table
+            LoadCustomerData();
         }
     }
 }

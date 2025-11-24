@@ -15,9 +15,6 @@
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet" />
 
-    <!-- Page-Specific Head Content -->
-    <asp:ContentPlaceHolder ID="head" runat="server"></asp:ContentPlaceHolder>
-
     <style>
         /* General Layout */
         body, html {
@@ -145,6 +142,7 @@
             }
         }
     </style>
+
 </head>
 
 <body>
@@ -172,16 +170,44 @@
 
                 <h6>MANAGEMENT</h6>
                 <ul class="nav flex-column">
-                    <li class="nav-item"><a runat="server" id="dashboardLink" class="nav-link" href="AdminDashboard.aspx"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
-                    <li class="nav-item"><a runat="server" id="ordersLink" class="nav-link" href="Orders.aspx"><i class="bi bi-bag"></i> Orders</a></li>
-                    <li class="nav-item"><a runat="server" id="customersLink" class="nav-link" href="Customers.aspx"><i class="bi bi-nut"></i> Customers</a></li>
-                    <li class="nav-item"><a runat="server" id="inventoryLink" class="nav-link" href="Inventory.aspx"><i class="bi bi-archive"></i> Inventory</a></li>
-                    <li class="nav-item"><a runat="server" id="machinesLink" class="nav-link" href="Machines.aspx"><i class="bi bi-nut"></i> Machines</a></li>
+                    <li class="nav-item">
+                        <a runat="server" id="dashboardLink" class="nav-link" href="Dashboard.aspx">
+                            <i class="bi bi-speedometer2"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a runat="server" id="ordersLink" class="nav-link" href="Orders.aspx">
+                            <i class="bi bi-bag"></i> Orders
+                        </a>
+                    </li>
+
+                    <!-- Admin-Specific Links (conditionally visible) -->
+                    <li class="nav-item" id="customersLink" runat="server">
+                        <a runat="server" class="nav-link" href="Customers.aspx">
+                            <i class="bi bi-person"></i> Customers
+                        </a>
+                    </li>
+
+                    <li class="nav-item" id="inventoryLink" runat="server">
+                        <a runat="server" class="nav-link" href="Inventory.aspx">
+                            <i class="bi bi-archive"></i> Inventory
+                        </a>
+                    </li>
+
+                    <li class="nav-item" id="machinesLink" runat="server">
+                        <a runat="server" class="nav-link" href="Machines.aspx">
+                            <i class="bi bi-nut"></i> Machines
+                        </a>
+                    </li>
                 </ul>
 
                 <h6>COMMUNICATION</h6>
                 <ul class="nav flex-column mb-3">
-                    <li class="nav-item"><a runat="server" id="messagesLink" class="nav-link" href="Messages.aspx"><i class="bi bi-chat-left-dots"></i> Messages</a></li>
+                    <li class="nav-item">
+                        <a runat="server" id="messagesLink" class="nav-link" href="Messages.aspx">
+                            <i class="bi bi-chat-left-dots"></i> Messages
+                        </a>
+                    </li>
                 </ul>
             </div>
 
@@ -193,8 +219,6 @@
                              class="rounded-circle border border-2 border-primary shadow-sm"
                              width="36" height="36"
                              style="object-fit: cover;" />
-                        <span class="bg-success position-absolute bottom-0 end-0 rounded-circle border border-white"
-                              style="width:8px; height:8px;"></span>
                     </div>
                     <div class="flex-grow-1">
                         <strong class="d-block" style="font-size: 0.9rem;">Eric Dacuba</strong>
@@ -215,10 +239,8 @@
             </div>
         </main>
 
-        <!-- Bootstrap JS -->
         <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
 
-        <!-- Sidebar Toggle Script -->
         <script>
             const toggleBtn = document.getElementById('menuToggle');
             const sidebar = document.getElementById('sidebar');

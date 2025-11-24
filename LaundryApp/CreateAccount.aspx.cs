@@ -25,10 +25,21 @@ namespace Laundry_Login
             string contactNumber = contactnum.Text;
             string address = addressTB.Text;
 
+            // Check if any of the fields are empty
+            if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName) || string.IsNullOrEmpty(email) ||
+                string.IsNullOrEmpty(password) || string.IsNullOrEmpty(confirmPassword) || string.IsNullOrEmpty(contactNumber) ||
+                string.IsNullOrEmpty(address))
+            {
+                messagetxt.Text = "You can't register with empty fields. Please fill in all fields.";
+                messagetxt.ForeColor = System.Drawing.Color.Red;
+                return; // Stop further execution
+            }
+
             // Check if passwords match
             if (password != confirmPassword)
             {
                 messagetxt.Text = "Passwords do not match";
+                messagetxt.ForeColor = System.Drawing.Color.Red;
                 return;
             }
 
@@ -66,8 +77,6 @@ namespace Laundry_Login
                 }
             }
         }
-
-
 
         // Method to hash passwords (you can use a more secure method like bcrypt for production)
         private string HashPassword(string password)

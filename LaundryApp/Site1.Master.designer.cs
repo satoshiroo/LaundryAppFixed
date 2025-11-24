@@ -24,15 +24,6 @@ namespace LaundryApp
         protected global::System.Web.UI.WebControls.ContentPlaceHolder HeadContent;
 
         /// <summary>
-        /// head control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder head;
-
-        /// <summary>
         /// form1 control.
         /// </summary>
         /// <remarks>
@@ -75,7 +66,7 @@ namespace LaundryApp
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor customersLink;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl customersLink;
 
         /// <summary>
         /// inventoryLink control.
@@ -84,7 +75,7 @@ namespace LaundryApp
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor inventoryLink;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl inventoryLink;
 
         /// <summary>
         /// machinesLink control.
@@ -93,7 +84,7 @@ namespace LaundryApp
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor machinesLink;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl machinesLink;
 
         /// <summary>
         /// messagesLink control.
