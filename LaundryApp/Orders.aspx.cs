@@ -17,6 +17,7 @@ namespace LaundryApp
             }
         }
 
+        // Load orders from the database and bind to the Repeater
         void LoadOrders()
         {
             try
@@ -24,8 +25,10 @@ namespace LaundryApp
                 SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM Orders ORDER BY DateCreated DESC", con);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
-                GridViewOrders.DataSource = dt;
-                GridViewOrders.DataBind();
+
+                // Bind the data to Repeater
+                rptOrders.DataSource = dt;
+                rptOrders.DataBind();
             }
             catch (Exception ex)
             {
@@ -33,13 +36,15 @@ namespace LaundryApp
             }
         }
 
-        protected void btnAddOrder_Click(object sender, EventArgs e)
+        // Add a new order
+        protected void btnSaveOrder_Click(object sender, EventArgs e)
         {
             try
             {
                 SqlCommand cmd = new SqlCommand(
                     "INSERT INTO Orders (CustomerName, Contact, Total, Status, DateCreated) VALUES (@n,@c,@t,@s,GETDATE())", con);
 
+                // Add parameters for the SQL command
                 cmd.Parameters.AddWithValue("@n", txtCustomerName.Text);
                 cmd.Parameters.AddWithValue("@c", txtContact.Text);
                 cmd.Parameters.AddWithValue("@t", txtTotal.Text);
@@ -49,14 +54,57 @@ namespace LaundryApp
                 cmd.ExecuteNonQuery();
                 con.Close();
 
+                // Clear the input fields after the data is saved
                 txtCustomerName.Text = txtContact.Text = txtTotal.Text = "";
                 ddlStatus.SelectedIndex = 0;
 
+                // Reload the orders list
                 LoadOrders();
             }
             catch (Exception ex)
             {
                 Response.Write("<script>alert('Error adding order: " + ex.Message + "');</script>");
+            }
+        }
+
+        // Handle Search functionality
+        protected void btnSearch_Click(object sender, EventArgs e)
+        {
+            string searchQuery = txtSearch.Text.Trim();
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                try
+                {
+                    SqlDataAdapter da = new SqlDataAdapter(
+                        "SELECT * FROM Orders WHERE CustomerName LIKE '%' + @searchQuery + '%' ORDER BY DateCreated DESC", con);
+                    da.SelectCommand.Parameters.AddWithValue("@searchQuery", searchQuery);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+
+                    // Bind the search results to the Repeater
+                    rptOrders.DataSource = dt;
+                    rptOrders.DataBind();
+                }
+                catch (Exception ex)
+                {
+                    Response.Write("<script>alert('Error searching orders: " + ex.Message + "');</script>");
+                }
+            }
+        }
+
+        // Get status class for CSS
+        protected string GetStatusCss(string status)
+        {
+            switch (status)
+            {
+                case "Pending":
+                    return "status-pending";
+                case "In Progress":
+                    return "status-progress";
+                case "Completed":
+                    return "status-completed";
+                default:
+                    return "";
             }
         }
     }
