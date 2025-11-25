@@ -17,7 +17,6 @@
     
     
     <style>
-        <style>
     /* General Layout */
     html, body {
         height: 100%;
@@ -177,8 +176,6 @@
         }
     }
 </style>
-
-    </style>
 
 </head>
 

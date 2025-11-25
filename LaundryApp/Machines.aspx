@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="Machines" Language="C#" MasterPageFile="~/Site1.Master"
     AutoEventWireup="true" CodeBehind="Machines.aspx.cs" Inherits="LaundryApp.Machines" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+<asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
     <style>
         body {
             background-color: #f8f9fc;
