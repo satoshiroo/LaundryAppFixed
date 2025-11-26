@@ -26,56 +26,6 @@ namespace Laundry_Login
         }
 
 
-
-        protected void SignIn_Click(object sender, EventArgs e)
-        {
-            string email = emailTB.Text;
-            string password = passwordTB.Text;
-            string hashedPassword = HashPassword(password);
-
-            Debug.WriteLine("Username: " + email); // This will show in the Output window
-            Debug.WriteLine("Hashed Password: " + hashedPassword);
-
-            string connString = ConfigurationManager.ConnectionStrings["LaundryConnection"].ConnectionString;
-            string query = "SELECT UserRole FROM Users WHERE Email = @Email AND Password = @Password";
-
-            using (SqlConnection conn = new SqlConnection(connString))
-            {
-                using (SqlCommand cmd = new SqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@Email", email);
-                    cmd.Parameters.AddWithValue("@Password", hashedPassword);
-
-                    try
-                    {
-                        conn.Open();
-                        var result = cmd.ExecuteScalar();
-                        if (result != null)
-                        {
-                            string userRole = result.ToString();
-
-                            // Store the user role in session
-                            Session["UserRole"] = userRole;
-
-                            // Redirect to Dashboard (this is the unified dashboard for both Admin and User)
-                            Response.Redirect("Dashboard.aspx");
-                        }
-                        else
-                        {
-                            msg.Text = "Invalid username or password!";
-                            msg.ForeColor = System.Drawing.Color.Red;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        // Log the error (optional)
-                        msg.Text = "An error occurred: " + ex.Message;
-                        msg.ForeColor = System.Drawing.Color.Red;
-                    }
-                }
-            }
-        }
-
         // Method to hash the password using SHA256
         public string HashPassword(string password)
         {
@@ -91,6 +41,57 @@ namespace Laundry_Login
                     builder.Append(bytes[i].ToString("x2"));
                 }
                 return builder.ToString();
+            }
+        }
+
+        protected void signin_Click(object sender, EventArgs e)
+        {
+            {
+                string email = txtUsername.Text;
+                string password = txtPassword.Text;
+                string hashedPassword = HashPassword(password);
+
+                Debug.WriteLine("Username: " + email); // This will show in the Output window
+                Debug.WriteLine("Hashed Password: " + hashedPassword);
+
+                string connString = ConfigurationManager.ConnectionStrings["LaundryConnection"].ConnectionString;
+                string query = "SELECT UserRole FROM Users WHERE Email = @Email AND Password = @Password";
+
+                using (SqlConnection conn = new SqlConnection(connString))
+                {
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@Email", email);
+                        cmd.Parameters.AddWithValue("@Password", hashedPassword);
+
+                        try
+                        {
+                            conn.Open();
+                            var result = cmd.ExecuteScalar();
+                            if (result != null)
+                            {
+                                string userRole = result.ToString();
+
+                                // Store the user role in session
+                                Session["UserRole"] = userRole;
+
+                                // Redirect to Dashboard (this is the unified dashboard for both Admin and User)
+                                Response.Redirect("Dashboard.aspx");
+                            }
+                            else
+                            {
+                                msg.Text = "Invalid username or password!";
+                                msg.ForeColor = System.Drawing.Color.Red;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            // Log the error (optional)
+                            msg.Text = "An error occurred: " + ex.Message;
+                            msg.ForeColor = System.Drawing.Color.Red;
+                        }
+                    }
+                }
             }
         }
     }
