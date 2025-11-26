@@ -22,7 +22,7 @@ body {
     justify-content: center;
     min-height: 100vh;
     padding: 20px;
-    background: linear-gradient(90deg, #e2e2e2, #c9d6ff);
+    background: linear-gradient(90deg, #e2e2e2, #c9d6ff); 
 }
 
 /*Main */
