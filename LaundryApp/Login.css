@@ -1,228 +1,454 @@
 ﻿* {
-    box-sizing: border-box;
-    font-family: 'Lucida Bright', sans-serif;
-}
-
-body {
-    background: linear-gradient(120deg, #a1c4fd, #c2e9fb);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
+/* FULL SCREEN CENTER */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #a0eaff, #ffb3ff);
+    padding: 20px;
+    overflow: hidden;
+}
+
+/* MAIN CONTAINER */
 .container {
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-    position: relative;
+    width: 100%;
+    max-width: 850px;
+    background: linear-gradient(145deg, #ffffff, #f3e6ff);
+    border-radius: 30px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
     overflow: hidden;
-    width: 900px;
-    max-width: 100%;
-    min-height: 550px;
-}
-
-/*---Forms ---*/
-.form-container {
-    position: absolute;
-    top: 0;
-    height: 100%;
-    transition: all 0.6s ease-in-out;
-}
-
-.sign-in-container {
-    left: 0;
-    width: 50%;
-    z-index: 2;
-}
-
-.sign-up-container {
-    left: 0;
-    width: 50%;
-    opacity: 0;
-    z-index: 1;
-}
-
-.container.right-panel-active .sign-in-container {
-    transform: translateX(100%);
-}
-
-.container.right-panel-active .sign-up-container {
-    transform: translateX(100%);
-    opacity: 1;
+    display: flex;
+    flex-direction: row;
+    height: 500px;
+    position: relative;
     z-index: 5;
-    animation: show 0.6s;
 }
 
-@keyframes show {
-    0%, 49.99% {
-        opacity: 0;
-        z-index: 1;
-    }
-
-    50%, 100% {
-        opacity: 1;
-        z-index: 5;
-    }
-}
-
-/* ---Oberrley--- */
-.overlay-container {
-    position: absolute;
-    top: 0;
-    left: 50%;
+/* LEFT PANEL */
+.left-container {
     width: 50%;
     height: 100%;
-    overflow: hidden;
-    transition: transform 0.6s ease-in-out;
-    z-index: 100;
 }
 
-.container.right-panel-active .overlay-container {
-    transform: translateX(-100%);
-}
-
-.overlay {
-    background: linear-gradient(120deg, #89f7fe, #66a6ff);
+.Logo-box {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #6b00ff, #ff66c4);
     color: #fff;
-    position: relative;
-    left: -100%;
-    height: 100%;
-    width: 200%;
-    transform: translateX(0);
-    transition: transform 0.6s ease-in-out;
+    padding: 50px 50px 50px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-bottom-right-radius: 120px;
+    border-top-right-radius: 120px;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    text-align: left;
 }
 
-.container.right-panel-active .overlay {
-    transform: translateX(50%);
+.Logo {
+    font-size: 24px;
+    font-weight: 700;
+    color: #FFFFFF;
 }
 
-.overlay-panel {
+.text-sci h2 {
+    font-size: 38px;
+    line-height: 1;
+    color: #6b00ff;
+    font-weight: 800;
+}
+
+.text-sci p {
+    margin-top: 15px;
+    font-size: 15px;
+    color: #FFFFFF;
+    font-weight: bold;
+}
+
+/* LOGIN FORM BOX */
+.login-Box {
     position: absolute;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 0 40px;
-    text-align: center;
-    top: 0;
-    height: 100%;
-    width: 50%;
-    transform: translateX(0);
-    transition: transform 0.6s ease-in-out;
-}
-
-.overlay-left {
-    transform: translateX(-20%);
-}
-
-.container.right-panel-active .overlay-left {
-    transform: translateX(0);
-}
-
-.overlay-right {
     right: 0;
-    transform: translateX(0);
-}
-
-.container.right-panel-active .overlay-right {
-    transform: translateX(20%);
-}
-
-/* --- porrm Bakss--- */
-.form-box {
-    background: #fff;
+    width: 50%;
+    height: 100%;
+    padding: 40px;
     display: flex;
     flex-direction: column;
-    padding: 0 50px;
-    height: 100%;
     justify-content: center;
-    align-items: center;
     text-align: center;
 }
 
-.input-box {
-    width: 100%;
-    margin: 10px 0;
+    .login-Box h1 {
+        font-size: 40px;
+        font-weight: 800;
+        margin-bottom: 25px;
+        color: #6b00ff;
+    }
+
+/* INPUT GROUP */
+.input-group {
+    position: relative;
+    margin: 25px 0;
 }
 
-.input {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    background: #f0f0f0;
-    border-radius: 8px;
-    outline: none;
-}
+    .input-group input,
+    input[type="text"],
+    input[type="password"],
+    input[type="email"],
+    input[type="tel"] {
+        width: 100%;
+        padding: 14px 50px 14px 18px;
+        background: linear-gradient(120deg, #ffe6f7, #e0f7ff);
+        border-radius: 12px;
+        border: 1px solid #d1b3ff;
+        outline: none;
+        font-size: 16px;
+        color: #5a00b3;
+        transition: 0.3s;
+    }
 
-/* --- Options sa Remember tas Forgot --- */
-.options {
+        .input-group input:focus {
+            border-color: #6b00ff;
+            box-shadow: 0 0 8px rgba(107, 0, 255, 0.3);
+        }
+
+    /* ICON */
+    .input-group .icon {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 20px;
+        color: #6b00ff;
+    }
+
+/* Checkbox & Forgot Password */
+.checkbox-forgotlink {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
-    font-size: 14px;
-    color: #555;
-    margin: 8px 0 20px 0;
+    margin: -10px 0 15px;
 }
 
-.remember {
-    display: flex;
+    .checkbox-forgotlink label {
+        color: #5a00b3;
+        font-size: 14px;
+    }
+
+    .checkbox-forgotlink a {
+        color: #ff66c4;
+        font-size: 14.5px;
+        text-decoration: none;
+    }
+
+        .checkbox-forgotlink a:hover {
+            text-decoration: underline;
+        }
+
+/* BUTTON */
+.btn {
+    width: 100%;
+    height: 50px;
+    background: linear-gradient(135deg, #6b00ff, #ff66c4);
+    border-radius: 12px;
+    border: none;
+    color: #fff;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 15px;
+}
+
+    .btn:hover {
+        background: linear-gradient(135deg, #5500cc, #ff4db8);
+    }
+
+/* CREATE ACCOUNT LINK */
+.Create-Account-Link {
+    margin-top: 20px;
+    color: #5a00b3;
+}
+
+    .Create-Account-Link a {
+        color: #ff66c4;
+        text-decoration: none;
+    }
+
+        .Create-Account-Link a:hover {
+            text-decoration: underline;
+        }
+
+/* ERROR MESSAGE LABEL */
+#msg {
+    color: #ff4db8;
     align-items: center;
 }
 
-    .remember input {
-        margin-right: 5px;
-        accent-color: #4a90e2; /* kulay sa check box */
-    }
-
-.forgot {
-    color: #4a90e2;
-    text-decoration: none;
-}
-
-    .forgot:hover {
-        text-decoration: underline;
-    }
-
-/* --- Buttons sa paglipat  --- */
-.btn, .ghost {
-    border-radius: 20px;
-    border: 1px solid #4a90e2;
-    background-color: #4a90e2;
-    color: #fff;
+/* MODERN GRADIENT CHECKBOX */
+.checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     font-size: 14px;
-    font-weight: bold;
-    padding: 12px 45px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    transition: transform 80ms ease-in;
+    color: #5a00b3;
     cursor: pointer;
+    user-select: none;
 }
 
-    .btn:hover, .ghost:hover {
-        background-color: #357ABD;
+    .checkbox input[type="checkbox"] {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 22px;
+        height: 22px;
+        border-radius: 6px;
+        border: 2px solid #d1b3ff;
+        background: linear-gradient(120deg, #ffe6f7, #e0f7ff);
+        position: relative;
+        cursor: pointer;
+        transition: all 0.3s ease;
     }
 
-.ghost {
-    background-color: transparent;
-    border-color: #fff;
+        /* Hover effect */
+        .checkbox input[type="checkbox"]:hover {
+            border-color: #6b00ff;
+            box-shadow: 0 0 8px rgba(107, 0, 255, 0.3);
+        }
+
+        /* Checked state */
+        .checkbox input[type="checkbox"]:checked {
+            background: linear-gradient(135deg, #6b00ff, #ff66c4);
+            border-color: #6b00ff;
+        }
+
+            /* Checkmark */
+            .checkbox input[type="checkbox"]:checked::after {
+                content: '✔';
+                color: #fff;
+                font-size: 14px;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                pointer-events: none;
+            }
+
+.error-container {
+    height: 25px; /* fixed space for the message */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Default hidden but still occupying space */
+.error-text[style*="display:none"] {
+    visibility: hidden;
 }
 
 
-.message-label {
-    display: block;
-    margin-top: 10px;
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .container {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .login-Box {
+        position: relative;
+        right: 0;
+        width: 100%;
+        height: auto;
+        padding: 30px;
+    }
+
+    .left-container {
+        width: 100%;
+        height: auto;
+        order: -1;
+    }
+
+    .Logo-box {
+        width: 100%;
+        padding: 10px;
+        border-radius: 0;
+        text-align: center;
+    }
+}
+
+/* ERROR MESSAGE STYLE */
+.error-text {
+    color: #ff4d4d; /* bright red */
+    background: #ffe6e6; /* subtle pink background */
+    border: 1px solid #ff4d4d; /* border to highlight */
+    padding: 8px 12px;
+    border-radius: 8px;
     font-size: 14px;
-    text-align: center;
-    font-weight: 500;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    animation: fadeIn 0.3s ease-in-out;
 }
 
-    .message-label.error {
-        color: #e74c3c; /* red color error */
+.hidden {
+    animation: fadeOut 0.4s ease forwards;
+}
+
+/* Optional icon for error */
+.error-text::before {
+    content: '⚠'; /* warning icon */
+    font-size: 16px;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-5px);
     }
 
-    .message-label.success {
-        color: #2ecc71; /* green for sumakses */
+    100% {
+        opacity: 1;
+        transform: translateY(0);
     }
+}
+
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+}
+
+
+
+.bubbles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 1;
+}
+
+    /* Bubbles */
+    .bubbles span {
+        position: absolute;
+        bottom: -150px;
+        width: 25px;
+        height: 25px;
+        background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(255,255,255,0.5) 70%, rgba(255,255,255,0.15) );
+        border-radius: 50%;
+        box-shadow: 0 0 15px rgba(255,255,255,0.7), inset 0 0 10px rgba(255,255,255,0.6);
+        animation: bubbleMove 10s linear infinite;
+        opacity: 0.8;
+    }
+
+/* Animation */
+@keyframes bubbleMove {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 0.9;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-1200px) scale(1.4);
+        opacity: 0;
+    }
+}
+
+/* RANDOM LEFT + SIZE + SPEED */
+.bubbles span:nth-child(1) {
+    left: 10%;
+    width: 20px;
+    height: 20px;
+    animation-duration: 12s;
+}
+
+.bubbles span:nth-child(2) {
+    left: 22%;
+    width: 28px;
+    height: 28px;
+    animation-duration: 15s;
+}
+
+.bubbles span:nth-child(3) {
+    left: 35%;
+    width: 18px;
+    height: 18px;
+    animation-duration: 9s;
+}
+
+.bubbles span:nth-child(4) {
+    left: 45%;
+    width: 32px;
+    height: 32px;
+    animation-duration: 14s;
+}
+
+.bubbles span:nth-child(5) {
+    left: 55%;
+    width: 24px;
+    height: 24px;
+    animation-duration: 10s;
+}
+
+.bubbles span:nth-child(6) {
+    left: 65%;
+    width: 16px;
+    height: 16px;
+    animation-duration: 11s;
+}
+
+.bubbles span:nth-child(7) {
+    left: 72%;
+    width: 30px;
+    height: 30px;
+    animation-duration: 13s;
+}
+
+.bubbles span:nth-child(8) {
+    left: 80%;
+    width: 22px;
+    height: 22px;
+    animation-duration: 9s;
+}
+
+.bubbles span:nth-child(9) {
+    left: 90%;
+    width: 27px;
+    height: 27px;
+    animation-duration: 12s;
+}
+
+.bubbles span:nth-child(10) {
+    left: 15%;
+    width: 26px;
+    height: 26px;
+    animation-duration: 16s;
+}
+
+/* Your actual page content */
+.content {
+    position: relative;
+    z-index: 5; /* keeps your form above the bubbles */
+}
