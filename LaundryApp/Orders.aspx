@@ -6,7 +6,6 @@
             background-color: #f8f9fc;
         }
 
-        /* Top summary cards */
         .summary-card {
             border-radius: 12px;
             background-color: #ffffff;
@@ -29,7 +28,6 @@
             margin: 0;
         }
 
-        /* Order cards */
         .order-card {
             border-radius: 14px;
             background: #ffffff;
@@ -88,6 +86,88 @@
             font-size: 0.9rem;
             color: #4b5563;
         }
+
+        /* Search bar */
+        .search-bar {
+            width: 80%;
+            padding: 6px 12px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            line-height: 1.2;
+        }
+
+        /* Button styling */
+        .btn-primary {
+            background-color: #4c7ef1;
+            border-color: #4c7ef1;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #3c6be0;
+            border-color: #3c6be0;
+        }
+
+        .filter-btns {
+            margin: 5px 0;
+        }
+
+        .filter-btns button {
+            background-color: transparent;
+            border: 1px solid #ccc;
+            margin-right: 4px;
+            border-radius: 5px;
+            padding: 6px 12px;
+            font-size: 0.9rem;
+        }
+
+        /* Service Options */
+        .service-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* Custom radio button styles */
+        .custom-radio input[type="radio"] {
+            display: none; /* Hide the default radio button */
+        }
+
+        .custom-radio {
+            display: inline-block;
+            position: relative;
+            margin-right: 15px;
+            padding-left: 30px;
+            cursor: pointer;
+        }
+
+        .custom-radio input[type="radio"]:checked + .radio-label::before {
+            background-color: #4c7ef1; /* Customize the checked color */
+        }
+
+        .custom-radio input[type="radio"]:checked + .radio-label {
+            font-weight: bold;
+        }
+
+        /* Creating the custom radio circle */
+        .custom-radio input[type="radio"]:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid #4c7ef1;
+            background-color: transparent;
+        }
+
+        /* When checked */
+        .custom-radio input[type="radio"]:checked:before {
+            background-color: #4c7ef1; /* Customize checked color */
+            border-color: #4c7ef1;
+        }
     </style>
 </asp:Content>
 
@@ -95,174 +175,141 @@
     <div class="container-fluid mt-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <div>
-                <h2 class="fw-bold mb-0">Orders</h2>
-                <small class="text-muted">Manage and monitor all laundry orders.</small>
+                <h2 class="fw-bold mb-0">My Orders</h2>
+                <small class="text-muted">Track your laundry orders and place new ones.</small>
             </div>
             <button type="button" class="btn btn-primary rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#addOrderModal">
-                <i class="bi bi-plus-lg me-1"></i> Add Order
+                <i class="bi bi-plus-lg me-1"></i> Place Order
             </button>
         </div>
 
-        <!-- Admin Orders View -->
-        <div id="AdminOrdersView" runat="server">
-            <div class="row mb-4">
-                <div class="col-md-3 mb-3 mb-md-0">
-                    <div class="summary-card">
-                        <h5>Total Orders</h5>
-                        <h3><asp:Label ID="lblTotalOrders" runat="server" Text="0" /></h3>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3 mb-md-0">
-                    <div class="summary-card">
-                        <h5>Pending</h5>
-                        <h3><asp:Label ID="lblPending" runat="server" Text="0" /></h3>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3 mb-md-0">
-                    <div class="summary-card">
-                        <h5>In Progress</h5>
-                        <h3><asp:Label ID="lblInProgress" runat="server" Text="0" /></h3>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="summary-card">
-                        <h5>Completed</h5>
-                        <h3><asp:Label ID="lblCompleted" runat="server" Text="0" /></h3>
-                    </div>
+        <!-- Summary Cards -->
+        <div class="row mb-4">
+            <div class="col-md-3 mb-3 mb-md-0">
+                <div class="summary-card">
+                    <h5>Total Orders</h5>
+                    <h3><asp:Label ID="lblTotalOrders" runat="server" Text="0" /></h3>
                 </div>
             </div>
-
-            <!-- Search Bar -->
-            <div class="mb-4">
-                <div class="input-group">
-                    <span class="input-group-text"><i class="bi bi-search"></i></span>
-                    <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" placeholder="Search orders by customer name..." />
-                    <asp:Button ID="btnSearch" runat="server" Text="Search" CssClass="btn btn-outline-secondary" OnClick="btnSearch_Click" />
+            <div class="col-md-3 mb-3 mb-md-0">
+                <div class="summary-card">
+                    <h5>Pending</h5>
+                    <h3><asp:Label ID="lblPending" runat="server" Text="0" /></h3>
                 </div>
             </div>
-
-            <div class="row">
-                <asp:Repeater ID="rptOrders" runat="server">
-                    <ItemTemplate>
-                        <div class="col-md-4 mb-4">
-                            <div class="order-card" data-type="<%# Eval("Status") %>" onclick="openEditModal('<%# Eval("OrderID") %>','<%# Eval("CustomerName") %>','<%# Eval("Status") %>')">
-                                <div class="order-card-header">
-                                    <h5 class="order-title mb-0"><%# Eval("CustomerName") %></h5>
-                                    <span class="order-status <%# Eval("Status") == "Pending" ? "status-pending" : Eval("Status") == "In Progress" ? "status-progress" : Eval("Status") == "Completed" ? "status-completed" : "" %>">
-                                        <%# Eval("Status") %>
-                                    </span>
-                                </div>
-                                <div class="order-card-body">
-                                    <p class="mb-1">
-                                        <strong>Total:</strong> <%# Eval("TotalAmount") %>
-                                    </p>
-                                    <p class="mb-0">
-                                        <strong>Contact:</strong> <%# Eval("Contact") %>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </ItemTemplate>
-                </asp:Repeater>
+            <div class="col-md-3 mb-3 mb-md-0">
+                <div class="summary-card">
+                    <h5>In Progress</h5>
+                    <h3><asp:Label ID="lblInProgress" runat="server" Text="0" /></h3>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="summary-card">
+                    <h5>Completed</h5>
+                    <h3><asp:Label ID="lblCompleted" runat="server" Text="0" /></h3>
+                </div>
             </div>
         </div>
 
-        <!-- Customer Orders View -->
-        <div id="CustomerOrdersView" runat="server" style="display:none;">
-            <div class="customer-dashboard container mt-4">
-                <div class="row g-3">
-                    <div class="col-md-3">
-                        <div class="summary-card">
-                            <h5>Active Orders</h5>
-                            <h3><asp:Label ID="lblCustomerActive" runat="server" Text="0" /></h3>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="summary-card">
-                            <h5>Completed</h5>
-                            <h3><asp:Label ID="lblCustomerCompleted" runat="server" Text="0" /></h3>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="summary-card">
-                            <h5>Total Spent</h5>
-                            <h3>₱<asp:Label ID="lblCustomerSpent" runat="server" Text="0.00" /></h3>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card mt-4 p-4 text-center">
-                    <h5>No orders yet</h5>
-                    <p class="text-muted">Start by ordering your first laundry service!</p>
-                    <asp:Button ID="btnBookService" runat="server" CssClass="btn btn-primary px-4" Text="+ Book Service" />
-                </div>
-
-                <div class="mt-4">
-                    <h4>Our Services</h4>
-                    <div class="row g-3 mt-2">
-                        <div class="col-md-3">
-                            <div class="card p-3">
-                                <h5>Wash & Fold</h5>
-                                <p class="text-muted">₱12.99 / load</p>
+        <!-- Orders List -->
+        <div class="row">
+            <asp:Repeater ID="rptOrders" runat="server">
+                <ItemTemplate>
+                    <div class="col-md-4 mb-4">
+                        <div class="order-card">
+                            <div class="order-card-header">
+                                <h5 class="order-title mb-0"><%# Eval("CustomerName") %></h5>
+                                <span class="order-status <%# Eval("Status") == "Pending" ? "status-pending" : Eval("Status") == "In Progress" ? "status-progress" : Eval("Status") == "Completed" ? "status-completed" : "" %>">
+                                    <%# Eval("Status") %>
+                                </span>
                             </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card p-3">
-                                <h5>Dry Cleaning</h5>
-                                <p class="text-muted">₱25.99 / load</p>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card p-3">
-                                <h5>Press & Iron</h5>
-                                <p class="text-muted">₱8.99 / load</p>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card p-3">
-                                <h5>Wash & Press</h5>
-                                <p class="text-muted">₱18.99 / load</p>
+                            <div class="order-card-body">
+                                <p class="mb-1">
+                                    <strong>Service:</strong> <%# Eval("ServiceType") %>
+                                </p>
+                                <p class="mb-1">
+                                    <strong>Items:</strong> <%# Eval("ItemCount") %>
+                                </p>
+                                <p class="mb-0">
+                                    <strong>Total:</strong> $<%# Eval("TotalAmount") %>
+                                </p>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                </ItemTemplate>
+            </asp:Repeater>
         </div>
     </div>
 
-    <!-- ADD ORDER MODAL -->
+    <!-- Modal: Place New Order -->
     <div class="modal fade" id="addOrderModal" tabindex="-1" aria-labelledby="addOrderLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title" id="addOrderLabel">Add Order</h5>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addOrderLabel">Place New Order</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
+                    <!-- Customer Name and Contact Number -->
                     <div class="mb-3">
-                        <label class="form-label">Customer Name</label>
-                        <asp:TextBox ID="txtCustomerName" runat="server" CssClass="form-control" />
+                        <label class="form-label">Customer Name*</label>
+                        <asp:TextBox ID="txtCustomerName" runat="server" CssClass="form-control" ReadOnly="True" />
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Contact</label>
-                        <asp:TextBox ID="txtContact" runat="server" CssClass="form-control" />
+                        <label class="form-label">Phone Number*</label>
+                        <asp:TextBox ID="txtContact" runat="server" CssClass="form-control" ReadOnly="True" />
                     </div>
+
+                    <!-- Service Selection (RadioButtonList for service types) -->
                     <div class="mb-3">
-                        <label class="form-label">Total</label>
-                        <asp:TextBox ID="txtTotal" runat="server" CssClass="form-control" />
+                        <label class="form-label">Select Service*</label>
+                        <asp:RadioButtonList ID="rblServiceType" runat="server" CssClass="form-control">
+                            <asp:ListItem Text="Wash & Fold - $3 per kg" Value="Wash & Fold" />
+                            <asp:ListItem Text="Dry Clean - $15 per item" Value="Dry Clean" />
+                            <asp:ListItem Text="Iron Only - $3 per item" Value="Iron Only" />
+                            <asp:ListItem Text="Wash & Iron - $5 per kg" Value="Wash & Iron" />
+                            <asp:ListItem Text="Express - $8 per kg" Value="Express" />
+                        </asp:RadioButtonList>
                     </div>
+
+                    <!-- Pickup or Delivery Option -->
                     <div class="mb-3">
-                        <label class="form-label">Status</label>
-                        <asp:DropDownList ID="ddlStatus" runat="server" CssClass="form-select">
-                            <asp:ListItem Text="Pending" Value="Pending" />
-                            <asp:ListItem Text="In Progress" Value="In Progress" />
-                            <asp:ListItem Text="Completed" Value="Completed" />
+                        <label class="form-label">Pickup or Delivery*</label>
+                        <asp:DropDownList ID="ddlPickupDelivery" runat="server" CssClass="form-select" OnSelectedIndexChanged="ddlPickupDelivery_SelectedIndexChanged" AutoPostBack="True">
+                            <asp:ListItem Text="Pickup" Value="Pickup" />
+                            <asp:ListItem Text="Delivery" Value="Delivery" />
                         </asp:DropDownList>
+                    </div>
+
+                    <!-- Pickup Date or Delivery Address -->
+                    <div class="mb-3" id="pickupDateDiv">
+                        <label class="form-label">Preferred Pickup Date*</label>
+                        <asp:TextBox ID="txtPickupDate" runat="server" CssClass="form-control" placeholder="MM/DD/YYYY" />
+                    </div>
+
+                    <div class="mb-3" id="deliveryAddressDiv" style="display:none;">
+                        <label class="form-label">Delivery Address*</label>
+                        <asp:TextBox ID="txtAddress" runat="server" CssClass="form-control" placeholder="Enter your delivery address..." />
+                        <asp:DropDownList ID="ddlSavedAddress" runat="server" CssClass="form-select" AutoPostBack="True">
+                            <asp:ListItem Text="Select a saved address" Value="0" />
+                        </asp:DropDownList>
+                    </div>
+
+                    <!-- Total Amount -->
+                    <div class="mb-3">
+                        <label class="form-label">Total Amount*</label>
+                        <asp:TextBox ID="txtTotal" runat="server" CssClass="form-control" placeholder="Total Amount" />
+                    </div>
+
+                    <!-- Special Instructions -->
+                    <div class="mb-3">
+                        <label class="form-label">Special Instructions (Optional)</label>
+                        <asp:TextBox ID="txtSpecialInstructions" runat="server" CssClass="form-control" TextMode="MultiLine" />
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <asp:Button ID="btnSaveOrder" runat="server" Text="Save Order" CssClass="btn btn-primary" OnClick="btnSaveOrder_Click" />
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <asp:Button ID="btnSaveOrder" runat="server" Text="Place Order" CssClass="btn btn-primary" OnClick="btnSaveOrder_Click" />
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                 </div>
             </div>
         </div>
