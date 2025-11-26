@@ -7,15 +7,10 @@ namespace LaundryApp
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
-            {
-                // Example data (replace these with actual dynamic data)
-                EmailLabel.Text = "user@example.com";
-                AccountIDLabel.Text = "12345";
-                AccountCreatedLabel.Text = "October 18, 2025";
+
             }
         }
     }
-}
+
 
   
