@@ -91,8 +91,7 @@
             <div class="text-sci">
                 <br />
                 <h2> Welcome!</h2>
-                <p> Tamad ka ba at Walang Pangarap? 
-                    Ano pang ang Hinihintay mo Press and Dry Laundry na! </p>
+                <p> Effortless Clean, Every Time.! </p>
             </div>
 
                 </div>

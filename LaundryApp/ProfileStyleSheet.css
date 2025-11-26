@@ -1,0 +1,282 @@
+﻿/* =================== GLOBAL ======================= */
+.main-content {
+    background: linear-gradient(135deg, #eef7ff, #d4eaff);
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+}
+
+/* =================== CARD STYLES ========================= */
+.profile_picture,
+.profile-card,
+.account_details_container,
+.preferences_container,
+.Security {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 140, 255, 0.12);
+    padding: 40px 50px;
+    width: 100%;
+    max-width: 900px;
+    margin: 20px auto;
+}
+
+/* =================== TITLES ======================= */
+.section-title {
+    font-weight: bold;
+    margin-bottom: 15px;
+    font-size: 1.25rem;
+    color: #0088FF;
+}
+
+/* =================== PROFILE HEADER ======================= */
+.myprofile {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+    .myprofile h2 {
+        font-size: 36px;
+        margin-bottom: 10px;
+        color: #1B2B46;
+        font-weight: 800;
+    }
+
+    .myprofile small {
+        color: #0088FF;
+        margin-left: 20px;
+    }
+
+.profile-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 30px;
+}
+
+/* Avatar */
+.profile-avatar span {
+    font-size: 40px;
+    color: white;
+    position: absolute;
+    margin-top: 40px;
+}
+
+.Avatar {
+    width: 120px;
+    height: 120px;
+    background: linear-gradient(135deg, #B1E5EF, #0088FF);
+    border-radius: 50%;
+}
+
+/* Upload Photo */
+.profile-upload {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.upload_btn {
+    width: 150px;
+    height: 40px;
+    background: #0088FF;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+/* =================== INPUT GROUPS ======================= */
+.two-column {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.input-group {
+    flex: 1 1 calc(50% - 20px);
+    display: flex;
+    flex-direction: column;
+}
+
+.label-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 7px;
+    color: #2D3748;
+}
+
+    .label-row ion-icon {
+        font-size: 20px;
+        color: #1a1a1a;
+    }
+
+input::placeholder {
+    color: #A0AEC0;
+}
+
+.input-group input,
+.input-group textarea,
+.input-group asp\:TextBox {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 15px;
+    outline: none;
+}
+
+    .input-group input:focus,
+    .input-group textarea:focus,
+    .input-group asp\:TextBox:focus {
+        border-color: #0088FF;
+        box-shadow: 0 0 5px rgba(0,136,255,0.2);
+    }
+
+.email-note {
+    font-size: 0.8rem;
+    color: #888;
+    margin-top: 3px;
+}
+
+/* =================== BUTTONS ======================= */
+.profile-button,
+.changepass_button,
+.upload_btn {
+    transition: 0.2s;
+}
+
+.profile-button {
+    width: 250px;
+    height: 50px;
+    background: #0088FF;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 30px;
+}
+
+.changepass_button {
+    width: 100%;
+    height: 50px;
+    border-radius: 8px;
+    background: #0088FF;
+    color: #fff;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+    .profile-button:hover,
+    .upload_btn:hover,
+    .changepass_button:hover {
+        background-color: #0079E8;
+    }
+
+/* =================== ACCOUNT DETAILS ======================= */
+.two-col {
+    display: flex;
+    gap: 20px;
+}
+
+.item {
+    flex: 1;
+}
+
+    .item label {
+        display: block;
+        font-weight: 500;
+        margin-bottom: 5px;
+    }
+
+    .item span {
+        font-weight: bold;
+        color: #2D3748;
+    }
+
+/* Security tips */
+.account_security_tips {
+    border-radius: 12px;
+    background: #F2F6FF;
+    border: 1px solid #DCE8FF;
+    padding: 20px;
+    margin: 20px auto;
+}
+
+    .account_security_tips p {
+        color: #0047B3;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+.Security_tips_title {
+    color: #0047B3;
+    margin-bottom: 8px;
+}
+
+/* =================== RESPONSIVE ======================= */
+@media (max-width: 900px) {
+    .profile-card,
+    .account_details_container,
+    .preferences_container,
+    .Security {
+        padding: 25px;
+    }
+
+    .myprofile h2 {
+        font-size: 28px;
+    }
+
+    .two-column {
+        flex-direction: column;
+    }
+
+    .two-col {
+        flex-direction: column;
+    }
+
+    .profile-header {
+        text-align: center;
+        flex-direction: column;
+    }
+
+    .Avatar {
+        margin: auto;
+    }
+
+    .profile-button {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    .section-title {
+        font-size: 1.1rem;
+    }
+
+    .input-group input,
+    .input-group textarea {
+        font-size: 14px;
+        padding: 10px 12px;
+    }
+
+    .upload_btn {
+        width: 100%;
+    }
+
+    .changepass_button {
+        height: 45px;
+        font-size: 15px;
+    }
+}
