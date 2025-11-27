@@ -3,81 +3,41 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
     <title>Admin Messages</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <style>
-        .chat-box {
-            height: 450px;
-            overflow-y: auto;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            padding: 15px;
-            background-color: #f8f9fa;
-        }
-
-        .message {
-            margin: 10px 0;
-            padding: 10px 15px;
-            border-radius: 10px;
-            max-width: 70%;
-            position: relative;
-            display: inline-block;
-            clear: both;
-        }
-
-        .message.user {
-            background-color: #e9ecef;
-            color: black;
-            text-align: left;
-            float: left;
-        }
-
-        .message.admin {
-            background-color: #007bff;
-            color: white;
-            text-align: right;
-            float: right;
-        }
-
-        .sender-label {
-            font-size: 0.8em;
-            font-weight: bold;
-            display: block;
-        }
-
-        .timestamp {
-            font-size: 0.75em;
-            color: #6c757d;
-            display: block;
-            margin-top: 4px;
-        }
-    </style>
+    <link href="messages.css" rel="stylesheet" />
 </asp:Content>
 
+
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-    <h3 class="fw-bold mb-4">Customer Messages</h3>
+    <!-- ADMIN -->
+    <asp:Panel ID="AdminPanel" runat="server" Visible="true" CssClass="admin-panel">
+        <h3>ADMIN MESSAGES</h3>
 
-    <div class="card shadow-sm">
-        <div class="card-body">
-            <div class="chat-box mb-3" id="chatBox">
-                <asp:Repeater ID="rptMessages" runat="server">
-                    <ItemTemplate>
-                        <div class='message <%# Eval("Sender") %>'>
-                            <span class="sender-label">
-                                <%# Eval("Sender").ToString() == "admin" ? "You" : "Customer" %>
-                            </span>
-                            <%# Eval("Text") %>
-                            <span class="timestamp">
-                                <%# Eval("Timestamp", "{0:hh:mm tt}") %>
-                            </span>
-                        </div>
-                        <div style="clear: both;"></div>
-                    </ItemTemplate>
-                </asp:Repeater>
+        <div class="messages-container">
+
+             <!-- LEFT: Customers List -->
+            <div class="customer-list">
+            <asp:TextBox ID="txtsearch" runat="server" CssClass="form-control mb-3" placeholder=" search mo sa google sulasok..."></asp:TextBox>          
+                <div class="user-item">Steven Oliverio</div>
+                <div class="user-item">Eric Jhosh</div>
+                <div class="user-item">Diwata </div>
             </div>
 
-            <div class="input-group">
-                <asp:TextBox ID="txtReply" runat="server" CssClass="form-control" placeholder="Type your reply..." />
-                <asp:Button ID="btnSendReply" runat="server" Text="Send Reply" CssClass="btn btn-primary" OnClick="btnSendReply_Click" />
+            <!-- RIGHT: Chat Box -->
+              <div class="chat-box">
+            <div class="messages" id="adminMessages">
+                <div class="message admin">Hello! How can I help?</div>
+                <div class="message user">Hi, I need help with my laundry.</div>
             </div>
+
+                     <!-- Send message -->
+                  <div class="message-input">
+                      <asp:TextBox ID="txtAdminReply" runat="server" CssClass="form-control" placeholder="Type your message..."></asp:TextBox>
+                      <asp:Button ID="btnAdminSend" runat="server" CssClass="btn btn-primary" />
+                  </div>  
         </div>
-    </div>
+    </asp:Panel>
+
+</asp:Content>
+
+<asp:Content ID="Content3" ContentPlaceHolderID="Scripts" runat="server">
 </asp:Content>

@@ -68,6 +68,7 @@ namespace Laundry_Login
                 {
                     // Add parameters to prevent SQL Injection      
                     cmd.Parameters.AddWithValue("@Email", email);
+                    cmd.Parameters.AddWithValue("@username", username);
                     cmd.Parameters.AddWithValue("@Password", hashedPassword); // Use the hashed password
                     cmd.Parameters.AddWithValue("@ContactNumber", contactNumber);
 

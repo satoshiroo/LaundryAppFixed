@@ -15,30 +15,39 @@ namespace LaundryApp
     {
 
         /// <summary>
-        /// rptMessages control.
+        /// AdminPanel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptMessages;
+        protected global::System.Web.UI.WebControls.Panel AdminPanel;
 
         /// <summary>
-        /// txtReply control.
+        /// txtsearch control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtReply;
+        protected global::System.Web.UI.WebControls.TextBox txtsearch;
 
         /// <summary>
-        /// btnSendReply control.
+        /// txtAdminReply control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSendReply;
+        protected global::System.Web.UI.WebControls.TextBox txtAdminReply;
+
+        /// <summary>
+        /// btnAdminSend control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAdminSend;
     }
 }

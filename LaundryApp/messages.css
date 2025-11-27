@@ -1,0 +1,136 @@
+﻿
+/* --------------------PANEL BASE ------------------- */
+.admin-panel {
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* ====--------------- MESSAGE CONTAINER---------------*/
+.message-container {
+    display: flex;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    overflow: hidden;
+    height: 500px;
+    gap: 25px;
+}
+
+/* -----------------------CUSTOMER LIST ------------------*/
+.customer-list {
+    width: 25%;
+    background: #f5f5f5;
+    padding: 15px;
+    overflow-y: auto;
+    border-right: 1px solid #ddd;
+}
+
+    .customer-list h5 {
+        margin-bottom: 10px;
+    }
+
+    .customer-list .customer {
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 8px;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+        .customer-list .customer:hover {
+            background: #e4e6eb;
+        }
+
+/* ----------------------- CHAT BOX --------------------- */
+.chat-box {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 15px;
+    background: #fff;
+}
+
+/* ------------------- MESSAGES ------------------ */
+.messages {
+    overflow-y: auto;
+    flex: 1;
+    margin-bottom: 15px;
+}
+
+.message {
+    max-width: 70%;
+    padding: 10px 15px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    clear: both;
+}
+
+    .message.admin {
+        background: #1877f2;
+        color: white;
+        float: left;
+        border-bottom-left-radius: 0;
+    }
+
+    .message.user {
+        background: #e4e6eb;
+        color: black;
+        float: right;
+        border-bottom-right-radius: 0;
+    }
+
+/* ---------------------------- CLEARFIX ------------------------ */
+.clearfix {
+    clear: both;
+}
+
+/* ---------------------------MESSAGE INPUT---------------------- */
+.message-input {
+    display: flex;
+    gap: 10px;
+}
+
+    .message-input .form-control {
+        flex: 1;
+        border-radius: 20px;
+    }
+
+    .message-input .btn {
+        border-radius: 20px;
+    }
+
+/*------------------CUSTOMER PANEL (Repeater) -------------------------- */
+#UserPanel .chat-box {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+}
+
+#UserPanel .message.admin {
+    background: #1877f2;
+    color: white;
+    float: right; /* Admin in user panel */
+    border-bottom-right-radius: 0;
+}
+
+#UserPanel .message.user {
+    background: #e4e6eb;
+    color: black;
+    float: left;
+    border-bottom-left-radius: 0;
+}
+
+#UserPanel .sender-label {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+#UserPanel .timestamp {
+    font-size: 0.75rem;
+    color: #666;
+    margin-left: 5px;
+}
+
+/* Make messages scroll to bottom automatically */
+.messages, #UserPanel .chat-box {
+    scroll-behavior: smooth;
+}

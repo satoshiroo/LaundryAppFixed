@@ -93,6 +93,7 @@
     <Content Include="img\forgotpassword.png" />
     <Content Include="Login.css" />
     <Content Include="img\pfp.jpg" />
+    <Content Include="messages.css" />
     <Content Include="ProfileStyleSheet.css" />
     <Content Include="SignUp.aspx" />
     <Content Include="signup.css" />
