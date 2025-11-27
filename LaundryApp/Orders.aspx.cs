@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.Web.UI.WebControls;
 
 namespace LaundryApp
 {
@@ -16,11 +17,11 @@ namespace LaundryApp
             {
                 LoadOrders();
 
-                // Fetch customer name and contact number from database based on session or logged-in user
+                // Fetch customer name, contact number, and address from the database
                 if (Session["UserID"] != null)
                 {
                     string userID = Session["UserID"].ToString(); // Get the UserID from session
-                    string query = "SELECT FirstName, LastName, ContactNumber FROM Users WHERE UserID = @UserID"; // Add ContactNumber to the query
+                    string query = "SELECT FirstName, LastName, ContactNumber, Address FROM Users WHERE UserID = @UserID"; // Fetch Address as well
 
                     SqlCommand cmd = new SqlCommand(query, con);
                     cmd.Parameters.AddWithValue("@UserID", userID);
@@ -34,29 +35,57 @@ namespace LaundryApp
                         string firstName = reader["FirstName"].ToString();
                         string lastName = reader["LastName"].ToString();
                         string contactNumber = reader["ContactNumber"].ToString(); // Fetch ContactNumber from the database
+                        string address = reader["Address"].ToString(); // Fetch Address from the database
 
                         // Combine first and last name and set the textbox value for Customer Name
                         txtCustomerName.Text = firstName + " " + lastName;
 
                         // Set the ContactNumber textbox value
                         txtContact.Text = contactNumber;
+
+                        // Set the current address in the address textbox
+                        txtAddress.Text = address;
+                    }
+                    else
+                    {
+                        Debug.WriteLine("No customer data found for the given UserID.");
                     }
 
                     reader.Close();
                     con.Close();
                 }
 
-                // Optionally load saved addresses if needed
-                LoadSavedAddresses();
+                // Set default selection to "Pickup"
+                ddlPickupDelivery.SelectedValue = "Pickup";
             }
         }
 
+        protected void ddlPickupDelivery_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string selectedValue = ddlPickupDelivery.SelectedValue;
+            ToggleFieldsVisibility(selectedValue);
+        }
+
+        private void ToggleFieldsVisibility(string selectedValue)
+        {
+            if (selectedValue == "Pickup")
+            {
+                // Show Pickup Date, Hide Delivery Address
+                pickupDateDiv.Visible = true;
+                deliveryAddressDiv.Visible = false;
+            }
+            else if (selectedValue == "Delivery")
+            {
+                // Hide Pickup Date, Show Delivery Address
+                pickupDateDiv.Visible = false;
+                deliveryAddressDiv.Visible = true;
+            }
+        }
 
         void LoadOrders()
         {
             try
             {
-                // Define the SQL query to fetch orders with customer names from the Users table
                 string query = @"SELECT 
                     o.OrderID, 
                     u.FirstName + ' ' + u.LastName AS CustomerName, 
@@ -66,7 +95,7 @@ namespace LaundryApp
                     o.OrderDate, 
                     o.PickupDate, 
                     o.DeliveryDate, 
-                    u.Address AS DeliveryAddress,  -- Fetching the Address directly from Users table
+                    u.Address AS DeliveryAddress,  
                     o.UserID
                 FROM dbo.Orders o
                 INNER JOIN dbo.Users u ON o.UserID = u.UserID; ";
@@ -75,11 +104,9 @@ namespace LaundryApp
                 DataTable dt = new DataTable();
                 da.Fill(dt);
 
-                // Bind the data to the Repeater
                 rptOrders.DataSource = dt;
                 rptOrders.DataBind();
 
-                // Update the summary cards
                 lblTotalOrders.Text = dt.Rows.Count.ToString();
                 lblPending.Text = dt.Select("Status = 'Pending'").Length.ToString();
                 lblInProgress.Text = dt.Select("Status = 'In Progress'").Length.ToString();
@@ -91,103 +118,119 @@ namespace LaundryApp
             }
         }
 
-        void LoadSavedAddresses()
+        // Function to fetch the service details (ServiceID and Price)
+        private Tuple<int, decimal> GetServiceDetails(string serviceName)
         {
-            // Modify the query to select Address from the Users table directly.
-            string query = "SELECT Address FROM Users WHERE UserID = @UserID"; // Use the Users table
-            SqlDataAdapter da = new SqlDataAdapter(query, con);
-            da.SelectCommand.Parameters.AddWithValue("@UserID", 1);  // Replace with logged-in user ID or session
+            int serviceID = 0;
+            decimal price = 0;
 
-            DataTable dt = new DataTable();
-            da.Fill(dt);  // This will now fill the DataTable with the address for the user
+            string query = "SELECT ServiceID, Price FROM dbo.Services WHERE ServiceName = @ServiceName";
+            SqlCommand cmd = new SqlCommand(query, con);
+            cmd.Parameters.AddWithValue("@ServiceName", serviceName);
 
-            // Populate the dropdown with the fetched address
-            ddlSavedAddress.DataSource = dt;
-            ddlSavedAddress.DataTextField = "Address";  // Set Address as the text
-            ddlSavedAddress.DataValueField = "Address";  // Optionally, use Address as the value
-            ddlSavedAddress.DataBind();
+            con.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                reader.Read();
+                serviceID = Convert.ToInt32(reader["ServiceID"]);
+                price = Convert.ToDecimal(reader["Price"]);
+            }
+            con.Close();
+
+            return new Tuple<int, decimal>(serviceID, price);
         }
 
-        protected void ddlPickupDelivery_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (ddlPickupDelivery.SelectedValue == "Pickup")
-            {
-                // Show Pickup Date and hide Delivery Address
-                txtPickupDate.Visible = true;
-                txtAddress.Visible = false;
-                ddlSavedAddress.Visible = false;
-            }
-            else if (ddlPickupDelivery.SelectedValue == "Delivery")
-            {
-                // Show Delivery Address and hide Pickup Date
-                txtPickupDate.Visible = false;
-                txtAddress.Visible = true;
-                ddlSavedAddress.Visible = true;
-            }
-        }
-
-        // Handle saving the new order
         protected void btnSaveOrder_Click(object sender, EventArgs e)
         {
             try
             {
-                // Check if the form is for Pickup or Delivery
                 string pickupOrDelivery = ddlPickupDelivery.SelectedValue;
-
-                // Handle Pickup or Delivery logic
                 DateTime pickupDate = DateTime.MinValue;
+                DateTime? deliveryDate = null; // Nullable for delivery date
                 string deliveryAddress = string.Empty;
+                string specialInstructions = txtSpecialInstructions.Text;  // Fetch Special Instructions
 
                 if (pickupOrDelivery == "Pickup")
                 {
                     // Pickup date is mandatory when Pickup option is selected
-                    pickupDate = DateTime.Parse(txtPickupDate.Text);
+                    if (!string.IsNullOrEmpty(txtPickupDate.Value))
+                    {
+                        pickupDate = DateTime.Parse(txtPickupDate.Value);
+                    }
                 }
                 else if (pickupOrDelivery == "Delivery")
                 {
-                    // For Delivery, address or saved address must be selected
-                    if (ddlSavedAddress.SelectedValue != "0")
+                    // Use the current address fetched from the database (displayed in the text box)
+                    deliveryAddress = txtAddress.Text;
+
+                    // Fetch the preferred delivery date from the input
+                    if (!string.IsNullOrEmpty(txtDeliveryDate.Value))
                     {
-                        deliveryAddress = ddlSavedAddress.SelectedValue;
-                    }
-                    else
-                    {
-                        deliveryAddress = txtAddress.Text;
+                        deliveryDate = DateTime.Parse(txtDeliveryDate.Value);  // Store preferred delivery date
                     }
                 }
 
-                // Insert the new order into the database
-                string query = "INSERT INTO Orders (CustomerName, Contact, ServiceType, PickupDate, DeliveryDate, TotalAmount, Status, DateCreated, DeliveryAddress) " +
-                               "VALUES (@CustomerName, @Contact, @ServiceType, @PickupDate, @DeliveryDate, @TotalAmount, @Status, GETDATE(), @DeliveryAddress)";
-                SqlCommand cmd = new SqlCommand(query, con);
+                // Get service type and fetch the price from the database
+                string serviceType = "";
+                if (Request.Form["service"] != null)
+                {
+                    serviceType = Request.Form["service"];  // Get the selected service value from the form
+                }
+                else
+                {
+                    // Handle the case when no service is selected
+                    Response.Write("<script>alert('Please select a service!');</script>");
+                    return;  // Exit if no service is selected
+                }
 
-                cmd.Parameters.AddWithValue("@CustomerName", txtCustomerName.Text);
-                cmd.Parameters.AddWithValue("@Contact", txtContact.Text);
-                cmd.Parameters.AddWithValue("@ServiceType", rblServiceType.SelectedValue);
-                cmd.Parameters.AddWithValue("@PickupDate", pickupOrDelivery == "Pickup" ? pickupDate : (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@DeliveryDate", DateTime.Now);  // You can adjust the delivery date logic as needed
-                cmd.Parameters.AddWithValue("@TotalAmount", decimal.Parse(txtTotal.Text));
-                cmd.Parameters.AddWithValue("@Status", "Pending");  // Default status as Pending
-                cmd.Parameters.AddWithValue("@DeliveryAddress", string.IsNullOrEmpty(deliveryAddress) ? (object)DBNull.Value : deliveryAddress);
+                // Fetch the service details from the database
+                var serviceDetails = GetServiceDetails(serviceType);
+                int serviceID = serviceDetails.Item1;
+                decimal servicePrice = serviceDetails.Item2;
 
+                // Calculate the total amount
+                decimal totalAmount = servicePrice;
+
+                // Insert the order into the database, including Special Instructions and Preferred Delivery Date
+                string queryInsert = "INSERT INTO Orders (CustomerName, Contact, ServiceType, PickupDate, DeliveryDate, TotalAmount, Status, DateCreated, DeliveryAddress, SpecialInstructions, UserID, ServiceID) " +
+                                     "VALUES (@CustomerName, @Contact, @ServiceType, @PickupDate, @DeliveryDate, @TotalAmount, @Status, GETDATE(), @DeliveryAddress, @SpecialInstructions, @UserID, @ServiceID)";
+                SqlCommand cmdInsert = new SqlCommand(queryInsert, con);
+
+                cmdInsert.Parameters.AddWithValue("@CustomerName", txtCustomerName.Text);
+                cmdInsert.Parameters.AddWithValue("@Contact", txtContact.Text);
+                cmdInsert.Parameters.AddWithValue("@ServiceType", serviceType);
+                cmdInsert.Parameters.AddWithValue("@PickupDate", pickupOrDelivery == "Pickup" ? pickupDate : (object)DBNull.Value);
+                cmdInsert.Parameters.AddWithValue("@DeliveryDate", deliveryDate.HasValue ? (object)deliveryDate.Value : DBNull.Value);  // Handle Nullable DeliveryDate
+                cmdInsert.Parameters.AddWithValue("@TotalAmount", totalAmount);
+                cmdInsert.Parameters.AddWithValue("@Status", "Pending");  // Default status
+                cmdInsert.Parameters.AddWithValue("@DeliveryAddress", string.IsNullOrEmpty(deliveryAddress) ? (object)DBNull.Value : deliveryAddress);
+                cmdInsert.Parameters.AddWithValue("@SpecialInstructions", string.IsNullOrEmpty(specialInstructions) ? (object)DBNull.Value : specialInstructions); // Add Special Instructions
+                cmdInsert.Parameters.AddWithValue("@UserID", Session["UserID"]);
+                cmdInsert.Parameters.AddWithValue("@ServiceID", serviceID);  // Save ServiceID
+
+                // Execute the query
                 con.Open();
-                cmd.ExecuteNonQuery();
+                cmdInsert.ExecuteNonQuery();
                 con.Close();
 
                 // Clear form after submission
                 txtCustomerName.Text = "";
                 txtContact.Text = "";
-                txtPickupDate.Text = "";
+                txtPickupDate.Value = "";
                 txtAddress.Text = "";
+                txtSpecialInstructions.Text = "";  // Clear Special Instructions
+                txtDeliveryDate.Value = "";  // Clear Delivery Date
 
                 // Reload orders after submitting
                 LoadOrders();
             }
             catch (Exception ex)
             {
-                // Handle any errors during the insert
                 Response.Write("<script>alert('Error adding order: " + ex.Message + "');</script>");
             }
         }
+
     }
 }

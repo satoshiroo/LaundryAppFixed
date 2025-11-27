@@ -5,254 +5,225 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
-    <link href="forgopassword.css" rel="stylesheet" />
-
+    <link href="forgotpass.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <style>
-        /*FRGT PASS*/
-* {
+        /* Colors i use Color
+    
+Hex	Usage
+Vibrant Purple	#6b00ff	Headings (h1, h2), input focus border, some text
 
+Dark Purple	#5500cc	Button hover gradient start
+
+Pink	#ff66c4	Button gradient end, links, hover text
+
+Light Blue	#a0eaff	Page background gradient start
+
+Light Pink	#ffb3ff	Page background gradient end
+
+Pastel Pink	#ffe6f7	Input background gradient start
+
+Pastel Blue	#e0f7ff	Input background gradient end
+
+Light Purple	#d1b3ff	Input borders
+
+Dark Text	#5a00b3	Input text, labels, description text
+
+White	#ffffff	Form / card backgrounds */
+
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
 
-header {
-    background-color: white;
-    padding: 10px 30px;
-    border: 1px solid #ccc;
-    display: flex;
-    justify-content: space-between; /* logo left, form right */
-}
-
-.Logo {
-    font-size: 20px;
-    font-weight: bold;
-    color: #4a90e2;
-}
-
 body {
     display: flex;
-    flex-direction: column;
-    background: linear-gradient(90deg, #e2e2e2, #c9d6ff);
-}
-
-.container {
-    padding-top: 20px;
-    padding-bottom: 60px;
-}
-/* texbox login alignment */
-
-.LoginForm {
-    padding: 5px;
-    display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #a0eaff, #ffb3ff);
+    padding: 20px;
 }
-    /* Log In button design */
 
-    .LoginForm .btn-signin {
-        background-color: #7494ec;
-        box-shadow: 0 0 10px rgba(0,0,0, .1);
-        color: white;
-        border: none;
-        border-radius: 5px;
-        padding: 6px 12px;
-        cursor: pointer;
-        padding: 15px;
-        width: 100px;
-        font-weight: 600;
-    }
-        /* Log In button kapag nakapoint*/
-
-        .LoginForm .btn-signin:hover {
-            background-color: #5a7ae6;
-        }
-    /* size of the form box */
-
-    .LoginForm input {
-        width: 180px;
-        padding: 5px 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        font-size: 14px;
-        outline: none;
-        transition: border-color 0.3s ease;
-        color: #333;
-        background: #eee;
-    }
-        /*textbox Border light effect*/
-
-        .LoginForm input:focus {
-            border-color: #7494ec; /* outline color */
-            box-shadow: 0 0 4px #5a7ae6; /* gloweffect */
-        }
-/* formbox*/
-
-.Form {
-    background-color: white;
-    width: 500px;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    padding: 25px 30px;
-    height: auto;
-    margin: auto;
-    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+/* Container */
+.container {
+    width: 100%;
+    max-width: 550px;
+    padding: 50px 30px 60px;
+    background: linear-gradient(145deg, #ffffff, #f3e6ff);
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
     text-align: center;
 }
-    /* form text*/
 
-    .Form h2 {
-        text-align: center;
-        margin-bottom: 10px;
-        font-size: 20px;
-        margin-top: 10px;
+/* Form heading */
+.Form h2 {
+    font-size: 26px;
+    margin-bottom: 25px;
+    color: #6b00ff;
+    font-weight: 700;
+    text-align: center;
+    font-weight: 800;
+}
+
+
+
+/* Inputs */
+.Form input {
+    width: 100%;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    border: 1px solid #d1b3ff;
+    font-size: 16px;
+    color: #5a00b3;
+    background: linear-gradient(120deg, #ffe6f7, #e0f7ff);
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+    .Form input:focus {
+        border-color: #6b00ff;
+        box-shadow: 0 0 10px rgba(107, 0, 255, 0.3);
     }
 
-    .forgot-img {
-        width: 50%;
-        height: auto;
-        margin: 0 auto 20px auto;
+/* Labels */
+.Form label {
+    display: flex;
+    margin-bottom: 5px;
+    color: #5a00b3;
+    font-weight: 500;
+}
+
+/* Description */
+.Form .Description {
+    margin-bottom: 40px;
+}
+
+.Description p {
+    font-size: 14px;
+    color: #5a00b3;
+    line-height: 1.5;
+}
+
+.Description h2 {
+    color: #6b00ff;
+    margin: 10px 0;
+}
+
+/* Buttons */
+.Form .btn {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    background: linear-gradient(135deg, #6b00ff, #ff66c4);
+    color: #fff;
+    font-size: 17px;
+    transition: 0.3s;
+    margin-bottom: 15px;
+}
+
+    .Form .btn:hover {
+        background: linear-gradient(135deg, #5500cc, #ff4db8);
+    }
+
+/* Links */
+.Form a {
+    color: #ff66c4;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+    .Form a:hover {
+        text-decoration: underline;
+    }
+
+/* Remember password text */
+.rememberpass {
+    margin-bottom: 20px;
+    color: #5a00b3;
+    font-size: 14px;
+    text-align: center;
+}
+
+
+
+
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+    .container {
+        padding: 40px 20px 50px;
+    }
+
+    .Form h2 {
+        font-size: 22px;
     }
 
     .Form input {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        font-size: 16px;
-        outline: none;
-        transition: border-color 0.3s ease;
-        margin-bottom: 20px;
-        color: #333;
-        background: #eee;
-        border-radius: 8px;
+        font-size: 15px;
+        padding: 12px 15px;
     }
-
-    .Form input:focus {
-        border-color: #7494ec; /* outline color */
-        box-shadow: 0 0 4px #5a7ae6; /* glow effect */
-    }
-
-    .Form label {
-        display: flex;
-        margin-bottom: 5px;
-        color: #333;
-    }
-
-    .Form .Description {
-        position: relative;
-        bottom: 30px;
-    }
-
-    .Description p {
-        font-size: 13px;
-        color: #333;
-    }
-
-    .Description H2 {
-        color: #4a90e2;
-    }
-    /* Reset button */
 
     .Form .btn {
-        background-color: #7494ec;
-        box-shadow: 0 0 10px rgba(0,0,0, .1);
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        padding: 15px;
-        width: 100%;
-        margin-bottom: 12%;
-        border-radius: 8px;
-        font-weight: 600;
+        font-size: 16px;
+        padding: 14px;
     }
 
-        .Form .btn:hover {
-            background-color: #5a7ae6;
-        }
-    /* Sign in click clor*/
-
-    .Form a {
-        color: #7494ec;
-        text-decoration: none;
+    .forgot-img {
+        width: 60%;
     }
+}
 
-        .Form a:hover {
-            text-decoration: underline;
-        }
-
-    footer {
-        margin-top: auto;
-        padding-top: 60px;
-        padding: 25px;
-        text-align: center;
-        color: #333;
-    }
-
-    .rememberpass {
-        margin-bottom: 25px;
-        color: #333;
-    }
     </style>
 </head>
 <body>
     <form id="form1" runat="server">
 
-    <!-- HEADER -->
-    <header>
-        <div class="Logo">
-            <h2>Press & Dry Laundry Services</h2>
-        </div>
+        <!-- MAIN CONTAINER -->
+        <div class="container">
 
-        <div class="LoginForm">
-            <asp:TextBox ID="txtLoginEmail" runat="server" CssClass="input" 
-                placeholder="Enter your Email" TextMode="Email"></asp:TextBox>
+            <!-- FORM BOX -->
+            <div class="Form">
 
-            <asp:TextBox ID="txtLoginPassword" runat="server" CssClass="input" 
-                placeholder="Enter your Password" TextMode="Password"></asp:TextBox>
+                <!-- IMAGE -->
+                <img src="Img/forgotpassword.png" CssClass="forgot-img" width="40%"/>
+          
+                <!-- DESCRIPTION -->
+                <div class="Description">
+                    
+                    <h2> Forgot Password?</h2>
+                    <p>
+                        Don't worry! Resetting your password is easy. Just type in the email you used to register at Press & Dry Laundry Services.
+                    </p>
+                </div>
 
-            <asp:Button ID="btnSignIn" runat="server" Text="Sign In" CssClass="btn-signin" />
-        </div>
-    </header>
 
+                <!-- ASP.NET EMAIL TEXTBOX -->
+                <asp:TextBox ID="txtResetEmail" runat="server" CssClass="input" 
+                    placeholder="Enter your Email" TextMode="Email"></asp:TextBox>
 
-    <!-- MAIN CONTAINER -->
-    <div class="container">
+                <!-- RESET PASSWORD BUTTON -->
+                <asp:Button ID="btnResetPassword" runat="server" Text="Reset Password" CssClass="btn" />
 
-        <div class="Form">
+                <!-- REMEMBER PASSWORD LINK -->
+                <div class="rememberpass">
+                    <p>
+                        Did you remember your password?
+                        <a href="Login.aspx">Sign In</a>
+                    </p>
+                </div>
 
-            <img src="Images/Forget.jpg" class="forgot-img" />
-
-            <div class="Description">
-                <h2>Forgot Password?</h2>
-                <p>Don't worry! Resetting your password is easy, just type in the email you used to register at Press & Dry Laundry Services.</p>
-            </div>
-
-            <label for="txtResetEmail">Email:</label>
-
-            <asp:TextBox ID="txtResetEmail" runat="server" CssClass="input" 
-                placeholder="Enter your Email"></asp:TextBox>
-
-            <asp:Button ID="btnResetPassword" runat="server" Text="Reset Password" CssClass="btn" />
-
-            <div class="rememberpass">
-                <p>Did you remember your password?
-                    <a href="Login.aspx">Sign In</a>
-                </p>
             </div>
 
         </div>
 
-    </div>
-
-
-    <!-- FOOTER -->
-    <footer>
-        <p>Press & Dry Laundry</p>
-    </footer>
-
-</form>
+    </form>
 </body>
 </html>

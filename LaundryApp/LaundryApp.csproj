@@ -89,6 +89,14 @@
     <Content Include="bootstrap\js\bootstrap.esm.min.js" />
     <Content Include="bootstrap\js\bootstrap.js" />
     <Content Include="bootstrap\js\bootstrap.min.js" />
+    <Content Include="img\dryclean-removebg-preview.png" />
+    <Content Include="img\dryclean.png" />
+    <Content Include="img\irononly-removebg-preview.png" />
+    <Content Include="img\irononly.png" />
+    <Content Include="img\washnfold-removebg-preview.png" />
+    <Content Include="img\washnfold.png" />
+    <Content Include="img\washniron-removebg-preview.png" />
+    <Content Include="img\washniron.png" />
     <Content Include="Login.css" />
     <Content Include="img\pfp.jpg" />
     <Content Include="Web.config" />

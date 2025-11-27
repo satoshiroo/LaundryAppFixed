@@ -15,19 +15,6 @@
             box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
         }
 
-        .summary-card h5 {
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 4px;
-            color: #6b7280;
-        }
-
-        .summary-card h3 {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin: 0;
-        }
-
         .order-card {
             border-radius: 14px;
             background: #ffffff;
@@ -42,137 +29,144 @@
             box-shadow: 0 6px 18px rgba(15, 23, 42, 0.15);
         }
 
-        .order-card-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 14px 16px;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .order-title {
-            font-weight: 600;
-            font-size: 1rem;
-            margin: 0;
-        }
-
-        .order-status {
-            font-size: 0.7rem;
-            border-radius: 999px;
-            padding: 4px 10px;
-            background: #e5e7eb;
-            color: #374151;
-            text-transform: uppercase;
-            letter-spacing: .04em;
-        }
-
-        .status-pending {
-            color: #f59e0b;
-            font-weight: 600;
-        }
-
-        .status-completed {
-            color: #16a34a;
-            font-weight: 600;
-        }
-
-        .status-progress {
-            color: #0d6efd;
-            font-weight: 600;
-        }
-
-        .order-card-body {
-            padding: 12px 16px 16px 16px;
-            font-size: 0.9rem;
-            color: #4b5563;
-        }
-
-        /* Search bar */
-        .search-bar {
-            width: 80%;
-            padding: 6px 12px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            line-height: 1.2;
-        }
-
-        /* Button styling */
-        .btn-primary {
-            background-color: #4c7ef1;
-            border-color: #4c7ef1;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background-color: #3c6be0;
-            border-color: #3c6be0;
-        }
-
-        .filter-btns {
-            margin: 5px 0;
-        }
-
-        .filter-btns button {
-            background-color: transparent;
-            border: 1px solid #ccc;
-            margin-right: 4px;
-            border-radius: 5px;
-            padding: 6px 12px;
-            font-size: 0.9rem;
-        }
-
-        /* Service Options */
-        .service-options {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        /* Custom radio button styles */
-        .custom-radio input[type="radio"] {
-            display: none; /* Hide the default radio button */
-        }
-
-        .custom-radio {
+        .service-card {
             display: inline-block;
-            position: relative;
-            margin-right: 15px;
-            padding-left: 30px;
+            width: 180px;
+            padding: 10px;
+            border-radius: 10px;
+            background-color: #f3f4f6;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin: 10px;
             cursor: pointer;
+            transition: transform 0.3s ease;
+            text-align: center;
+            border: 2px solid transparent;
         }
 
-        .custom-radio input[type="radio"]:checked + .radio-label::before {
-            background-color: #4c7ef1; /* Customize the checked color */
+        .service-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
         }
 
-        .custom-radio input[type="radio"]:checked + .radio-label {
+        .service-card input[type="radio"] {
+            display: none;
+        }
+
+        .service-card input[type="radio"]:checked + .service-label {
             font-weight: bold;
         }
 
-        /* Creating the custom radio circle */
-        .custom-radio input[type="radio"]:before {
-            content: '';
+        .service-card input[type="radio"]:checked + .service-label:before {
+            content: '✔';
             position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            border: 2px solid #4c7ef1;
-            background-color: transparent;
+            top: 5px;
+            left: 5px;
+            color: white;
+            font-size: 1.2rem;
         }
 
-        /* When checked */
-        .custom-radio input[type="radio"]:checked:before {
-            background-color: #4c7ef1; /* Customize checked color */
-            border-color: #4c7ef1;
+        .service-options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .service-label {
+            display: block;
+            position: relative;
+            font-size: 1rem;
+            color: #333;
+            cursor: pointer;
+            text-align: center;
+            border-radius: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .service-label img {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 10px;
+        }
+
+        .service-price {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        @media (max-width: 900px) {
+            .service-label img {
+                display: none;
+            }
+        }
+
+        .search-container {
+            width: 95%;
+            max-width: auto;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+        }
+
+        .input-group input.form-control {
+            border: none;
+            border-radius: 30px;
+            padding: 8px 15px;
+            font-size: 1rem;
+        }
+
+        .input-group button {
+            border-radius: 30px;
+            background-color: #f1f1f1;
+            border: none;
+            padding: 8px 15px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .input-group button:hover {
+            background-color: #e1e1e1;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .btn-filter {
+            background-color: #fff;
+            color: #4e4e4e;
+            padding: 8px 16px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .btn-filter:hover {
+            background-color: #f1f1f1;
+            color: #333;
+        }
+
+        .btn-group .active {
+            background-color: #4c75f2;
+            color: #fff;
+            border-color: #4c75f2;
         }
     </style>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container-fluid mt-4">
+        <!-- Title Section -->
         <div class="d-flex justify-content-between align-items-center mb-3">
             <div>
                 <h2 class="fw-bold mb-0">My Orders</h2>
@@ -211,8 +205,21 @@
             </div>
         </div>
 
-        <!-- Orders List -->
-        <div class="row">
+        <!-- Search Bar and Filter Buttons -->
+        <div class="d-flex justify-content-between mb-3">
+            <div class="input-group" style="width: 50%;">
+                <input type="text" class="form-control" placeholder="Search by order ID or service..." id="orderSearch" />
+                <button class="btn btn-secondary" id="searchButton">Search</button>
+            </div>
+            <div class="btn-group mt-3" style="width: 40%;">
+                <button class="btn btn-filter active" id="allOrdersBtn">All Orders</button>
+                <button class="btn btn-filter" id="activeOrdersBtn">Active</button>
+                <button class="btn btn-filter" id="completedOrdersBtn">Completed</button>
+            </div>
+        </div>
+
+        <!-- Orders List Repeater -->
+        <div class="row" id="orderCards">
             <asp:Repeater ID="rptOrders" runat="server">
                 <ItemTemplate>
                     <div class="col-md-4 mb-4">
@@ -224,15 +231,9 @@
                                 </span>
                             </div>
                             <div class="order-card-body">
-                                <p class="mb-1">
-                                    <strong>Service:</strong> <%# Eval("ServiceType") %>
-                                </p>
-                                <p class="mb-1">
-                                    <strong>Items:</strong> <%# Eval("ItemCount") %>
-                                </p>
-                                <p class="mb-0">
-                                    <strong>Total:</strong> $<%# Eval("TotalAmount") %>
-                                </p>
+                                <p><strong>Service:</strong> <%# Eval("ServiceType") %></p>
+                                <p><strong>Total:</strong> $<%# Eval("TotalAmount") %></p>
+                                <p><strong>Due Date:</strong> <%# Eval("PickupDate") %></p>
                             </div>
                         </div>
                     </div>
@@ -260,45 +261,74 @@
                         <asp:TextBox ID="txtContact" runat="server" CssClass="form-control" ReadOnly="True" />
                     </div>
 
-                    <!-- Service Selection (RadioButtonList for service types) -->
+                    <!-- Service Selection -->
                     <div class="mb-3">
                         <label class="form-label">Select Service*</label>
-                        <asp:RadioButtonList ID="rblServiceType" runat="server" CssClass="form-control">
-                            <asp:ListItem Text="Wash & Fold - $3 per kg" Value="Wash & Fold" />
-                            <asp:ListItem Text="Dry Clean - $15 per item" Value="Dry Clean" />
-                            <asp:ListItem Text="Iron Only - $3 per item" Value="Iron Only" />
-                            <asp:ListItem Text="Wash & Iron - $5 per kg" Value="Wash & Iron" />
-                            <asp:ListItem Text="Express - $8 per kg" Value="Express" />
-                        </asp:RadioButtonList>
+                        <div class="service-options">
+                            <div class="service-card" data-service-id="1">
+                                <input type="radio" name="service" id="washFold" value="Wash & Fold" />
+                                <label for="washFold" class="service-label">
+                                    <img src="img/washnfold-removebg-preview.png" alt="Wash & Fold"/>
+                                    <div>Wash & Fold</div>
+                                    <div class="service-price">100 per Service</div>
+                                </label>
+                            </div>
+                            <div class="service-card" data-service-id="2">
+                                <input type="radio" name="service" id="washIron" value="Wash & Iron" />
+                                <label for="washIron" class="service-label">
+                                    <img src="img/washniron-removebg-preview.png" alt="Wash & Iron"/>
+                                    <div>Wash & Iron</div>
+                                    <div class="service-price">150 per Service</div>
+                                </label>
+                            </div>
+                            <div class="service-card" data-service-id="3">
+                                <input type="radio" name="service" id="washOnly" value="Wash Only" />
+                                <label for="washOnly" class="service-label">
+                                    <img src="img/dryclean-removebg-preview.png" alt="Wash Only" />
+                                    <div>Wash only</div>
+                                    <div class="service-price">50 per Service</div>
+                                </label>
+                            </div>
+                            <div class="service-card" data-service-id="4">
+                                <input type="radio" name="service" id="dryClean" value="Dry Clean" />
+                                <label for="dryClean" class="service-label">
+                                    <img src="img/irononly-removebg-preview.png" alt="Iron Only"/>
+                                    <div>Dry Clean</div>
+                                    <div class="service-price">80 per Service</div>
+                                </label>
+                            </div>                        
+                        </div>
                     </div>
-
+                    
                     <!-- Pickup or Delivery Option -->
                     <div class="mb-3">
                         <label class="form-label">Pickup or Delivery*</label>
-                        <asp:DropDownList ID="ddlPickupDelivery" runat="server" CssClass="form-select" OnSelectedIndexChanged="ddlPickupDelivery_SelectedIndexChanged" AutoPostBack="True">
+                        <asp:DropDownList ID="ddlPickupDelivery" runat="server" CssClass="form-select" OnSelectedIndexChanged="ddlPickupDelivery_SelectedIndexChanged">
                             <asp:ListItem Text="Pickup" Value="Pickup" />
                             <asp:ListItem Text="Delivery" Value="Delivery" />
                         </asp:DropDownList>
                     </div>
 
-                    <!-- Pickup Date or Delivery Address -->
-                    <div class="mb-3" id="pickupDateDiv">
+                    <div class="mb-3" id="pickupDateDiv" runat="server" style="display:o">
                         <label class="form-label">Preferred Pickup Date*</label>
-                        <asp:TextBox ID="txtPickupDate" runat="server" CssClass="form-control" placeholder="MM/DD/YYYY" />
+                        <input type="date" ID="txtPickupDate" runat="server" CssClass="form-control" placeholder="MM/DD/YYYY"/>
                     </div>
 
-                    <div class="mb-3" id="deliveryAddressDiv" style="display:none;">
+                    <!-- Delivery Date -->
+                    <div class="mb-3" id="deliveryDateDiv" runat="server" style="display:none;">
+                        <label class="form-label">Preferred Delivery Date*</label>
+                        <input type="date" id="txtDeliveryDate" runat="server" CssClass="form-control" placeholder="MM/DD/YYYY"/>
+                    </div>
+
+                    <div class="mb-3" id="deliveryAddressDiv" runat="server" style="display:none;">
                         <label class="form-label">Delivery Address*</label>
-                        <asp:TextBox ID="txtAddress" runat="server" CssClass="form-control" placeholder="Enter your delivery address..." />
-                        <asp:DropDownList ID="ddlSavedAddress" runat="server" CssClass="form-select" AutoPostBack="True">
-                            <asp:ListItem Text="Select a saved address" Value="0" />
-                        </asp:DropDownList>
+                        <asp:TextBox ID="txtAddress" runat="server" CssClass="form-control" placeholder="Enter your delivery address..." ReadONly="true"/>
                     </div>
-
+                    
                     <!-- Total Amount -->
                     <div class="mb-3">
                         <label class="form-label">Total Amount*</label>
-                        <asp:TextBox ID="txtTotal" runat="server" CssClass="form-control" placeholder="Total Amount" />
+                        <asp:TextBox ID="txtTotal" runat="server" CssClass="form-control" placeholder="Total Amount" ReadOnly="true"/>
                     </div>
 
                     <!-- Special Instructions -->
@@ -313,5 +343,35 @@
                 </div>
             </div>
         </div>
+
+        <script type="text/javascript">
+            document.getElementById('<%= ddlPickupDelivery.ClientID %>').addEventListener('change', function () {
+                var selectedValue = this.value;
+
+                // Hide both fields initially
+                document.getElementById('<%= pickupDateDiv.ClientID %>').style.display = 'none';
+                document.getElementById('<%= deliveryAddressDiv.ClientID %>').style.display = 'none';
+                document.getElementById('<%= deliveryDateDiv.ClientID %>').style.display = 'none';
+
+                // Show Pickup Date for Pickup selection
+                if (selectedValue === 'Pickup') {
+                    document.getElementById('<%= pickupDateDiv.ClientID %>').style.display = 'block';
+                } 
+                // Show Delivery Address and Delivery Date for Delivery selection
+                else if (selectedValue === 'Delivery') {
+                    document.getElementById('<%= deliveryDateDiv.ClientID %>').style.display = 'block';
+                    document.getElementById('<%= deliveryAddressDiv.ClientID %>').style.display = 'block';
+                }
+            });
+
+            document.addEventListener('DOMContentLoaded', function() {
+                var selectedValue = document.getElementById('<%= ddlPickupDelivery.ClientID %>').value;
+                if (selectedValue === 'Pickup') {
+                    document.getElementById('<%= pickupDateDiv.ClientID %>').style.display = 'block';
+                } else if (selectedValue === 'Delivery') {
+                    document.getElementById('<%= deliveryAddressDiv.ClientID %>').style.display = 'block';
+                }
+            });
+        </script>
     </div>
 </asp:Content>
