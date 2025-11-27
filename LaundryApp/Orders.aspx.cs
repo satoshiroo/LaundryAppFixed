@@ -3,7 +3,6 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
-using System.Web.UI.WebControls;
 
 namespace LaundryApp
 {
@@ -94,34 +93,19 @@ namespace LaundryApp
 
         void LoadSavedAddresses()
         {
-            try
-            {
-                string query = "SELECT Address FROM Users WHERE UserID = @UserID"; // Use the Users table
-                SqlDataAdapter da = new SqlDataAdapter(query, con);
-                da.SelectCommand.Parameters.AddWithValue("@UserID", 1);  // Replace with logged-in user ID or session
+            // Modify the query to select Address from the Users table directly.
+            string query = "SELECT Address FROM Users WHERE UserID = @UserID"; // Use the Users table
+            SqlDataAdapter da = new SqlDataAdapter(query, con);
+            da.SelectCommand.Parameters.AddWithValue("@UserID", 1);  // Replace with logged-in user ID or session
 
-                DataTable dt = new DataTable();
-                da.Fill(dt);  // This will now fill the DataTable with the address for the user
+            DataTable dt = new DataTable();
+            da.Fill(dt);  // This will now fill the DataTable with the address for the user
 
-                if (dt != null && dt.Rows.Count > 0)
-                {
-                    // Populate the dropdown with the fetched address
-                    ddlSavedAddress.DataSource = dt;
-                    ddlSavedAddress.DataTextField = "Address";  // Set Address as the text
-                    ddlSavedAddress.DataValueField = "Address";  // Optionally, use Address as the value
-                    ddlSavedAddress.DataBind();
-                }
-                else
-                {
-                    // Handle no addresses found case
-                    ddlSavedAddress.Items.Add(new ListItem("No addresses found", "0"));
-                }
-            }
-            catch (Exception ex)
-            {
-                // Log or display the error message
-                Response.Write("<script>alert('Error loading addresses: " + ex.Message + "');</script>");
-            }
+            // Populate the dropdown with the fetched address
+            ddlSavedAddress.DataSource = dt;
+            ddlSavedAddress.DataTextField = "Address";  // Set Address as the text
+            ddlSavedAddress.DataValueField = "Address";  // Optionally, use Address as the value
+            ddlSavedAddress.DataBind();
         }
 
         protected void ddlPickupDelivery_SelectedIndexChanged(object sender, EventArgs e)
