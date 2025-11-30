@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="Laundry_Login.Login" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="LaundryApp.Login" %>
 
 
 <!DOCTYPE html>
@@ -12,11 +12,7 @@
 <script>
     function showErrorMessage() {
         var lbl = document.getElementById("<%= msg.ClientID %>");
-
-        // FADE-IN (remove hidden)
         lbl.classList.remove("hidden");
-
-        // After 3 seconds → fade-OUT
         setTimeout(function () {
             lbl.classList.add("hidden");
         }, 3000);
@@ -43,10 +39,11 @@
             <div class="login-Box">
                 
                 <form id="Login" runat="server">
+                     <asp:ScriptManager runat="server" ID="ScriptManager1" />
                     <h1> Sign In!</h1>
-                    <!-- Error Message -->
-                    <div class="error-container">
-                        <asp:Label ID="msg" CssClass="error-text hidden" runat="server" Visible="false"></asp:Label>
+
+                    <div class="error-container" >
+                      <asp:Label ID="msg" CssClass="error-text hidden" runat="server"></asp:Label>
                     </div>
                     
 
