@@ -7,7 +7,7 @@ using System.Text;
 using System.Web;
 using System.Web.UI;
 
-namespace LaundryApp
+namespace Laundry_Login
 {
     public partial class Login : Page
     {
@@ -27,35 +27,37 @@ namespace LaundryApp
                 Response.Redirect("Dashboard.aspx");
             }
         }
-
-        // SHA256 hashing method
-        public string HashPassword(string password)
+        private string HashPassword(string password)
         {
-            using (SHA256 sha256 = SHA256.Create())
+            using (SHA256 sha = SHA256.Create())
             {
-                byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+                byte[] bytes = sha.ComputeHash(Encoding.UTF8.GetBytes(password));
                 StringBuilder builder = new StringBuilder();
-                foreach (var b in bytes)
-                {
-                    builder.Append(b.ToString("x2"));
-                }
+
+                foreach (byte b in bytes)
+                    builder.AppendFormat("{0:x2}", b);
+
                 return builder.ToString();
             }
         }
 
+
         protected void signin_Click(object sender, EventArgs e)
         {
-            string email = txtUsername.Text.Trim();
+            string username = txtUsername.Text.Trim();
             string password = txtPassword.Text.Trim();
+
             string hashedPassword = HashPassword(password);
 
+
+
             string connString = ConfigurationManager.ConnectionStrings["LaundryConnection"].ConnectionString;
-            string query = "SELECT UserRole FROM Users WHERE Email=@Email AND Password=@Password";
+            string query = "SELECT UserRole FROM Users WHERE Username=@Username AND Password=@Password";
 
             using (SqlConnection conn = new SqlConnection(connString))
             using (SqlCommand cmd = new SqlCommand(query, conn))
             {
-                cmd.Parameters.Add("@Email", SqlDbType.VarChar).Value = email;
+                cmd.Parameters.Add("@Username", SqlDbType.VarChar).Value = username;
                 cmd.Parameters.Add("@Password", SqlDbType.VarChar).Value = hashedPassword;
 
                 try
@@ -64,8 +66,11 @@ namespace LaundryApp
                     var result = cmd.ExecuteScalar();
                     if (result != null)
                     {
-                        Session["UserRole"] = result.ToString();
+                        string UserRole =  result.ToString();
+                        Session["UserRole"] = UserRole;
+
                         Response.Redirect("Dashboard.aspx");
+
                     }
                     else
                     {

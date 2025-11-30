@@ -20,13 +20,14 @@ namespace LaundryApp
             }
 
             // Optionally, check user role and show appropriate content
-            string userRole = Session["UserRole"].ToString();
-            if (userRole == "Admin")
+            string UserRole = Session["UserRole"].ToString();
+
+            if (UserRole == "Admin")
             {
                 adminContent.Visible = true;
                 userContent.Visible = false;
             }
-            else if (userRole == "User")
+            else if (UserRole == "Customer")
             {
                 adminContent.Visible = false;
                 userContent.Visible = true;

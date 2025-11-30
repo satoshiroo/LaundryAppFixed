@@ -13,6 +13,7 @@ body {
     min-height: 100vh;
     background: linear-gradient(135deg, #a0eaff, #ffb3ff);
     padding: 20px;
+
 }
 
 /* MAIN CONTAINER */
@@ -342,35 +343,33 @@ body {
 
 
 
-/* Reduce bubbles on mobile to improve performance */
-.bubbles span {
-    width: 15px;
-    height: 15px;
-    animation-duration: 10s;
-}
-
-    .bubbles span:nth-child(2),
-    .bubbles span:nth-child(4),
-    .bubbles span:nth-child(7) {
-        display: none; /* hide some bubbles to reduce clutter */
+    /* Reduce bubbles on mobile to improve performance */
+    .bubbles span {
+        width: 15px;
+        height: 15px;
+        animation-duration: 10s;
     }
 
+        .bubbles span:nth-child(2),
+        .bubbles span:nth-child(4),
+        .bubbles span:nth-child(7) {
+            display: none; /* hide some bubbles to reduce clutter */
+        }
 }
 
-/* Reduce bubbles on mobile to improve performance */
-.bubbles span {
-    width: 15px;
-    height: 15px;
-    animation-duration: 10s;
-}
-
-    .bubbles span:nth-child(2),
-    .bubbles span:nth-child(4),
-    .bubbles span:nth-child(7) {
-        display: none; /* hide some bubbles to reduce clutter */
+    /* Reduce bubbles on mobile to improve performance */
+    .bubbles span {
+        width: 15px;
+        height: 15px;
+        animation-duration: 10s;
     }
 
-}
+        .bubbles span:nth-child(2),
+        .bubbles span:nth-child(4),
+        .bubbles span:nth-child(7) {
+            display: none; /* hide some bubbles to reduce clutter */
+        }
+
 
 /* ERROR MESSAGE STYLE */
 .error-text {

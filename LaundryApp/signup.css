@@ -5,89 +5,40 @@
     font-family: 'Poppins', sans-serif;
 }
 
-/* FULL SCREEN CENTER */
 body {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    /* Fresh, vibrant gradient background */
     background: linear-gradient(135deg, #a0eaff, #ffb3ff);
     padding: 20px;
 }
 
-/* MAIN CARD */
 .container {
-    /* Modern gradient card */
     background: linear-gradient(145deg, #ffffff, #f3e6ff);
     width: 100%;
     max-width: 550px;
     padding: 45px 35px;
     border-radius: 18px;
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+   
 }
 
-/* SIGNUP WRAPPER */
 .Signup-box {
     width: 100%;
     display: flex;
     flex-direction: column;
     text-align: center;
+   
 }
 
 .container h1 {
     font-size: 32px;
     font-weight: 800;
     margin-bottom: 20px;
-    color: #6b00ff; /* vibrant heading */
-}
-
-/* INPUT GROUP */
-.input-group {
-    position: relative;
-    margin: 25px 0;
-}
-
-    .input-group input,
-    input[type="text"],
-    input[type="password"],
-    input[type="email"],
-    input[type="tel"] {
-        width: 100%;
-        padding: 14px 50px 14px 18px;
-        background: linear-gradient(120deg, #ffe6f7, #e0f7ff);
-        border-radius: 12px;
-        border: 1px solid #d1b3ff;
-        outline: none;
-        font-size: 16px;
-        color: #5a00b3;
-        transition: 0.3s;
-    }
-
-        .input-group input:focus {
-            border-color: #6b00ff;
-            box-shadow: 0 0 8px rgba(107, 0, 255, 0.3);
-        }
-
-/* FIX ASP.NET CONTROLS */
-input[id*="username"],
-input[id*="email"],
-input[id*="password"],
-input[id*="contactnum"] {
-    width: 100%;
-}
-
-/* ICON */
-.input-group .icon {
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 20px;
     color: #6b00ff;
 }
 
-/* TERMS */
 .agreeterms-box {
     font-size: 14px;
     margin: 5px 0 15px;
@@ -95,8 +46,6 @@ input[id*="contactnum"] {
     color: #5a00b3;
 }
 
-
-/* BUTTON */
 .btn {
     width: 100%;
     height: 50px;
@@ -114,7 +63,6 @@ input[id*="contactnum"] {
         background: linear-gradient(135deg, #5500cc, #ff4db8);
     }
 
-/* ALREADY ACCOUNT */
 .Already-Account-Link {
     margin-top: 20px;
     font-size: 14px;
@@ -130,7 +78,6 @@ input[id*="contactnum"] {
             text-decoration: underline;
         }
 
-/* MODERN GRADIENT CHECKBOX */
 .checkbox {
     display: flex;
     align-items: center;
@@ -155,19 +102,16 @@ input[id*="contactnum"] {
         transition: all 0.3s ease;
     }
 
-        /* Hover effect */
         .checkbox input[type="checkbox"]:hover {
             border-color: #6b00ff;
             box-shadow: 0 0 8px rgba(107, 0, 255, 0.3);
         }
 
-        /* Checked state */
         .checkbox input[type="checkbox"]:checked {
             background: linear-gradient(135deg, #6b00ff, #ff66c4);
             border-color: #6b00ff;
         }
 
-            /* Checkmark */
             .checkbox input[type="checkbox"]:checked::after {
                 content: '✔';
                 color: #fff;
@@ -179,7 +123,102 @@ input[id*="contactnum"] {
                 pointer-events: none;
             }
 
-/* MOBILE VERSION */
+.error-text, .success-text {
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.error-text {
+    background: #ffe6e6;
+    color: #ff4d4d;
+    border: 1px solid #ff4d4d;
+}
+
+.success-text {
+    background: #e6ffe6;
+    color: #2d8f2d;
+    border: 1px solid #2d8f2d;
+}
+
+.input-error {
+    border: 2px solid #ff2d2d !important;
+    background: #ffe6e6 !important;
+    box-shadow: 0 0 6px #ff4d4d, 0 0 12px #ff2d2d, 0 0 18px rgba(255, 50, 50, 0.8) !important;
+    animation: glowPulse 1s infinite alternate;
+}
+
+
+
+.input-group {
+    position: relative;
+    margin: 25px 0;
+}
+
+    .input-group input.form-input {
+        width: 100%;
+        padding: 14px 40px 14px 18px; /* space for icon */
+        background: linear-gradient(120deg, #ffe6f7, #e0f7ff);
+        border-radius: 12px;
+        border: 2px solid transparent; /* fixed border width for consistency */
+        outline: none;
+        font-size: 16px;
+        color: #5a00b3;
+        transition: 0.3s;
+        box-sizing: border-box;
+       
+
+       
+    }
+
+        .input-group input.form-input:focus {
+            border-color: #6b00ff;
+            box-shadow: 0 0 8px rgba(107, 0, 255, 0.3);
+        }
+
+        .input-group input.form-input.input-error {
+            border-color: #ff2d2d !important;
+            background: #ffe6e6 !important;
+            box-shadow: 0 0 6px #ff4d4d, 0 0 12px #ff2d2d, 0 0 18px rgba(255, 50, 50, 0.8) !important;
+            animation: glowPulse 1s infinite alternate;
+        }
+
+    .input-group .icon {
+        position: absolute; /* position relative to .input-group */
+        right: 10px; /* fixed distance from right */
+        top: 40%; /* vertically center */
+        transform: translateY(-50%);
+        font-size: 20px;
+        color: #6b00ff;
+        pointer-events: none;
+        z-index: 2;       
+    }
+
+.inline-error {
+    color: #ff4d4d;
+    font-size: 13px;
+    text-align: left;
+    min-height: 18px; /* reserve space even if no error */
+    display: block;
+    margin-top: 5px;
+}
+
+
+
+@keyframes glowPulse {
+    0% {
+        box-shadow: 0 0 6px #ff4d4d;
+    }
+
+    100% {
+        box-shadow: 0 0 14px #ff1a1a, 0 0 28px rgba(255, 0, 0, 0.8);
+    }
+}
+
+
+
 @media (max-width: 600px) {
     .container {
         padding: 25px 18px;
@@ -189,54 +228,15 @@ input[id*="contactnum"] {
             font-size: 28px;
         }
 
-    .input-group input {
+    .input-group input.form-input {
         padding: 12px 45px 12px 15px;
         font-size: 15px;
+        
     }
+
 
     .btn {
         height: 45px;
         font-size: 15px;
     }
-}
-
-
-
-.error-container {
-    height: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-
-/* Fades out smoothly */
-.hidden {
-    opacity: 0;
-}
-
-/* WARNING ICON */
-.error-text::before {
-    content: '';
-    font-size: 16px;
-}
-
-.error-text {
-    background: #ffe6e6;
-    color: #ff4d4d;
-    border: 1px solid #ff4d4d;
-    padding: 8px 12px;
-    font-size: 14px;
-    border-radius: 8px;
-    font-weight: bold;
-}
-
-.success-text {
-    background: #e6ffe6;
-    color: #2d8f2d;
-    border: 1px solid #2d8f2d;
-    padding: 8px 12px;
-    font-size: 14px;
-    border-radius: 8px;
-    font-weight: bold;
 }
