@@ -32,7 +32,7 @@
                      <!-- Send message -->
                   <div class="message-input">
                       <asp:TextBox ID="txtAdminReply" runat="server" CssClass="form-control" placeholder="Type your message..."></asp:TextBox>
-                      <asp:Button ID="btnAdminSend" runat="server" CssClass="btn btn-primary" />
+                      <asp:Button ID="btnAdminSend" runat="server" CssClass="btn btn-primary" Text="Send" />
                   </div>  
         </div>
     </asp:Panel>

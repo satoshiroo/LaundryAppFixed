@@ -1,7 +1,10 @@
-﻿.admin-panel {
+﻿/* ======= Admin Panel Container ======= */
+.admin-panel {
     max-height: 900px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* ======= Messages Layout ======= */
 .messages-container {
     display: flex;
     justify-content: center;
@@ -13,109 +16,139 @@
     overflow-x: hidden;
 }
 
+/* ======= Customer / User List ======= */
 .customer-list {
     height: 600px;
     width: 350px;
     background: #fff;
     border-radius: 15px;
-    padding: 0;
     box-shadow: 0 4px 20px rgba(0,0,0,0.08);
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
+/* Sticky search bar like Messenger */
 .search-wrapper {
     padding: 12px;
     position: sticky;
     top: 0;
     background: #fff;
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid #ddd;
     z-index: 10;
 }
 
 .user-list {
     overflow-y: auto;
-    overflow-x: hidden;
     flex-grow: 1;
     padding: 10px;
 }
 
 .user-item {
-    background: #f5f6f7;
+    background: #fff;
     color: #1c1e21;
     width: 100%;
     padding: 12px 15px;
-    border-radius: 10px;
-    margin-bottom: 10px;
+    border-radius: 12px;
+    margin-bottom: 8px;
     cursor: pointer;
-    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.2s ease;
 }
 
     .user-item:hover {
-        background: #e7f3ff;
+        background: #f0f2f5;
     }
 
     .user-item.active {
         background: #1877f2;
-        color: white;
+        color: #fff;
     }
 
-.form-control {
-    background: #f0f2f5;
-    border-radius: 25px;
-    padding: 10px 15px;
-    border: none;
-    width: 80%;
-    font-size: 14px;
-}
-
+/* ======= Chat Box ======= */
 .chat-box {
     background: #fff;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 10px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.08);
     border-radius: 15px;
     width: 900px;
     height: 600px;
     padding: 15px;
+    overflow: hidden;
 }
 
+/* Chat messages scrolling area */
 .messages {
     flex-grow: 1;
     padding-right: 5px;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
+/* Individual message bubbles */
 .message {
-    max-width: 75%;
-    padding: 10px 14px;
-    border-radius: 18px;
-    margin-bottom: 10px;
+    max-width: 70%;
+    padding: 10px 16px;
+    border-radius: 20px;
     font-size: 14px;
+    line-height: 1.4;
+    word-wrap: break-word;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
+    /* User messages (left) */
     .message.user {
-        background: #f0f2f5;
+        background: #e4e6eb;
+        color: #050505;
         align-self: flex-start;
+        border-top-left-radius: 4px;
+        border-top-right-radius: 20px;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
     }
 
+    /* Admin messages (right) */
     .message.admin {
         background: #1877f2;
-        color: white;
+        color: #fff;
         align-self: flex-end;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 4px;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
     }
 
+/* Smooth scrolling  */
+.messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.messages::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,0.2);
+    border-radius: 3px;
+}
+
+/* ======= Message Input ======= */
 .message-input {
     display: flex;
     gap: 10px;
     padding-top: 10px;
-    border-top: 1px solid #e5e5e5;
+    border-top: 1px solid #ddd;
 }
 
     .message-input .form-control {
         border-radius: 25px;
         background: #f0f2f5;
+        border: 1px solid #ddd;
+        padding: 10px 15px;
+        flex-grow: 1;
+        font-size: 14px;
     }
 
 .btn-primary {
@@ -125,8 +158,28 @@
     border-radius: 25px;
     color: white;
     cursor: pointer;
+    transition: all 0.2s ease;
 }
 
     .btn-primary:hover {
         background: #166fe5;
     }
+
+/* ======= Responsive ======= */
+@media (max-width: 1200px) {
+    .messages-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .chat-box {
+        width: 100%;
+        height: 500px;
+    }
+
+    .customer-list {
+        width: 100%;
+        height: 400px;
+        margin-bottom: 20px;
+    }
+}
