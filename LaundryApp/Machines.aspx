@@ -286,7 +286,7 @@
               </div>
               <div class="modal-body">
                 <asp:HiddenField ID="hiddenEditMachineIdModal" runat="server" />
-
+                 
                 <div class="mb-3">
                   <label class="form-label fw-bold">Machine Name</label>
                   <asp:TextBox ID="txtEditMachineName" runat="server" CssClass="form-control" ReadOnly="true"></asp:TextBox>

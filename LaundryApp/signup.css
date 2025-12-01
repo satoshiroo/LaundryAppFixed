@@ -123,6 +123,63 @@ body {
                 pointer-events: none;
             }
 
+
+
+
+.input-group {
+    position: relative;
+    margin: 30px 0;
+}
+
+    .input-group input.form-input {
+        width: 100%;
+        padding: 14px 40px 14px 18px; /* space for icon */
+        background: linear-gradient(120deg, #ffe6f7, #e0f7ff);
+        border-radius: 12px;
+        border: 2px solid transparent; /* fixed width for consistency */
+        outline: none;
+        font-size: 16px;
+        color: #5a00b3;
+        transition: 0.3s;
+        box-sizing: border-box;
+    }
+
+
+    .input-group .icon {
+        position: absolute; /* position relative to .input-group */
+        right: 10px; /* fixed distance from right */
+        top: 40%; /* vertically center */
+        transform: translateY(-50%);
+        font-size: 20px;
+        color: #6b00ff;
+        pointer-events: none;
+        z-index: 2;       
+    }
+
+    .input-group input.form-input:focus {
+        border-color: #6b00ff;
+        box-shadow: 0 0 8px rgba(107, 0, 255, 0.3);
+    }
+
+    /* ------------------ Input Error ------------------ */
+    .input-group input.form-input.input-error {
+        border: 2px solid #ff2d2d !important; /* strong visible red border */
+        background-color: #ffe6e6 !important; /* soft pink background */
+        box-shadow: 0 0 4px rgba(255, 45, 45, 0.4); /* subtle, professional glow */
+        animation: none !important; /* remove pulsating glow */
+    }
+
+/* Inline error message under input */
+.inline-error {
+    color: #ff4d4d;
+    font-size: 13px;
+    text-align: left;
+    min-height: 18px; /* reserve space */
+    display: block;
+    margin-top: 5px;
+}
+
+/* Error / Success text boxes */
 .error-text, .success-text {
     padding: 8px 12px;
     font-size: 14px;
@@ -142,82 +199,7 @@ body {
     color: #2d8f2d;
     border: 1px solid #2d8f2d;
 }
-
-.input-error {
-    border: 2px solid #ff2d2d !important;
-    background: #ffe6e6 !important;
-    box-shadow: 0 0 6px #ff4d4d, 0 0 12px #ff2d2d, 0 0 18px rgba(255, 50, 50, 0.8) !important;
-    animation: glowPulse 1s infinite alternate;
-}
-
-
-
-.input-group {
-    position: relative;
-    margin: 25px 0;
-}
-
-    .input-group input.form-input {
-        width: 100%;
-        padding: 14px 40px 14px 18px; /* space for icon */
-        background: linear-gradient(120deg, #ffe6f7, #e0f7ff);
-        border-radius: 12px;
-        border: 2px solid transparent; /* fixed border width for consistency */
-        outline: none;
-        font-size: 16px;
-        color: #5a00b3;
-        transition: 0.3s;
-        box-sizing: border-box;
-       
-
-       
-    }
-
-        .input-group input.form-input:focus {
-            border-color: #6b00ff;
-            box-shadow: 0 0 8px rgba(107, 0, 255, 0.3);
-        }
-
-        .input-group input.form-input.input-error {
-            border-color: #ff2d2d !important;
-            background: #ffe6e6 !important;
-            box-shadow: 0 0 6px #ff4d4d, 0 0 12px #ff2d2d, 0 0 18px rgba(255, 50, 50, 0.8) !important;
-            animation: glowPulse 1s infinite alternate;
-        }
-
-    .input-group .icon {
-        position: absolute; /* position relative to .input-group */
-        right: 10px; /* fixed distance from right */
-        top: 40%; /* vertically center */
-        transform: translateY(-50%);
-        font-size: 20px;
-        color: #6b00ff;
-        pointer-events: none;
-        z-index: 2;       
-    }
-
-.inline-error {
-    color: #ff4d4d;
-    font-size: 13px;
-    text-align: left;
-    min-height: 18px; /* reserve space even if no error */
-    display: block;
-    margin-top: 5px;
-}
-
-
-
-@keyframes glowPulse {
-    0% {
-        box-shadow: 0 0 6px #ff4d4d;
-    }
-
-    100% {
-        box-shadow: 0 0 14px #ff1a1a, 0 0 28px rgba(255, 0, 0, 0.8);
-    }
-}
-
-
+ 
 
 @media (max-width: 600px) {
     .container {

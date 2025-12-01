@@ -355,7 +355,7 @@ body {
         .bubbles span:nth-child(7) {
             display: none; /* hide some bubbles to reduce clutter */
         }
-}
+
 
     /* Reduce bubbles on mobile to improve performance */
     .bubbles span {

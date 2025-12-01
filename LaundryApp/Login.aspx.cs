@@ -16,7 +16,7 @@ namespace Laundry_Login
             Response.Cache.SetExpires(DateTime.Now.AddMinutes(-1));
             Response.Cache.SetCacheability(HttpCacheability.NoCache);
             Response.Cache.SetNoStore();
-
+            
             if (!IsPostBack)
             {
                 msg.Visible = false; // hide error initially
@@ -25,6 +25,7 @@ namespace Laundry_Login
             if (Session["UserRole"] != null)
             {
                 Response.Redirect("Dashboard.aspx");
+                return;
             }
         }
         private string HashPassword(string password)
