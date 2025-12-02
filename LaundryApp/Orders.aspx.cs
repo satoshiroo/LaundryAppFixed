@@ -3,7 +3,6 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
-using System.Web.UI.WebControls;
 
 namespace LaundryApp
 {
@@ -140,6 +139,48 @@ namespace LaundryApp
             con.Close();
 
             return new Tuple<int, decimal>(serviceID, price);
+        }
+
+        // Add the event handler for btnSearch
+        protected void btnSearch_Click(object sender, EventArgs e)
+        {
+            string searchTerm = txtSearch.Value.Trim();
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                string query = @"SELECT 
+                    o.OrderID, 
+                    u.FirstName + ' ' + u.LastName AS CustomerName, 
+                    o.Contact, 
+                    o.Status, 
+                    o.TotalAmount, 
+                    o.OrderDate, 
+                    o.PickupDate, 
+                    o.DeliveryDate, 
+                    u.Address AS DeliveryAddress,  
+                    o.UserID
+                FROM dbo.Orders o
+                INNER JOIN dbo.Users u ON o.UserID = u.UserID
+                WHERE o.OrderID LIKE @SearchTerm OR u.FirstName LIKE @SearchTerm OR u.LastName LIKE @SearchTerm OR o.Status LIKE @SearchTerm";
+
+                SqlCommand cmdSearch = new SqlCommand(query, con);
+                cmdSearch.Parameters.AddWithValue("@SearchTerm", "%" + searchTerm + "%");
+
+                SqlDataAdapter da = new SqlDataAdapter(cmdSearch);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+
+                rptOrders.DataSource = dt;
+                rptOrders.DataBind();
+
+                lblTotalOrders.Text = dt.Rows.Count.ToString();
+                lblPending.Text = dt.Select("Status = 'Pending'").Length.ToString();
+                lblInProgress.Text = dt.Select("Status = 'In Progress'").Length.ToString();
+                lblCompleted.Text = dt.Select("Status = 'Completed'").Length.ToString();
+            }
+            else
+            {
+                LoadOrders(); // Reload all orders if search term is empty
+            }
         }
 
         protected void btnSaveOrder_Click(object sender, EventArgs e)

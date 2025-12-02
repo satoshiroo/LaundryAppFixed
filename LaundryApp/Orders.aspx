@@ -6,6 +6,7 @@
             background-color: #f8f9fc;
         }
 
+        /* Summary Card Styling */
         .summary-card {
             border-radius: 12px;
             background-color: #ffffff;
@@ -15,95 +16,46 @@
             box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
         }
 
-        .order-card {
-            border-radius: 14px;
-            background: #ffffff;
-            box-shadow: 0 2px 10px rgba(15, 23, 42, 0.08);
-            overflow: hidden;
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .order-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 18px rgba(15, 23, 42, 0.15);
-        }
-
-        .service-card {
-            display: inline-block;
-            width: 180px;
-            padding: 10px;
-            border-radius: 10px;
-            background-color: #f3f4f6;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            margin: 10px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            text-align: center;
-            border: 2px solid transparent;
-        }
-
-        .service-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        .service-card input[type="radio"] {
-            display: none;
-        }
-
-        .service-card input[type="radio"]:checked + .service-label {
-            font-weight: bold;
-        }
-
-        .service-card input[type="radio"]:checked + .service-label:before {
-            content: '✔';
-            position: absolute;
-            top: 5px;
-            left: 5px;
-            color: white;
-            font-size: 1.2rem;
-        }
-
-        .service-options {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .service-label {
-            display: block;
-            position: relative;
-            font-size: 1rem;
-            color: #333;
-            cursor: pointer;
-            text-align: center;
-            border-radius: 10px;
-            transition: background-color 0.3s ease;
-        }
-
-        .service-label img {
-            width: 50px;
-            height: 50px;
-            margin-bottom: 10px;
-        }
-
-        .service-price {
+        /* Card Titles */
+        .summary-card h5 {
             font-size: 0.9rem;
-            color: #666;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #6b7280;
         }
 
-        @media (max-width: 900px) {
-            .service-label img {
-                display: none;
-            }
+        .summary-card h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin: 0;
         }
 
-        .search-container {
-            width: 95%;
-            max-width: auto;
+        /* Search Bar and Filters */
+        .toolbar-card {
+            border-radius: 14px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+            padding: 16px 18px;
+        }
+
+        /* Consistent button size for filter pills */
+        .filter-pill {
+            font-size: 0.85rem;
+            border-radius: 999px;
+            padding: 6px 14px;
+            border: 1px solid #e5e7eb;
+            background: #ffffff;
+            color: #4b5563;
+            margin-left: 6px;
+            width: 120px; /* Set equal width for all buttons */
+            text-align: center;
+            display: inline-block;
+        }
+
+        .filter-pill.active {
+            background: #0d6efd;
+            color: #ffffff;
+            border-color: #0d6efd;
         }
 
         .input-group {
@@ -111,6 +63,9 @@
             align-items: center;
             border: 1px solid #ddd;
             border-radius: 30px;
+            width: 100%; /* Use full width for mobile */
+            max-width: 600px; /* Optional: You can adjust the max-width for larger screens */
+            margin: 0 auto; /* Center the search bar */
         }
 
         .input-group input.form-control {
@@ -118,6 +73,7 @@
             border-radius: 30px;
             padding: 8px 15px;
             font-size: 1rem;
+            flex-grow: 1; /* Make input fill remaining space */
         }
 
         .input-group button {
@@ -127,39 +83,98 @@
             padding: 8px 15px;
             font-size: 1rem;
             cursor: pointer;
+            margin-left: 10px; /* Space between the input field and button */
+        }   
+
+        /* Remove Summary Cards for mobile view */
+        @media (max-width: 768px) {
+            .summary-card {
+                display: none; /* Hides summary cards on mobile */
+            }
+
+            .input-group {
+                width: 100%;
+            }
+            .input-group button{
+                width: 25%;
+            }
+
+            .input-group select {
+                border-radius: 30px;
+                padding: 8px 15px;
+                font-size: 1rem;
+                border: 1px solid #ddd;
+                flex-grow: 1;
+            }
+
+            .input-group input.form-control {
+                width: 75%;
+            }
+
+            /* Show dropdown filter only on mobile */
+            .d-none.d-md-flex {
+                display: none !important;
+            }
         }
 
-        .input-group button:hover {
-            background-color: #e1e1e1;
+        /* Mobile responsive styles */
+        @media (max-width: 900px) {
+            .d-md-none {
+                display: block; /* Show dropdown on mobile */
+            }
+
+            .d-md-block {
+                display: none; /* Hide search bar dropdown for smaller screens */
+            }
+
+            .input-group {
+                width: 100%;
+            }
+
+            .input-group input.form-control {
+                width: 80%; /* Adjust width of search input on smaller screens */
+            }
+
+            .input-group button {
+                width: 18%; /* Adjust width of the button on smaller screens */
+            }
+            .row.mb-4{
+                display: none !important;
+            }
         }
 
-        .btn-group {
+        /* Modal Styling */
+        .modal-dialog {
+            max-width: 90%; /* Allow modal to take most of the screen width */
+        }
+
+        .modal-body {
+            padding: 1rem;
+        }
+
+        .modal-body .form-control,
+        .modal-body .form-select {
+            width: 100%; /* Ensure input fields take full width inside the modal */
+            margin-bottom: 1rem;
+        }
+
+        .modal-footer {
             display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 10px;
+            justify-content: flex-end;
         }
 
-        .btn-filter {
-            background-color: #fff;
-            color: #4e4e4e;
-            padding: 8px 16px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background-color 0.3s ease, color 0.3s ease;
+        /* Icon Adjustments */
+        .service-label img {
+            width: 60px; /* Adjust icon size */
+            height: 60px;
+            margin-bottom: 10px;
         }
 
-        .btn-filter:hover {
-            background-color: #f1f1f1;
+        /* Aligning the icon text properly */
+        .service-label div {
+            text-align: center;
+            font-size: 0.9rem;
             color: #333;
-        }
-
-        .btn-group .active {
-            background-color: #4c75f2;
-            color: #fff;
-            border-color: #4c75f2;
         }
     </style>
 </asp:Content>
@@ -205,16 +220,32 @@
             </div>
         </div>
 
-        <!-- Search Bar and Filter Buttons -->
-        <div class="d-flex justify-content-between mb-3">
-            <div class="input-group" style="width: 50%;">
-                <input type="text" class="form-control" placeholder="Search by order ID or service..." id="orderSearch" />
-                <button class="btn btn-secondary" id="searchButton">Search</button>
-            </div>
-            <div class="btn-group mt-3" style="width: 40%;">
-                <button class="btn btn-filter active" id="allOrdersBtn">All Orders</button>
-                <button class="btn btn-filter" id="activeOrdersBtn">Active</button>
-                <button class="btn btn-filter" id="completedOrdersBtn">Completed</button>
+        <!-- Search and Order Status -->
+        <div class="toolbar-card mb-4">
+            <div class="d-flex align-items-center justify-content-between gap-3">
+                <!-- Search Bar Container -->
+                <div class="input-group flex-grow-1">
+                    <input type="text" class="form-control" placeholder="Search by order ID or service..." id="txtSearch" runat="server" />
+                    <button class="btn btn-secondary" id="searchButton">Search</button>
+                </div>
+
+                <!-- Order Status Filters (Desktop Only) -->
+                <div class="d-none d-md-flex align-items-center ms-lg-3">
+                    <button type="button" class="filter-pill active" onclick="filterOrders('All', this)">All</button>
+                    <button type="button" class="filter-pill" onclick="filterOrders('Pending', this)">Pending</button>
+                    <button type="button" class="filter-pill" onclick="filterOrders('In Progress', this)">In Progress</button>
+                    <button type="button" class="filter-pill" onclick="filterOrders('Completed', this)">Completed</button>
+                </div>
+
+                <!-- Dropdown for mobile view -->
+                <div class="d-md-none">
+                    <select class="form-select" id="orderStatusDropdownMobile" onchange="filterOrders(this.value, null)">
+                        <option value="All">All Orders</option>
+                        <option value="Pending">Pending</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                </div>
             </div>
         </div>
 
@@ -299,7 +330,7 @@
                             </div>                        
                         </div>
                     </div>
-                    
+
                     <!-- Pickup or Delivery Option -->
                     <div class="mb-3">
                         <label class="form-label">Pickup or Delivery*</label>
@@ -309,7 +340,7 @@
                         </asp:DropDownList>
                     </div>
 
-                    <div class="mb-3" id="pickupDateDiv" runat="server" style="display:o">
+                    <div class="mb-3" id="pickupDateDiv" runat="server" style="display:none;">
                         <label class="form-label">Preferred Pickup Date*</label>
                         <input type="date" ID="txtPickupDate" runat="server" CssClass="form-control" placeholder="MM/DD/YYYY"/>
                     </div>
@@ -322,9 +353,9 @@
 
                     <div class="mb-3" id="deliveryAddressDiv" runat="server" style="display:none;">
                         <label class="form-label">Delivery Address*</label>
-                        <asp:TextBox ID="txtAddress" runat="server" CssClass="form-control" placeholder="Enter your delivery address..." ReadONly="true"/>
+                        <asp:TextBox ID="txtAddress" runat="server" CssClass="form-control" placeholder="Enter your delivery address..." ReadOnly="true"/>
                     </div>
-                    
+
                     <!-- Total Amount -->
                     <div class="mb-3">
                         <label class="form-label">Total Amount*</label>
@@ -343,35 +374,35 @@
                 </div>
             </div>
         </div>
-
-        <script type="text/javascript">
-            document.getElementById('<%= ddlPickupDelivery.ClientID %>').addEventListener('change', function () {
-                var selectedValue = this.value;
-
-                // Hide both fields initially
-                document.getElementById('<%= pickupDateDiv.ClientID %>').style.display = 'none';
-                document.getElementById('<%= deliveryAddressDiv.ClientID %>').style.display = 'none';
-                document.getElementById('<%= deliveryDateDiv.ClientID %>').style.display = 'none';
-
-                // Show Pickup Date for Pickup selection
-                if (selectedValue === 'Pickup') {
-                    document.getElementById('<%= pickupDateDiv.ClientID %>').style.display = 'block';
-                } 
-                // Show Delivery Address and Delivery Date for Delivery selection
-                else if (selectedValue === 'Delivery') {
-                    document.getElementById('<%= deliveryDateDiv.ClientID %>').style.display = 'block';
-                    document.getElementById('<%= deliveryAddressDiv.ClientID %>').style.display = 'block';
-                }
-            });
-
-            document.addEventListener('DOMContentLoaded', function() {
-                var selectedValue = document.getElementById('<%= ddlPickupDelivery.ClientID %>').value;
-                if (selectedValue === 'Pickup') {
-                    document.getElementById('<%= pickupDateDiv.ClientID %>').style.display = 'block';
-                } else if (selectedValue === 'Delivery') {
-                    document.getElementById('<%= deliveryAddressDiv.ClientID %>').style.display = 'block';
-                }
-            });
-        </script>
     </div>
+
+    <script>
+        document.getElementById('<%= ddlPickupDelivery.ClientID %>').addEventListener('change', function () {
+            var selectedValue = this.value;
+
+            // Hide both fields initially
+            document.getElementById('<%= pickupDateDiv.ClientID %>').style.display = 'none';
+            document.getElementById('<%= deliveryAddressDiv.ClientID %>').style.display = 'none';
+            document.getElementById('<%= deliveryDateDiv.ClientID %>').style.display = 'none';
+            
+            // Show Pickup Date for Pickup selection
+            if (selectedValue === 'Pickup') {
+                document.getElementById('<%= pickupDateDiv.ClientID %>').style.display = 'block';
+            }
+            // Show Delivery Address and Delivery Date for Delivery selection
+            else if (selectedValue === 'Delivery') {
+                document.getElementById('<%= deliveryDateDiv.ClientID %>').style.display = 'block';
+                document.getElementById('<%= deliveryAddressDiv.ClientID %>').style.display = 'block';
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var selectedValue = document.getElementById('<%= ddlPickupDelivery.ClientID %>').value;
+            if (selectedValue === 'Pickup') {
+                document.getElementById('<%= pickupDateDiv.ClientID %>').style.display = 'block';
+            } else if (selectedValue === 'Delivery') {
+                document.getElementById('<%= deliveryAddressDiv.ClientID %>').style.display = 'block';
+            }
+        });
+    </script>
 </asp:Content>
