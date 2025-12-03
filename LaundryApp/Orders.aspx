@@ -176,21 +176,66 @@
             font-size: 0.9rem;
             color: #333;
         }
-    .order-card {
-        background-color: #f8f9fc;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
+        /* Add Flexbox to each individual card container to center content */
+        .col-md-4 {
+            display: 0 0 33%;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        /* Ensure the card itself is styled as intended */
+        .order-card {
+            width: 100%;  /* Ensure the card occupies the full width of its container */
+            max-width: 100%; /* Optional: Set max width if needed */
+            margin: 0 auto; /* Center the card horizontally */
+            padding: 10px 0px;
+            background-color: #fff;
+            border-radius: 20px;
+            border: none;
+        }
+        button.order-card-link {
+            width: 100%; /* Make the button take full width */
+            display: flex; /* Enable Flexbox layout for the button */
+            justify-content: center; /* Center content inside the button */
+            padding: 0; /* Remove default padding */
+            border-radius: 20px;
+        }
+        button.order-card-link:hover, button.order-card-link:focus {
+            background-color: #f0f0f0; /* Add hover/focus effects */
+        }
+        .order-card-header {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
 
-    .order-card-header {
-        font-size: 18px;
-        font-weight: bold;
-    }
+        .order-card-body p {
+            font-size: 1rem;
+            color: #333;
+        }
+        .order-title {
+            font-size: 1.2rem;
+            color: #000;
+        }
+        @media (max-width: 768px) {
+            .col-md-4 {
+                flex: 0 0 100%; /* Full width on smaller screens */
+            }
+        }
+        /* Pending Status (Yellow) */
+        .status-pending {
+            color: #FF930F; /* Text color */
+        }
 
-    .order-card-body {
-        font-size: 14px;
-    }
+        /* In Progress Status (Blue) */
+        .status-progress {
+            color: #1E90FF; /* Text color */
+        }
+
+        /* Completed Status (Green) */
+        .status-completed {
+            color: #32CD32; /* Text color */
+        }
+
     </style>
 </asp:Content>
 
@@ -265,28 +310,72 @@
         </div>
 
         <!-- Orders List Repeater -->
-        <!-- Orders List Repeater -->
             <div class="row" id="orderCards">
                 <asp:Repeater ID="rptOrders" runat="server">
                     <ItemTemplate>
                         <div class="col-md-4 mb-4">
-                            <div class="order-card">
-                                <div class="order-card-header">
-                                    <h5 class="order-title mb-0"><%# Eval("CustomerName") %></h5>
-                                    <span class="order-status <%# Eval("Status") == "Pending" ? "status-pending" : Eval("Status") == "In Progress" ? "status-progress" : Eval("Status") == "Completed" ? "status-completed" : "" %>">
-                                        <%# Eval("Status") %>
-                                    </span>
+                            <!-- Add a button to open modal for payment selection -->
+                            <button type="button" class="order-card-link" data-bs-toggle="modal" data-bs-target="#paymentModal" data-orderid="<%# Eval("OrderID") %>">
+                                <div class="order-card">
+                                    <div class="order-card-header">
+                                        <span class="order-status 
+                                            <%# Eval("Status").ToString() == "Pending" ? "status-pending" : 
+                                                (Eval("Status").ToString() == "In Progress" ? "status-progress" : 
+                                                (Eval("Status").ToString() == "Completed" ? "status-completed" : "")) %>">
+                                            <%# Eval("Status") %>
+                                        </span>
+                                    </div>
+                                    <div class="order-card-body">
+                                        <%# Eval("ServiceType") != DBNull.Value ? Eval("ServiceType") : "N/A" %></p>
+                                        <p><strong>Total:</strong> ₱<%# Eval("TotalAmount") != DBNull.Value ? Convert.ToDecimal(Eval("TotalAmount")).ToString("N2") : "0.00" %></p>
+                                        <p><strong>Due Date:</strong> <%# Eval("DueDate") != DBNull.Value ? Eval("DueDate") : "Not Provided" %></p>
+                                    </div>
                                 </div>
-                                <div class="order-card-body">
-                                   <p><strong>Service:</strong> <%# Eval("ServiceType") != DBNull.Value ? Eval("ServiceType") : "N/A" %></p>
-                                   <p><strong>Total:</strong> $<%# Eval("TotalAmount") != DBNull.Value ? Eval("TotalAmount") : 0 %></p>
-                                   <p><strong>Due Date:</strong> <%# Eval("PickupDate") != DBNull.Value ? Eval("PickupDate") : "Not Provided" %></p>
-                                </div>
-                            </div>
+                            </button>
                         </div>
                     </ItemTemplate>
                 </asp:Repeater>
             </div>
+
+        <!-- Payment Selection Modal -->
+        <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="paymentModalLabel">Select Payment Method</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Payment Options -->
+                        <form>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="paymentMethod" id="creditCard" value="Credit Card">
+                                <label class="form-check-label" for="creditCard">
+                                    Credit Card
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="paymentMethod" id="paypal" value="Paypal">
+                                <label class="form-check-label" for="paypal">
+                                    Paypal
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="paymentMethod" id="bankTransfer" value="Bank Transfer">
+                                <label class="form-check-label" for="bankTransfer">
+                                    Bank Transfer
+                                </label>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="submitPaymentMethod">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
 
     <!-- Modal: Place New Order -->
@@ -420,5 +509,16 @@
                 document.getElementById('<%= deliveryAddressDiv.ClientID %>').style.display = 'block';
             }
         });
+
+    // Pass the OrderID to the modal when the order card is clicked
+            var paymentModal = document.getElementById('paymentModal');
+            paymentModal.addEventListener('show.bs.modal', function (event) {
+        // Get the OrderID from the button's data attributes
+        var button = event.relatedTarget;
+            var orderID = button.getAttribute('data-orderid');
+            // Store or use the OrderID (you can send it to the server for processing)
+            console.log("Selected OrderID: " + orderID);
+        });
+
     </script>
 </asp:Content>

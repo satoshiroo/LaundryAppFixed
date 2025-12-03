@@ -111,25 +111,31 @@ namespace LaundryApp
                 // Ensure UserID is present in the session
                 if (Session["UserID"] != null)
                 {
-                    string userID = Session["UserID"].ToString(); // Retrieve logged-in UserID
+                    int userID = Convert.ToInt32(Session["UserID"]); // Ensure UserID is converted to the correct type (int)
 
                     // Modified query to load orders for the logged-in user
                     string query = @"
-            SELECT 
-                o.OrderID, 
-                u.FirstName + ' ' + u.LastName AS CustomerName, 
-                o.Contact, 
-                o.Status, 
-                o.TotalAmount, 
-                o.DateCreated AS OrderDate, 
-                o.PickupDate, 
-                o.DeliveryDate, 
-                u.Address AS DeliveryAddress,  
-                o.UserID,
-                o.ServiceType
-            FROM dbo.Orders o
-            INNER JOIN dbo.Users u ON o.UserID = u.UserID
-            WHERE o.UserID = @UserID"; // Add filtering by UserID
+                SELECT 
+                    o.OrderID, 
+                    u.FirstName + ' ' + u.LastName AS CustomerName, 
+                    o.Contact, 
+                    o.Status, 
+                    o.TotalAmount, 
+                    o.DateCreated AS OrderDate, 
+                    o.PickupDate, 
+                    o.DeliveryDate, 
+                    u.Address AS DeliveryAddress,  
+                    o.UserID,
+                    o.ServiceType,
+                    -- Dynamic DueDate Calculation
+                    CASE
+                        WHEN o.PickupDate IS NOT NULL AND o.DeliveryDate IS NULL THEN 'Pickup: ' + CONVERT(varchar, o.PickupDate, 101)
+                        WHEN o.DeliveryDate IS NOT NULL AND o.PickupDate IS NULL THEN 'Delivery: ' + CONVERT(varchar, o.DeliveryDate, 101)
+                        ELSE 'Not Provided'
+                    END AS DueDate
+                FROM dbo.Orders o
+                INNER JOIN dbo.Users u ON o.UserID = u.UserID
+                WHERE o.UserID = @UserID"; // Add filtering by UserID
 
                     SqlCommand cmd = new SqlCommand(query, con);
                     cmd.Parameters.AddWithValue("@UserID", userID); // Add parameter to query
@@ -166,10 +172,12 @@ namespace LaundryApp
             }
             catch (Exception ex)
             {
+                // Log error and show alert if there's an issue loading orders
                 Debug.WriteLine("Error loading orders: " + ex.Message);
                 Response.Write("<script>alert('Error loading orders: " + ex.Message + "');</script>");
             }
         }
+
 
 
 
