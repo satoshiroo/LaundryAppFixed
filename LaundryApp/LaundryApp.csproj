@@ -96,7 +96,7 @@
     <Content Include="messages.css" />
     <Content Include="ProfileStyleSheet.css" />
     <Content Include="SignUp.aspx" />
-    <Content Include="signup.css" />
+    <Content Include="SignUp.css" />
     <Content Include="Web.config" />
     <Content Include="Dashboard.aspx" />
     <Content Include="Orders.aspx" />
