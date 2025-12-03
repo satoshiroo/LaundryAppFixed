@@ -3,240 +3,344 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
     <style>
         body {
-            background-color: #f8f9fc;
-        }
+    background-color: #f8f9fc;
+}
 
-        /* Summary Card Styling */
-        .summary-card {
-            border-radius: 12px;
-            background-color: #ffffff;
-            color: #111827;
-            text-align: left;
-            padding: 16px 18px;
-            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
-        }
+/* Summary Card Styling */
+.summary-card {
+    border-radius: 12px;
+    background-color: #ffffff;
+    color: #111827;
+    text-align: left;
+    padding: 16px 18px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+}
 
-        /* Card Titles */
-        .summary-card h5 {
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 4px;
-            color: #6b7280;
-        }
+/* Card Titles */
+.summary-card h5 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #6b7280;
+}
 
-        .summary-card h3 {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin: 0;
-        }
+.summary-card h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0;
+}
 
-        /* Search Bar and Filters */
-        .toolbar-card {
-            border-radius: 14px;
-            background-color: #ffffff;
-            box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
-            padding: 16px 18px;
-        }
+/* Search Bar and Filters */
+.toolbar-card {
+    border-radius: 14px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+    padding: 16px 18px;
+}
 
-        /* Consistent button size for filter pills */
-        .filter-pill {
-            font-size: 0.85rem;
-            border-radius: 999px;
-            padding: 6px 14px;
-            border: 1px solid #e5e7eb;
-            background: #ffffff;
-            color: #4b5563;
-            margin-left: 6px;
-            width: 120px; /* Set equal width for all buttons */
-            text-align: center;
-            display: inline-block;
-        }
+/* Consistent button size for filter pills */
+.filter-pill {
+    font-size: 0.85rem;
+    border-radius: 999px;
+    padding: 6px 14px;
+    border: 1px solid #e5e7eb;
+    background: #ffffff;
+    color: #4b5563;
+    margin-left: 6px;
+    width: 120px;
+    text-align: center;
+    display: inline-block;
+}
 
-        .filter-pill.active {
-            background: #0d6efd;
-            color: #ffffff;
-            border-color: #0d6efd;
-        }
+.filter-pill.active {
+    background: #0d6efd;
+    color: #ffffff;
+    border-color: #0d6efd;
+}
 
-        .input-group {
-            display: flex;
-            align-items: center;
-            border: 1px solid #ddd;
-            border-radius: 30px;
-            width: 100%; /* Use full width for mobile */
-            max-width: 600px; /* Optional: You can adjust the max-width for larger screens */
-            margin: 0 auto; /* Center the search bar */
-        }
+/* Input Group */
+.input-group {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 30px;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
 
-        .input-group input.form-control {
-            border: none;
-            border-radius: 30px;
-            padding: 8px 15px;
-            font-size: 1rem;
-            flex-grow: 1; /* Make input fill remaining space */
-        }
+.input-group input.form-control {
+    border: none;
+    border-radius: 30px;
+    padding: 8px 15px;
+    font-size: 1rem;
+    flex-grow: 1;
+}
 
-        .input-group button {
-            border-radius: 30px;
-            background-color: #f1f1f1;
-            border: none;
-            padding: 8px 15px;
-            font-size: 1rem;
-            cursor: pointer;
-            margin-left: 10px; /* Space between the input field and button */
-        }   
+.input-group button {
+    border-radius: 30px;
+    background-color: #f1f1f1;
+    border: none;
+    padding: 8px 15px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-left: 10px;
+}   
+@media (max-width: 480px) {
+    .service-card {
+        width: 100%; /* Full width for cards on very small screens */
+        margin-bottom: 10px; /* Space between cards */
+    }
+}
+/* Mobile View Adjustments */
+@media (max-width: 768px) {
+    .summary-card {
+        display: none;
+    }
 
-        /* Remove Summary Cards for mobile view */
-        @media (max-width: 768px) {
-            .summary-card {
-                display: none; /* Hides summary cards on mobile */
-            }
+    .input-group {
+        width: 100%;
+    }
 
-            .input-group {
-                width: 100%;
-            }
-            .input-group button{
-                width: 25%;
-            }
+    .input-group button {
+        width: 25%;
+    }
 
-            .input-group select {
-                border-radius: 30px;
-                padding: 8px 15px;
-                font-size: 1rem;
-                border: 1px solid #ddd;
-                flex-grow: 1;
-            }
+    .input-group select,
+    .input-group input.form-control {
+        width: 75%;
+        border-radius: 30px;
+    }
 
-            .input-group input.form-control {
-                width: 75%;
-            }
+    /* Show dropdown filter only on mobile */
+    .d-none.d-md-flex {
+        display: none !important;
+    }
+    .modal-dialog{
+        max-width: 90% !important;
+        width: 100%;
+    }
+    .service-card{
+        width: 100%;
+    }
+}
 
-            /* Show dropdown filter only on mobile */
-            .d-none.d-md-flex {
-                display: none !important;
-            }
-        }
+/* Mobile responsive styles */
+@media (max-width: 900px) {
+    .d-md-none {
+        display: block;
+    }
 
-        /* Mobile responsive styles */
-        @media (max-width: 900px) {
-            .d-md-none {
-                display: block; /* Show dropdown on mobile */
-            }
+    .d-md-block {
+        display: none;
+    }
 
-            .d-md-block {
-                display: none; /* Hide search bar dropdown for smaller screens */
-            }
+    .input-group {
+        width: 100%;
+    }
 
-            .input-group {
-                width: 100%;
-            }
+    .input-group input.form-control {
+        width: 80%;
+    }
 
-            .input-group input.form-control {
-                width: 80%; /* Adjust width of search input on smaller screens */
-            }
+    .input-group button {
+        width: 18%;
+    }
 
-            .input-group button {
-                width: 18%; /* Adjust width of the button on smaller screens */
-            }
-            .row.mb-4{
-                display: none !important;
-            }
-        }
+    .row.mb-4 {
+        display: none !important;
+    }
+}
 
-        /* Modal Styling */
-        .modal-dialog {
-            max-width: 90%; /* Allow modal to take most of the screen width */
-        }
+/* Modal Styling */
+.modal-dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the modal */
+    max-width: 90%; /* Optional: You can adjust the max-width */
+    width: 100%; /* Make sure modal takes full width */
+}
 
-        .modal-body {
-            padding: 1rem;
-        }
+.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+    padding: 0;
+}
 
-        .modal-body .form-control,
-        .modal-body .form-select {
-            width: 100%; /* Ensure input fields take full width inside the modal */
-            margin-bottom: 1rem;
-        }
+.modal-body {
+    padding: 1rem;
+}
 
-        .modal-footer {
-            display: flex;
-            justify-content: flex-end;
-        }
+.modal-body .form-control,
+.modal-body .form-select {
+    width: 100%;
+    margin-bottom: 1rem;
+}
 
-        /* Icon Adjustments */
-        .service-label img {
-            width: 60px; /* Adjust icon size */
-            height: 60px;
-            margin-bottom: 10px;
-        }
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+}
 
-        /* Aligning the icon text properly */
-        .service-label div {
-            text-align: center;
-            font-size: 0.9rem;
-            color: #333;
-        }
-        /* Add Flexbox to each individual card container to center content */
-        .col-md-4 {
-            display: 0 0 33%;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: center;
-        }
-        /* Ensure the card itself is styled as intended */
-        .order-card {
-            width: 100%;  /* Ensure the card occupies the full width of its container */
-            max-width: 100%; /* Optional: Set max width if needed */
-            margin: 0 auto; /* Center the card horizontally */
-            padding: 10px 0px;
-            background-color: #fff;
-            border-radius: 20px;
-            border: none;
-        }
-        button.order-card-link {
-            width: 100%; /* Make the button take full width */
-            display: flex; /* Enable Flexbox layout for the button */
-            justify-content: center; /* Center content inside the button */
-            padding: 0; /* Remove default padding */
-            border-radius: 20px;
-        }
-        button.order-card-link:hover, button.order-card-link:focus {
-            background-color: #f0f0f0; /* Add hover/focus effects */
-        }
-        .order-card-header {
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
+/* Service Card Styles */
+.service-card {
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 10px;
+    display: inline-block;
+    width: calc(25% - 20px);
+    text-align: center;
+    background-color: #fff;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
 
-        .order-card-body p {
-            font-size: 1rem;
-            color: #333;
-        }
-        .order-title {
-            font-size: 1.2rem;
-            color: #000;
-        }
-        @media (max-width: 768px) {
-            .col-md-4 {
-                flex: 0 0 100%; /* Full width on smaller screens */
-            }
-        }
-        /* Pending Status (Yellow) */
-        .status-pending {
-            color: #FF930F; /* Text color */
-        }
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+}
 
-        /* In Progress Status (Blue) */
-        .status-progress {
-            color: #1E90FF; /* Text color */
-        }
+/* Service Label and Price */
+.service-label {
+    display: block;
+    padding: 10px;
+    font-size: 16px;
+    color: #333;
+}
 
-        /* Completed Status (Green) */
-        .status-completed {
-            color: #32CD32; /* Text color */
-        }
+.service-price {
+    font-size: 14px;
+    color: #777;
+    margin-top: 8px;
+}
+
+input[type="radio"] {
+    display: none;
+}
+
+input[type="radio"]:checked + .service-label {
+    border: 2px solid #007bff;
+    background-color: #e6f7ff;
+}
+
+.service-options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.service-label img {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 10px;
+}
+
+.service-label div {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .service-card {
+        width: 100%;
+        margin: 10px 0;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .service-label img {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+@media (max-width: 480px) {
+    .service-card {
+        width: 100%;
+    }
+}
+
+/* Add Flexbox to each individual card container */
+.col-md-4 {
+    display: 0 0 33%;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+/* Center the card content */
+.order-card {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 10px 0px;
+    background-color: #fff;
+    border-radius: 20px;
+    border: 2px solid #ccc;
+}
+
+button.order-card-link {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    border-radius: 20px;
+    border: none;
+}
+
+button.order-card-link:hover, button.order-card-link:focus {
+    background-color: #f0f0f0;
+}
+
+/* Order Card Header */
+.order-card-header {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.order-card-body p {
+    font-size: 1rem;
+    color: #333;
+}
+
+.order-title {
+    font-size: 1.2rem;
+    color: #000;
+}
+
+@media (max-width: 768px) {
+    .col-md-4 {
+        flex: 0 0 100%;
+    }
+}
+
+/* Status Text Color */
+.status-pending {
+    color: #FF930F;
+}
+
+.status-progress {
+    color: #1E90FF;
+}
+
+.status-completed {
+    color: #32CD32;
+}
+
+/* Hide link button if card is hidden */
+.order-card[style="display: none;"] .order-card-link {
+    display: none;
+}
 
     </style>
+
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -510,15 +614,40 @@
             }
         });
 
-    // Pass the OrderID to the modal when the order card is clicked
             var paymentModal = document.getElementById('paymentModal');
             paymentModal.addEventListener('show.bs.modal', function (event) {
-        // Get the OrderID from the button's data attributes
-        var button = event.relatedTarget;
+            var button = event.relatedTarget;
             var orderID = button.getAttribute('data-orderid');
-            // Store or use the OrderID (you can send it to the server for processing)
             console.log("Selected OrderID: " + orderID);
-        });
+            });
+
+        function filterOrders(status, button) {
+            // Get all the order cards
+            const orderCards = document.querySelectorAll('.order-card');
+
+            // Get all filter buttons to reset their active states
+            const filterButtons = document.querySelectorAll('.filter-pill');
+
+            // Remove 'active' class from all filter buttons
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+
+            // Add 'active' class to the clicked button
+            button.classList.add('active');
+
+            // Loop through each order card and filter them based on the status
+            orderCards.forEach(card => {
+                const orderStatus = card.querySelector('.order-status').textContent.trim(); // Get the status of the order
+
+                // Show cards that match the filter criteria
+                if (status === 'All' || orderStatus === status) {
+                    card.style.display = 'block';  // Show the card
+                } else {
+                    card.style.display = 'none';   // Hide the card if it doesn't match
+                }
+            });
+        }
+
+
 
     </script>
 </asp:Content>
