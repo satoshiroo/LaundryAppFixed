@@ -176,6 +176,21 @@
             font-size: 0.9rem;
             color: #333;
         }
+    .order-card {
+        background-color: #f8f9fc;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .order-card-header {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .order-card-body {
+        font-size: 14px;
+    }
     </style>
 </asp:Content>
 
@@ -250,28 +265,29 @@
         </div>
 
         <!-- Orders List Repeater -->
-        <div class="row" id="orderCards">
-            <asp:Repeater ID="rptOrders" runat="server">
-                <ItemTemplate>
-                    <div class="col-md-4 mb-4">
-                        <div class="order-card">
-                            <div class="order-card-header">
-                                <h5 class="order-title mb-0"><%# Eval("CustomerName") %></h5>
-                                <span class="order-status <%# Eval("Status") == "Pending" ? "status-pending" : Eval("Status") == "In Progress" ? "status-progress" : Eval("Status") == "Completed" ? "status-completed" : "" %>">
-                                    <%# Eval("Status") %>
-                                </span>
-                            </div>
-                            <div class="order-card-body">
-                                <p><strong>Service:</strong> <%# Eval("ServiceType") %></p>
-                                <p><strong>Total:</strong> $<%# Eval("TotalAmount") %></p>
-                                <p><strong>Due Date:</strong> <%# Eval("PickupDate") %></p>
+        <!-- Orders List Repeater -->
+            <div class="row" id="orderCards">
+                <asp:Repeater ID="rptOrders" runat="server">
+                    <ItemTemplate>
+                        <div class="col-md-4 mb-4">
+                            <div class="order-card">
+                                <div class="order-card-header">
+                                    <h5 class="order-title mb-0"><%# Eval("CustomerName") %></h5>
+                                    <span class="order-status <%# Eval("Status") == "Pending" ? "status-pending" : Eval("Status") == "In Progress" ? "status-progress" : Eval("Status") == "Completed" ? "status-completed" : "" %>">
+                                        <%# Eval("Status") %>
+                                    </span>
+                                </div>
+                                <div class="order-card-body">
+                                   <p><strong>Service:</strong> <%# Eval("ServiceType") != DBNull.Value ? Eval("ServiceType") : "N/A" %></p>
+                                   <p><strong>Total:</strong> $<%# Eval("TotalAmount") != DBNull.Value ? Eval("TotalAmount") : 0 %></p>
+                                   <p><strong>Due Date:</strong> <%# Eval("PickupDate") != DBNull.Value ? Eval("PickupDate") : "Not Provided" %></p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </ItemTemplate>
-            </asp:Repeater>
-        </div>
-    </div>
+                    </ItemTemplate>
+                </asp:Repeater>
+            </div>
+
 
     <!-- Modal: Place New Order -->
     <div class="modal fade" id="addOrderModal" tabindex="-1" aria-labelledby="addOrderLabel" aria-hidden="true">

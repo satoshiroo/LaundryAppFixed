@@ -14,57 +14,77 @@ namespace LaundryApp
         {
             if (!IsPostBack)
             {
+                Debug.WriteLine("Page_Load executed.");
                 LoadOrders();
 
-                // Fetch customer name, contact number, and address from the database
+                // Fetch customer data when the page is loaded
                 if (Session["UserID"] != null)
                 {
-                    string userID = Session["UserID"].ToString(); // Get the UserID from session
-                    string query = "SELECT FirstName, LastName, ContactNumber, Address FROM Users WHERE UserID = @UserID"; // Fetch Address as well
+                    string userID = Session["UserID"].ToString(); // Retrieve the UserID from session
+                    Debug.WriteLine("Session UserID: " + userID); // Check if UserID is set correctly
 
+                    string query = "SELECT FirstName, LastName, ContactNumber, Address FROM Users WHERE UserID = @UserID";
                     SqlCommand cmd = new SqlCommand(query, con);
                     cmd.Parameters.AddWithValue("@UserID", userID);
 
-                    con.Open();
-                    SqlDataReader reader = cmd.ExecuteReader();
-
-                    if (reader.HasRows)
+                    try
                     {
-                        reader.Read();
-                        string firstName = reader["FirstName"].ToString();
-                        string lastName = reader["LastName"].ToString();
-                        string contactNumber = reader["ContactNumber"].ToString(); // Fetch ContactNumber from the database
-                        string address = reader["Address"].ToString(); // Fetch Address from the database
+                        con.Open();
+                        SqlDataReader reader = cmd.ExecuteReader();
 
-                        // Combine first and last name and set the textbox value for Customer Name
-                        txtCustomerName.Text = firstName + " " + lastName;
+                        if (reader.HasRows)
+                        {
+                            reader.Read();
+                            string firstName = reader["FirstName"].ToString();
+                            string lastName = reader["LastName"].ToString();
+                            string contactNumber = reader["ContactNumber"].ToString();
+                            string address = reader["Address"].ToString();
 
-                        // Set the ContactNumber textbox value
-                        txtContact.Text = contactNumber;
+                            // Combine first and last name and set the textbox value for Customer Name
+                            txtCustomerName.Text = firstName + " " + lastName;
 
-                        // Set the current address in the address textbox
-                        txtAddress.Text = address;
+                            // Set the ContactNumber textbox value
+                            txtContact.Text = contactNumber;
+
+                            // Set the Address textbox value
+                            txtAddress.Text = address;
+
+                            Debug.WriteLine($"Fetched Data: {firstName} {lastName}, {contactNumber}, {address}");
+                        }
+                        else
+                        {
+                            Debug.WriteLine("No customer data found.");
+                        }
+
+                        reader.Close();
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        Debug.WriteLine("No customer data found for the given UserID.");
+                        Debug.WriteLine("Error: " + ex.Message);
                     }
-
-                    reader.Close();
-                    con.Close();
+                    finally
+                    {
+                        if (con.State == ConnectionState.Open)
+                            con.Close();
+                    }
                 }
-
-                // Set default selection to "Pickup"
-                ddlPickupDelivery.SelectedValue = "Pickup";
+                else
+                {
+                    Debug.WriteLine("Session is null or expired.");
+                    Response.Redirect("~/Login.aspx"); // If session expired, redirect to login page
+                }
             }
         }
 
+
+        // Handling the Pickup/Delivery selection change
         protected void ddlPickupDelivery_SelectedIndexChanged(object sender, EventArgs e)
         {
             string selectedValue = ddlPickupDelivery.SelectedValue;
             ToggleFieldsVisibility(selectedValue);
         }
 
+        // Toggle visibility of fields based on Pickup or Delivery selection
         private void ToggleFieldsVisibility(string selectedValue)
         {
             if (selectedValue == "Pickup")
@@ -72,52 +92,88 @@ namespace LaundryApp
                 // Show Pickup Date, Hide Delivery Address
                 pickupDateDiv.Visible = true;
                 deliveryAddressDiv.Visible = false;
+                deliveryDateDiv.Visible = false; // Hide Delivery Date
             }
             else if (selectedValue == "Delivery")
             {
                 // Hide Pickup Date, Show Delivery Address
                 pickupDateDiv.Visible = false;
                 deliveryAddressDiv.Visible = true;
+                deliveryDateDiv.Visible = true; // Show Delivery Date
             }
         }
 
+        // Function to load orders
         void LoadOrders()
         {
             try
             {
-                string query = @"SELECT 
-                    o.OrderID, 
-                    u.FirstName + ' ' + u.LastName AS CustomerName, 
-                    o.Contact, 
-                    o.Status, 
-                    o.TotalAmount, 
-                    o.OrderDate, 
-                    o.PickupDate, 
-                    o.DeliveryDate, 
-                    u.Address AS DeliveryAddress,  
-                    o.UserID
-                FROM dbo.Orders o
-                INNER JOIN dbo.Users u ON o.UserID = u.UserID; ";
+                // Ensure UserID is present in the session
+                if (Session["UserID"] != null)
+                {
+                    string userID = Session["UserID"].ToString(); // Retrieve logged-in UserID
 
-                SqlDataAdapter da = new SqlDataAdapter(query, con);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
+                    // Modified query to load orders for the logged-in user
+                    string query = @"
+            SELECT 
+                o.OrderID, 
+                u.FirstName + ' ' + u.LastName AS CustomerName, 
+                o.Contact, 
+                o.Status, 
+                o.TotalAmount, 
+                o.DateCreated AS OrderDate, 
+                o.PickupDate, 
+                o.DeliveryDate, 
+                u.Address AS DeliveryAddress,  
+                o.UserID,
+                o.ServiceType
+            FROM dbo.Orders o
+            INNER JOIN dbo.Users u ON o.UserID = u.UserID
+            WHERE o.UserID = @UserID"; // Add filtering by UserID
 
-                rptOrders.DataSource = dt;
-                rptOrders.DataBind();
+                    SqlCommand cmd = new SqlCommand(query, con);
+                    cmd.Parameters.AddWithValue("@UserID", userID); // Add parameter to query
 
-                lblTotalOrders.Text = dt.Rows.Count.ToString();
-                lblPending.Text = dt.Select("Status = 'Pending'").Length.ToString();
-                lblInProgress.Text = dt.Select("Status = 'In Progress'").Length.ToString();
-                lblCompleted.Text = dt.Select("Status = 'Completed'").Length.ToString();
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+
+                    // Check if there are any orders
+                    if (dt.Rows.Count > 0)
+                    {
+                        Debug.WriteLine("Orders found: " + dt.Rows.Count); // Log the number of orders found
+                    }
+                    else
+                    {
+                        Debug.WriteLine("No orders found for this user.");
+                    }
+
+                    // Bind the data to the Repeater
+                    rptOrders.DataSource = dt;
+                    rptOrders.DataBind();
+
+                    // Update the order summary labels
+                    lblTotalOrders.Text = dt.Rows.Count.ToString();
+                    lblPending.Text = dt.Select("Status = 'Pending'").Length.ToString();
+                    lblInProgress.Text = dt.Select("Status = 'In Progress'").Length.ToString();
+                    lblCompleted.Text = dt.Select("Status = 'Completed'").Length.ToString();
+                }
+                else
+                {
+                    Debug.WriteLine("UserID session is null or expired.");
+                    Response.Redirect("~/Login.aspx"); // If session expired, redirect to login page
+                }
             }
             catch (Exception ex)
             {
+                Debug.WriteLine("Error loading orders: " + ex.Message);
                 Response.Write("<script>alert('Error loading orders: " + ex.Message + "');</script>");
             }
         }
 
-        // Function to fetch the service details (ServiceID and Price)
+
+
+        // Function to fetch service details (ServiceID and Price)
         private Tuple<int, decimal> GetServiceDetails(string serviceName)
         {
             int serviceID = 0;
@@ -141,29 +197,32 @@ namespace LaundryApp
             return new Tuple<int, decimal>(serviceID, price);
         }
 
-        // Add the event handler for btnSearch
+        // Search functionality for orders
         protected void btnSearch_Click(object sender, EventArgs e)
         {
             string searchTerm = txtSearch.Value.Trim();
             if (!string.IsNullOrEmpty(searchTerm))
             {
-                string query = @"SELECT 
-                    o.OrderID, 
-                    u.FirstName + ' ' + u.LastName AS CustomerName, 
-                    o.Contact, 
-                    o.Status, 
-                    o.TotalAmount, 
-                    o.OrderDate, 
-                    o.PickupDate, 
-                    o.DeliveryDate, 
-                    u.Address AS DeliveryAddress,  
-                    o.UserID
-                FROM dbo.Orders o
-                INNER JOIN dbo.Users u ON o.UserID = u.UserID
-                WHERE o.OrderID LIKE @SearchTerm OR u.FirstName LIKE @SearchTerm OR u.LastName LIKE @SearchTerm OR o.Status LIKE @SearchTerm";
+                string query = @"
+            SELECT 
+                o.OrderID, 
+                u.FirstName + ' ' + u.LastName AS CustomerName, 
+                o.Contact, 
+                o.Status, 
+                o.TotalAmount, 
+                o.DateCreated AS OrderDate, 
+                o.PickupDate, 
+                o.DeliveryDate, 
+                u.Address AS DeliveryAddress,  
+                o.UserID,
+                o.ServiceType
+            FROM dbo.Orders o
+            INNER JOIN dbo.Users u ON o.UserID = u.UserID
+            WHERE o.UserID = @UserID AND (o.OrderID LIKE @SearchTerm OR u.FirstName LIKE @SearchTerm OR u.LastName LIKE @SearchTerm OR o.Status LIKE @SearchTerm)";
 
                 SqlCommand cmdSearch = new SqlCommand(query, con);
                 cmdSearch.Parameters.AddWithValue("@SearchTerm", "%" + searchTerm + "%");
+                cmdSearch.Parameters.AddWithValue("@UserID", Session["UserID"]); // Add filtering by UserID
 
                 SqlDataAdapter da = new SqlDataAdapter(cmdSearch);
                 DataTable dt = new DataTable();
@@ -179,10 +238,12 @@ namespace LaundryApp
             }
             else
             {
-                LoadOrders(); // Reload all orders if search term is empty
+                LoadOrders(); // Reload orders if search term is empty
             }
         }
 
+
+        // Save order functionality
         protected void btnSaveOrder_Click(object sender, EventArgs e)
         {
             try
@@ -272,6 +333,5 @@ namespace LaundryApp
                 Response.Write("<script>alert('Error adding order: " + ex.Message + "');</script>");
             }
         }
-
     }
 }
