@@ -1,156 +1,98 @@
-﻿/* ======= Admin Panel Container ======= */
-.admin-panel {
-    max-height: 900px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+﻿.admin-panel {
+    font-family: 'Segoe UI', sans-serif;
 }
 
-/* ======= Messages Layout ======= */
 .messages-container {
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
     gap: 20px;
     padding: 20px;
     background: #f0f2f5;
-    min-height: 100vh;
-    overflow-x: hidden;
-    
+    min-height: 90vh;
 }
 
-/* ======= Customer / User List ======= */
 .customer-list {
-    height: 600px;
-    width: 350px;
-    padding:20px;
+    width: 300px;
     background: #fff;
     border-radius: 15px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.08);
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    height: 80vh;
 }
 
-/* Sticky search bar like Messenger */
-.search-wrapper {
-    padding: 12px;
+.search-box {
     position: sticky;
     top: 0;
-    background: #fff;
-    border-bottom: 1px solid #ddd;
     z-index: 10;
-}
-
-.user-list {
-    overflow-y: auto;
-    flex-grow: 1;
+    margin-bottom: 10px;
     padding: 10px;
 }
 
 .user-item {
-    background: #fff;
-    color: #1c1e21;
-    width: 100%;
-    padding: 12px 15px;
+    padding: 10px 15px;
     border-radius: 12px;
-    margin-bottom: 8px;
+    margin: 5px;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    transition: all 0.2s ease;
+    transition: 0.2s;
 }
 
-    .user-item:hover {
-        background: #f0f2f5;
-    }
-
-    .user-item.active {
+    .user-item:hover, .user-item.active {
         background: #1877f2;
         color: #fff;
     }
 
-/* ======= Chat Box ======= */
 .chat-box {
+    flex-grow: 1;
     background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    border-radius: 15px;
-    width: 900px;
-    height: 600px;
     padding: 15px;
-    overflow: hidden;
+    height: 80vh;
 }
 
-/* Chat messages scrolling area */
 .messages {
     flex-grow: 1;
-    padding-right: 5px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
+    padding-right: 5px;
 }
 
-/* Individual message bubbles */
 .message {
     max-width: 70%;
     padding: 10px 16px;
     border-radius: 20px;
     font-size: 14px;
-    line-height: 1.4;
     word-wrap: break-word;
     box-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
-    /* User messages (left) */
     .message.user {
         background: #e4e6eb;
-        color: #050505;
         align-self: flex-start;
-        border-top-left-radius: 4px;
-        border-top-right-radius: 20px;
-        border-bottom-left-radius: 20px;
-        border-bottom-right-radius: 20px;
     }
 
-    /* Admin messages (right) */
     .message.admin {
         background: #1877f2;
         color: #fff;
         align-self: flex-end;
-        border-top-left-radius: 20px;
-        border-top-right-radius: 4px;
-        border-bottom-left-radius: 20px;
-        border-bottom-right-radius: 20px;
     }
 
-/* Smooth scrolling  */
-.messages::-webkit-scrollbar {
-    width: 6px;
-}
-
-.messages::-webkit-scrollbar-thumb {
-    background-color: rgba(0,0,0,0.2);
-    border-radius: 3px;
-}
-
-/* ======= Message Input ======= */
 .message-input {
     display: flex;
     gap: 10px;
-    padding-top: 10px;
     border-top: 1px solid #ddd;
+    padding-top: 10px;
 }
 
     .message-input .form-control {
-        border-radius: 25px;
-        background: #f0f2f5;
-        border: 1px solid #ddd;
-        padding: 10px 15px;
         flex-grow: 1;
-        font-size: 14px;
+        border-radius: 25px;
+        padding: 10px 15px;
     }
 
 .btn-primary {
@@ -158,16 +100,13 @@
     border: none;
     padding: 10px 20px;
     border-radius: 25px;
-    color: white;
-    cursor: pointer;
-    transition: all 0.2s ease;
 }
 
     .btn-primary:hover {
         background: #166fe5;
     }
 
-/* ======= Responsive ======= */
+/* Responsive */
 @media (max-width: 1200px) {
     .messages-container {
         flex-direction: column;
@@ -184,7 +123,4 @@
         height: 400px;
         margin-bottom: 20px;
     }
-}
-.messages {
-    scroll-behavior: smooth;
 }
