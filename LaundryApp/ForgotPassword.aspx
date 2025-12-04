@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
-    <link href="forgotpass.css" rel="stylesheet" />
+    <link href="Forgotpass.css" rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
@@ -16,9 +16,10 @@
 
             <!-- FORM BOX -->
             <div class="Form">
+                
 
                 <!-- IMAGE -->
-                <img src="Img/forgotpassword.png" CssClass="forgot-img" width="40%"/>
+                <img src="Img/forgotpassword.png" CssClass="forgot-img" width="30%"/>
           
                 <!-- DESCRIPTION -->
                 <div class="Description">
@@ -27,15 +28,17 @@
                     <p>
                         Don't worry! Resetting your password is easy. Just type in the email you used to register at Press & Dry Laundry Services.
                     </p>
+                    
                 </div>
-
-
-                <!-- ASP.NET EMAIL TEXTBOX -->
-                <asp:TextBox ID="txtResetEmail" runat="server" CssClass="input" 
-                    placeholder="Enter your Email" TextMode="Email"></asp:TextBox>
+           
+<div class="input-wrapper">
+    <asp:TextBox ID="txtUsername" runat="server" CssClass="input" 
+        placeholder="Enter your Username"></asp:TextBox>
+    <asp:Label ID="msg" runat="server" CssClass="error-text" Text="Username is required"></asp:Label>
+</div>
 
                 <!-- RESET PASSWORD BUTTON -->
-                <asp:Button ID="btnResetPassword" runat="server" Text="Reset Password" CssClass="btn" />
+                <asp:Button ID="btnForgotPassword" runat="server" Text="Forgot Password" CssClass="btn" OnClick="btnForgot_Click"  />
 
                 <!-- REMEMBER PASSWORD LINK -->
                 <div class="rememberpass">

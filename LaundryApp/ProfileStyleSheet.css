@@ -287,7 +287,7 @@ input::placeholder {
     justify-content:center;
     height: 50px;
     border-radius: 8px;
-    background: #ff7875;
+    background: #fe625f;
     color: #fff;
     border: none;
     font-size: 16px;
@@ -297,5 +297,5 @@ input::placeholder {
 }
 
     .Logoutbtn:hover {
-        background-color: #ff7875;
+        background-color: #eb2c27;
     }

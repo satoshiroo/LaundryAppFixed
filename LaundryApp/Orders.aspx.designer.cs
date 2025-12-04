@@ -51,6 +51,15 @@ namespace LaundryApp
         protected global::System.Web.UI.WebControls.Label lblCompleted;
 
         /// <summary>
+        /// txtSearch control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtSearch;
+
+        /// <summary>
         /// rptOrders control.
         /// </summary>
         /// <remarks>
@@ -78,15 +87,6 @@ namespace LaundryApp
         protected global::System.Web.UI.WebControls.TextBox txtContact;
 
         /// <summary>
-        /// rblServiceType control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButtonList rblServiceType;
-
-        /// <summary>
         /// ddlPickupDelivery control.
         /// </summary>
         /// <remarks>
@@ -96,13 +96,49 @@ namespace LaundryApp
         protected global::System.Web.UI.WebControls.DropDownList ddlPickupDelivery;
 
         /// <summary>
+        /// pickupDateDiv control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl pickupDateDiv;
+
+        /// <summary>
         /// txtPickupDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtPickupDate;
+        protected global::System.Web.UI.HtmlControls.HtmlInputGenericControl txtPickupDate;
+
+        /// <summary>
+        /// deliveryDateDiv control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl deliveryDateDiv;
+
+        /// <summary>
+        /// txtDeliveryDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputGenericControl txtDeliveryDate;
+
+        /// <summary>
+        /// deliveryAddressDiv control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl deliveryAddressDiv;
 
         /// <summary>
         /// txtAddress control.
@@ -112,15 +148,6 @@ namespace LaundryApp
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAddress;
-
-        /// <summary>
-        /// ddlSavedAddress control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlSavedAddress;
 
         /// <summary>
         /// txtTotal control.

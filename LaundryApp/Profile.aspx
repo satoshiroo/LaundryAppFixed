@@ -200,6 +200,7 @@
 
                     </div> <!-- end security_info -->
 
+                    <asp:Button ID="LogoutLink" runat="server" CssClass="Logoutbtn" Text="Logout" />
                 </div> <!-- end Security -->
 
             </div> <!-- end col-md-12 -->

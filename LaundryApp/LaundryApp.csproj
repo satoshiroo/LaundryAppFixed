@@ -89,13 +89,14 @@
     <Content Include="bootstrap\js\bootstrap.esm.min.js" />
     <Content Include="bootstrap\js\bootstrap.js" />
     <Content Include="bootstrap\js\bootstrap.min.js" />
-    <Content Include="forgotpass.css" />
+    <Content Include="Forgotpass.css" />
     <Content Include="img\forgotpassword.png" />
     <Content Include="Login.css" />
     <Content Include="img\pfp.jpg" />
     <Content Include="messages.css" />
     <Content Include="ProfileStyleSheet.css" />
     <Content Include="ResetPassword.aspx" />
+    <Content Include="resetpassword.css" />
     <Content Include="SignUp.aspx" />
     <Content Include="SignUp.css" />
     <Content Include="Web.config" />
