@@ -46,23 +46,43 @@ namespace LaundryApp
 
         private void LoadMessages()
         {
+            if (Session["UserRole"] == null) return;
+            string role = Session["UserRole"].ToString();
+
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
                 string query = "SELECT Sender, MessageText FROM Messages ORDER BY SentDate";
                 SqlCommand cmd = new SqlCommand(query, conn);
+
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
-                    var sb = new StringBuilder();
+                    var sbAdmin = new StringBuilder();
+                    var sbUser = new StringBuilder();
+
                     while (reader.Read())
                     {
                         string sender = reader["Sender"].ToString();
                         string msg = reader["MessageText"].ToString();
-                        string cssClass = sender == "Admin" ? "admin" : "user";
-                        sb.AppendFormat("<div class='message {0}'>{1}</div>", cssClass, HttpUtility.HtmlEncode(msg));
+                        string cssClass = "user"; // default grey
+
+                        // Determine bubble color based on logged-in user
+                        if (role == "Admin")
+                        {
+                            cssClass = sender == "Admin" ? "admin" : "user";
+                        }
+                        else // Customer logged in
+                        {
+                            cssClass = sender == "Customer" ? "admin" : "user";
+                        }
+
+                        string formatted = $"<div class='message {cssClass}'>{HttpUtility.HtmlEncode(msg)}</div>";
+                        sbAdmin.Append(formatted);
+                        sbUser.Append(formatted);
                     }
-                    litMessages.Text = sb.ToString();
-                    litUserMessages.Text = litMessages.Text;
+
+                    litMessages.Text = sbAdmin.ToString();
+                    litUserMessages.Text = sbUser.ToString();
                 }
             }
         }
@@ -73,8 +93,11 @@ namespace LaundryApp
             if (string.IsNullOrEmpty(msg)) return;
 
             SaveMessage("Admin", msg);
-            litMessages.Text += $"<div class='message admin'>{msg}</div>";
-            litUserMessages.Text += $"<div class='message admin'>{msg}</div>";
+
+            string cssClass = Session["UserRole"].ToString() == "Admin" ? "admin" : "user";
+
+            litMessages.Text += $"<div class='message {cssClass}'>{HttpUtility.HtmlEncode(msg)}</div>";
+            litUserMessages.Text += $"<div class='message {cssClass}'>{HttpUtility.HtmlEncode(msg)}</div>";
             txtReply.Text = "";
         }
 
@@ -84,8 +107,11 @@ namespace LaundryApp
             if (string.IsNullOrEmpty(msg)) return;
 
             SaveMessage("Customer", msg);
-            litMessages.Text += $"<div class='message user'>{msg}</div>";
-            litUserMessages.Text += $"<div class='message user'>{msg}</div>";
+
+            string cssClass = Session["UserRole"].ToString() == "Customer" ? "admin" : "user";
+
+            litMessages.Text += $"<div class='message {cssClass}'>{HttpUtility.HtmlEncode(msg)}</div>";
+            litUserMessages.Text += $"<div class='message {cssClass}'>{HttpUtility.HtmlEncode(msg)}</div>";
             txtUserReply.Text = "";
         }
 

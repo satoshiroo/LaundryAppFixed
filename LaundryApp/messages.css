@@ -74,12 +74,18 @@
     .message.user {
         background: #e4e6eb;
         align-self: flex-start;
+        margin-left: 10px; /* space from left */
+        margin-right: auto; /* push away from right */
+        padding: 10px 16px;
     }
 
     .message.admin {
         background: #1877f2;
         color: #fff;
         align-self: flex-end;
+        margin-right: 10px; /* space from right */
+        margin-left: auto; /* push away from left */
+        padding: 10px 16px;
     }
 
 .message-input {
