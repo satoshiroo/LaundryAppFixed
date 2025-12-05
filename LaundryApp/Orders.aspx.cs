@@ -24,7 +24,7 @@ namespace LaundryApp
                     string userID = Session["UserID"].ToString(); // Retrieve the UserID from session
                     Debug.WriteLine("Session UserID: " + userID); // Check if UserID is set correctly
 
-                    string query = "SELECT FirstName, LastName, ContactNumber, Address, UserRole FROM Users WHERE UserID = @UserID";
+                    string query = "SELECT FullName, ContactNumber, Address, UserRole FROM Users WHERE UserID = @UserID";
                     SqlCommand cmd = new SqlCommand(query, con);
                     cmd.Parameters.AddWithValue("@UserID", userID);
 
@@ -36,18 +36,15 @@ namespace LaundryApp
                         if (reader.HasRows)
                         {
                             reader.Read();
-                            string firstName = reader["FirstName"].ToString();
-                            string lastName = reader["LastName"].ToString();
+                            string fullName = reader["FullName"].ToString();
                             string contactNumber = reader["ContactNumber"].ToString();
                             string address = reader["Address"].ToString();
                             string userRole = reader["UserRole"].ToString();
 
-                            txtCustomerName.Text = firstName + " " + lastName;
+                            txtCustomerName.Text = fullName;
                             txtContact.Text = contactNumber;
                             txtAddress.Text = address;
 
-                            // Debugging output
-                            Debug.WriteLine($"Fetched Data: {firstName} {lastName}, {contactNumber}, {address}, Role: {userRole}");
 
                             if (userRole == "Admin")
                             {
@@ -174,7 +171,7 @@ namespace LaundryApp
                         query = @"
             SELECT 
                 o.OrderID, 
-                u.FirstName + ' ' + u.LastName AS CustomerName, 
+                u.FullName AS CustomerName, 
                 o.Contact, 
                 o.Status, 
                 o.TotalAmount, 
@@ -199,7 +196,7 @@ namespace LaundryApp
                         query = @"
             SELECT 
                 o.OrderID, 
-                u.FirstName + ' ' + u.LastName AS CustomerName, 
+                u.FullName AS CustomerName, 
                 o.Contact, 
                 o.Status, 
                 o.TotalAmount, 
@@ -328,54 +325,7 @@ namespace LaundryApp
 
             return new Tuple<int, decimal>(serviceID, price);
         }
-
-        // Search functionality for orders
-        protected void btnSearch_Click(object sender, EventArgs e)
-        {
-            string searchTerm = txtSearch.Value.Trim();
-            if (!string.IsNullOrEmpty(searchTerm))
-            {
-                string query = @"
-                    SELECT 
-                        o.OrderID, 
-                        u.FirstName + ' ' + u.LastName AS CustomerName, 
-                        o.Contact, 
-                        o.Status, 
-                        o.TotalAmount, 
-                        o.DateCreated AS OrderDate, 
-                        o.PickupDate, 
-                        o.DeliveryDate, 
-                        u.Address AS DeliveryAddress,  
-                        o.UserID,
-                        o.ServiceType
-                    FROM dbo.Orders o
-                    INNER JOIN dbo.Users u ON o.UserID = u.UserID
-                    WHERE o.UserID = @UserID AND (o.OrderID LIKE @SearchTerm OR u.FirstName LIKE @SearchTerm OR u.LastName LIKE @SearchTerm OR o.Status LIKE @SearchTerm)";
-
-                using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["LaundryConnection"].ConnectionString))
-                {
-                    SqlCommand cmdSearch = new SqlCommand(query, con);
-                    cmdSearch.Parameters.AddWithValue("@SearchTerm", "%" + searchTerm + "%");
-                    cmdSearch.Parameters.AddWithValue("@UserID", Session["UserID"]); // Add filtering by UserID
-
-                    SqlDataAdapter da = new SqlDataAdapter(cmdSearch);
-                    DataTable dt = new DataTable();
-                    da.Fill(dt);
-
-                    rptOrders.DataSource = dt;
-                    rptOrders.DataBind();
-
-                    lblTotalOrders.Text = dt.Rows.Count.ToString();
-                    lblPending.Text = dt.Select("Status = 'Pending'").Length.ToString();
-                    lblInProgress.Text = dt.Select("Status = 'In Progress'").Length.ToString();
-                    lblCompleted.Text = dt.Select("Status = 'Completed'").Length.ToString();
-                }
-            }
-            else
-            {
-                LoadOrders(); // Reload orders if search term is empty
-            }
-        }
+        
 
         private string GenerateOrderID()
         {

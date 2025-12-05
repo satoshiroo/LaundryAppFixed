@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
@@ -13,86 +13,95 @@ namespace Laundry_Login
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            // Prevent caching of the login page to avoid the page being cached in history
-            Response.Cache.SetExpires(DateTime.Now.AddMinutes(-1));  // Set expiration to a past date
-            Response.Cache.SetCacheability(HttpCacheability.NoCache);  // Prevent caching
-            Response.Cache.SetNoStore();  // Do not store the page in cache
+            // Prevent caching of the login page
+            Response.Cache.SetExpires(DateTime.Now.AddMinutes(-1));
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Response.Cache.SetNoStore();
 
-            // If the user is already logged in (session exists), redirect them to the Dashboard
+            // Hide message initially
+            if (!IsPostBack)
+            {
+                msg.Visible = false;
+            }
+
+            // If already logged in
             if (Session["UserRole"] != null)
             {
                 Response.Redirect("Dashboard.aspx");
             }
         }
 
-        // Method to hash the password using SHA256
-        public string HashPassword(string password)
+        // HASH PASSWORD WITH SHA256
+        private string HashPassword(string password)
         {
-            using (SHA256 sha256Hash = SHA256.Create())
+            using (SHA256 sha = SHA256.Create())
             {
-                // Convert the string to a byte array and compute the hash.
-                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
+                byte[] bytes = sha.ComputeHash(Encoding.UTF8.GetBytes(password));
+                StringBuilder sb = new StringBuilder();
 
-                // Convert the byte array to a string.
-                StringBuilder builder = new StringBuilder();
-                for (int i = 0; i < bytes.Length; i++)
-                {
-                    builder.Append(bytes[i].ToString("x2"));
-                }
-                return builder.ToString();
+                foreach (byte b in bytes)
+                    sb.AppendFormat("{0:x2}", b);
+
+                return sb.ToString();
             }
         }
 
         protected void signin_Click(object sender, EventArgs e)
         {
-            string email = txtUsername.Text;
-            string password = txtPassword.Text;
+            string usernameOrEmail = txtUsername.Text.Trim();
+            string password = txtPassword.Text.Trim();
             string hashedPassword = HashPassword(password);
 
-            Debug.WriteLine("Username: " + email); // This will show in the Output window
-            Debug.WriteLine("Hashed Password: " + hashedPassword);
-
             string connString = ConfigurationManager.ConnectionStrings["LaundryConnection"].ConnectionString;
-            string query = "SELECT UserID, UserRole FROM Users WHERE Email = @Email AND Password = @Password";
+
+            // YOU CAN USE EITHER USERNAME OR EMAIL HERE
+            string query = @"
+                SELECT UserID, UserRole 
+                FROM Users 
+                WHERE (Username = @User OR Email = @User)
+                AND Password = @Password";
 
             using (SqlConnection conn = new SqlConnection(connString))
+            using (SqlCommand cmd = new SqlCommand(query, conn))
             {
-                using (SqlCommand cmd = new SqlCommand(query, conn))
+                cmd.Parameters.Add("@User", SqlDbType.VarChar).Value = usernameOrEmail;
+                cmd.Parameters.Add("@Password", SqlDbType.VarChar).Value = hashedPassword;
+
+                try
                 {
-                    cmd.Parameters.AddWithValue("@Email", email);
-                    cmd.Parameters.AddWithValue("@Password", hashedPassword);
+                    conn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
 
-                    try
+                    if (reader.HasRows)
                     {
-                        conn.Open();
-                        SqlDataReader reader = cmd.ExecuteReader();
-                        if (reader.HasRows)
-                        {
-                            reader.Read();
-                            string userRole = reader["UserRole"].ToString();
-                            string userID = reader["UserID"].ToString(); // Retrieve UserID from database
+                        reader.Read();
 
-                            // Store the user role and userID in session
-                            Session["UserRole"] = userRole;
-                            Session["UserID"] = userID; // Store UserID in session
+                        Session["UserID"] = reader["UserID"].ToString();
+                        Session["UserRole"] = reader["UserRole"].ToString();
 
-                            // Redirect to Dashboard (this is the unified dashboard for both Admin and User)
-                            Response.Redirect("Dashboard.aspx");
-                        }
-                        else
-                        {
-                            msg.Text = "Invalid username or password!";
-                            msg.ForeColor = System.Drawing.Color.Red;
-                        }
+                        Response.Redirect("Dashboard.aspx");
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        // Log the error (optional)
-                        msg.Text = "An error occurred: " + ex.Message;
-                        msg.ForeColor = System.Drawing.Color.Red;
+                        ShowError("Invalid username or password!");
                     }
                 }
+                catch (Exception ex)
+                {
+                    ShowError("An error occurred: " + ex.Message);
+                }
             }
+        }
+
+        // REUSABLE ERROR MESSAGE FUNCTION
+        private void ShowError(string message)
+        {
+            msg.Text = message;
+            msg.Visible = true;
+            msg.ForeColor = System.Drawing.Color.Red;
+
+            // Fade-in animation (JS)
+            ScriptManager.RegisterStartupScript(this, GetType(), "showError", "showErrorMessage();", true);
         }
     }
 }

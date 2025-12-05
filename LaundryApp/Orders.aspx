@@ -148,29 +148,36 @@ body {
     }
 }
 
-/* Service Card Styles */
+    /* Service Card Styles */
 .service-card {
-    width: 23%; /* Adjust the width to fit 4 items in one row */
-    margin-bottom: 15px; /* Space between rows */
+    width: 23%;
+    margin-bottom: 15px;
     text-align: center;
     background-color: #f7f7f7;
-    padding: 20px;
+    padding: 15px;
     border-radius: 12px;
     border: 1px solid #ccc;
     transition: all 0.3s ease;
 }
 
+.service-card.active {
+    background-color: #e6f7ff;  /* Light blue background when selected */
+    border: 1px solid #007bff; /* Blue border when selected */
+}
+
+/* Hover effect */
 .service-card:hover {
     transform: translateY(-5px);
     box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
 }
 
+
 /* Service Label and Price */
 .service-label {
     display: block;
-    padding: 10px;
     font-size: 16px;
     color: #333;
+    cursor: pointer;
 }
 
 .service-price {
@@ -282,13 +289,20 @@ button.order-card-link:focus {
 }
 
 .status-completed {
+    color: black;
+}
+.status-ready{
     color: #32CD32;
 }
 
 /* Hide link button if card is hidden */
+/* Hide the order card and its link when the card is hidden */
+.order-card[style="display: none;"], 
 .order-card[style="display: none;"] .order-card-link {
-    display: none;
+    display: none !important;  /* Ensure both card and link button are hidden */
+    box-shadow: none !important;  /* Remove shadow */
 }
+
 
 #addOrderModal .modal-dialog {
     position: fixed;
@@ -363,16 +377,10 @@ button.order-card-link:focus {
     box-shadow: 0 0 10px rgba(0, 123, 255, 0.5); /* Optional: box shadow for emphasis */
 }
 
-/* Ensure the entire service card changes when selected */
-.service-card input[type="radio"]:checked + .service-label {
-    background-color: #e6f7ff;  /* Light blue background for the selected card */
-    border: 2px solid #007bff; /* Border color */
-}
 
 /* Default state for the service card when not selected */
-.service-card input[type="radio"]:not(:checked) + .service-label {
+.service-card input[type="radio"]:not(:checked) + .service-label, {
     background-color: #f7f7f7; /* Default background color */
-    border: 2px solid #ccc; /* Default border */
     box-shadow: none;  /* Remove box shadow when not selected */
 }
 
@@ -404,6 +412,19 @@ button.order-card-link:focus {
     }
     .toolbar-card.mb-4{
     }
+}
+#paymentModal .modal-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+#paymentModal .modal-body img {
+    max-width: 100%;
+    max-height: 300px; /* Adjust the max height to fit your needs */
+    width: auto;
+    height: auto;
 }
 
     </style>
@@ -451,8 +472,10 @@ button.order-card-link:focus {
             <div class="d-flex align-items-center justify-content-between gap-3">
                 <!-- Search Bar Container -->
                 <div class="input-group flex-grow-1">
-                    <input type="text" class="form-control" placeholder="Search by order ID or service..." id="Text1" runat="server" />
+                    <input type="text" class="form-control" runat="server" placeholder= "Search by order ID or service..." id="adminSearchInput" />
                 </div>
+
+
 
                 <!-- Order Status Filters (Desktop Only) -->
                 <div class="d-none d-md-flex align-items-center ms-lg-3">
@@ -478,7 +501,7 @@ button.order-card-link:focus {
             <div class="row" id="orderCardsAdminView">
                 <asp:Repeater ID="Repeater1" runat="server">
                     <ItemTemplate>
-                        <div class="col-md-4 mb-4">
+                        <div class="col-md-4 mb-4" style='<%# Eval("Status") == DBNull.Value || Eval("ServiceType") == DBNull.Value || Eval("TotalAmount") == DBNull.Value ? "display:none;" : "" %>'>
                             <button type="button" class="order-card-link" data-bs-toggle="modal" data-bs-target="#statusChangeModal" 
                                     onclick="setOrderID('<%# Eval("OrderID") %>', '<%# Eval("Status") %>')">
                                 <div class="order-card">
@@ -486,7 +509,8 @@ button.order-card-link:focus {
                                         <span class="order-status 
                                             <%# Eval("Status").ToString() == "Pending" ? "status-pending" : 
                                                 (Eval("Status").ToString() == "In Progress" ? "status-progress" : 
-                                                (Eval("Status").ToString() == "Completed" ? "status-completed" : "")) %>">
+                                                (Eval("Status").ToString() == "Ready" ? "status-ready" : 
+                                                (Eval("Status").ToString() == "Completed" ? "status-completed" : ""))) %>">
                                             <%# Eval("Status") %>
                                         </span>
                                     </div>
@@ -494,6 +518,7 @@ button.order-card-link:focus {
                                         <%# Eval("ServiceType") != DBNull.Value ? Eval("ServiceType") : "N/A" %>
                                         <p><strong>Total:</strong> ₱<%# Eval("TotalAmount") != DBNull.Value ? Convert.ToDecimal(Eval("TotalAmount")).ToString("N2") : "0.00" %></p>
                                         <p><strong>Due Date:</strong> <%# Eval("DueDate") != DBNull.Value ? Eval("DueDate") : "Not Provided" %></p>
+                                        <p class="order-id"> Order ID: <%# Eval("OrderID") %> </p> <!-- Order ID is wrapped for live search -->
                                     </div>
                                 </div>
                             </button>
@@ -503,13 +528,14 @@ button.order-card-link:focus {
             </div>
 
 
-        <!-- Status Change Modal -->
+
+
+
         <div class="modal fade" id="statusChangeModal" tabindex="-1" aria-labelledby="statusChangeModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="statusChangeModalLabel">Change Order Status</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <form id="statusChangeForm">
@@ -534,6 +560,10 @@ button.order-card-link:focus {
 
 
         </asp:PlaceHolder>
+
+
+
+
 
         <!-- User View -->
         <asp:PlaceHolder ID="UserView" runat="server">
@@ -579,11 +609,13 @@ button.order-card-link:focus {
     <!-- Search and Order Status -->
     <div class="toolbar-card mb-4">
         <div class="d-flex align-items-center justify-content-between gap-3">
+
             <!-- Search Bar Container -->
             <div class="input-group flex-grow-1">
-                <input type="text" class="form-control" placeholder="Search by order ID or service..." id="txtSearch" runat="server" />
-                <button class="btn btn-secondary" id="searchButton">Search</button>
+                <input type="text" class="form-control" runat="server" placeholder="Search by order ID or service..." id="customerSearchInput" />
             </div>
+
+
 
             <!-- Order Status Filters (Desktop Only) -->
             <div class="d-none d-md-flex align-items-center ms-lg-3">
@@ -606,7 +638,7 @@ button.order-card-link:focus {
     </div>
 
     <!-- Orders List Repeater -->
-        <div class="row" id="orderCards">
+        <div class="row" id="orderCardsCustomerView">
             <asp:Repeater ID="rptOrders" runat="server">
                 <ItemTemplate>
                     <div class="col-md-4 mb-4">
@@ -647,44 +679,28 @@ button.order-card-link:focus {
 
 
 
-    <!-- Payment Selection Modal -->
-    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="paymentModalLabel">Select Payment Method</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- Payment Options -->
-                    <form>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="paymentMethod" id="creditCard" value="Credit Card">
-                            <label class="form-check-label" for="creditCard">
-                                Credit Card
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="paymentMethod" id="paypal" value="Paypal">
-                            <label class="form-check-label" for="paypal">
-                                Paypal
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="paymentMethod" id="bankTransfer" value="Bank Transfer">
-                            <label class="form-check-label" for="bankTransfer">
-                                Bank Transfer
-                            </label>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="submitPaymentMethod">Submit</button>
+        <!-- Payment Modal (Modified to directly show GCash QR) -->
+        <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="paymentModalLabel">Scan this QR to Pay</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- GCash QR Code -->
+                        <img src="img/371ebbc6-a226-4608-ab4a-42a793f61ae6.jpg" alt="Scan this QR with the QR Scanner" style="width: 100%; max-width: 300px;">
+                    </div>
+                    <!-- Footer for additional info -->
+                    <div class="modal-footer">
+                        <p class="text-center" style="width: 100%;">Screenshot QR code and pay with E-Wallet APP QR-function</p>
+                        <p class="text-center" style="width: 100%">Note: Specify the Order ID in the Transaction Message.</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+
+     
 
 
 
@@ -746,6 +762,7 @@ button.order-card-link:focus {
                         </div>
                     </div>
 
+
                     <!-- Pickup or Delivery Option -->
                     <div class="mb-3">
                         <label class="form-label">Pickup or Delivery*</label>
@@ -757,7 +774,7 @@ button.order-card-link:focus {
 
                     <div class="mb-3" id="pickupDateDiv" runat="server" style="display:none;">
                         <label class="form-label">Preferred Pickup Date*</label>
-                        <input type="date" ID="txtPickupDate" runat="server" CssClass="form-control" placeholder="MM/DD/YYYY"/>
+                        <input type="date" ID="txtPickupDate" runat="server" CssClass="form-control" placeholder="MM/DD/YYYY" />
                     </div>
 
                     <!-- Delivery Date -->
@@ -795,116 +812,149 @@ button.order-card-link:focus {
 
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
 
-        document.getElementById('<%= ddlPickupDelivery.ClientID %>').addEventListener('change', function () {
-            var selectedValue = this.value;
+    document.getElementById('<%= ddlPickupDelivery.ClientID %>').addEventListener('change', function () {
+        var selectedValue = this.value;
 
-            // Hide both fields initially
-            document.getElementById('<%= pickupDateDiv.ClientID %>').style.display = 'none';
-            document.getElementById('<%= deliveryAddressDiv.ClientID %>').style.display = 'none';
-            document.getElementById('<%= deliveryDateDiv.ClientID %>').style.display = 'none';
-            
-            // Show Pickup Date for Pickup selection
-            if (selectedValue === 'Pickup') {
-                document.getElementById('<%= pickupDateDiv.ClientID %>').style.display = 'block';
-            }
-            // Show Delivery Address and Delivery Date for Delivery selection
-            else if (selectedValue === 'Delivery') {
-                document.getElementById('<%= deliveryDateDiv.ClientID %>').style.display = 'block';
-                document.getElementById('<%= deliveryAddressDiv.ClientID %>').style.display = 'block';
+        document.getElementById('<%= pickupDateDiv.ClientID %>').style.display = 'none';
+        document.getElementById('<%= deliveryAddressDiv.ClientID %>').style.display = 'none';
+        document.getElementById('<%= deliveryDateDiv.ClientID %>').style.display = 'none';
+
+        if (selectedValue === 'Pickup') {
+            document.getElementById('<%= pickupDateDiv.ClientID %>').style.display = 'block';
+    }
+    else if (selectedValue === 'Delivery') {
+        document.getElementById('<%= deliveryDateDiv.ClientID %>').style.display = 'block';
+        document.getElementById('<%= deliveryAddressDiv.ClientID %>').style.display = 'block';
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    var selectedValue = document.getElementById('<%= ddlPickupDelivery.ClientID %>').value;
+    if (selectedValue === 'Pickup') {
+        document.getElementById('<%= pickupDateDiv.ClientID %>').style.display = 'block';
+    } else if (selectedValue === 'Delivery') {
+        document.getElementById('<%= deliveryAddressDiv.ClientID %>').style.display = 'block';
+    }
+});
+
+    function filterOrders(status, button) {
+        const orderCards = document.querySelectorAll('#orderCards .order-card');
+        const orderCardsAdminView = document.querySelectorAll('#orderCardsAdminView .order-card');
+        const filterButtons = document.querySelectorAll('.filter-pill');
+
+        // Reset all filter buttons to inactive
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        function hideCard(card) {
+            card.style.display = 'none';
+            card.style.opacity = '0';
+            card.style.boxShadow = 'none';
+            card.closest('.col-md-4').style.display = 'none';
+        }
+
+        function showCard(card) {
+            card.style.display = 'block';
+            card.style.opacity = '1';
+            card.style.boxShadow = '0 2px 8px rgba(15, 23, 42, 0.06)';
+            card.closest('.col-md-4').style.display = 'block';
+        }
+
+        // Loop through all order cards and filter based on status
+        [...orderCards, ...orderCardsAdminView].forEach(card => {
+            const orderStatus = card.querySelector('.order-status') ? card.querySelector('.order-status').textContent.trim() : '';
+            if ((status === 'All' || orderStatus === status) && card.innerHTML.trim() !== "") {
+                showCard(card);
+            } else {
+                hideCard(card);
             }
         });
+    }
 
-
-        document.addEventListener('DOMContentLoaded', function() {
-            var selectedValue = document.getElementById('<%= ddlPickupDelivery.ClientID %>').value;
-            if (selectedValue === 'Pickup') {
-                document.getElementById('<%= pickupDateDiv.ClientID %>').style.display = 'block';
-            } else if (selectedValue === 'Delivery') {
-                document.getElementById('<%= deliveryAddressDiv.ClientID %>').style.display = 'block';
-            }
-        });
-
-
-            var paymentModal = document.getElementById('paymentModal');
-            paymentModal.addEventListener('show.bs.modal', function (event) {
-            var button = event.relatedTarget;
-            var orderID = button.getAttribute('data-orderid');
-            console.log("Selected OrderID: " + orderID);
+    document.querySelectorAll('.service-card input[type="radio"]').forEach(radio => {
+        radio.addEventListener('change', function () {
+            // Remove 'active' class from all service cards
+            document.querySelectorAll('.service-card').forEach(card => {
+                card.classList.remove('active');
             });
 
+            // Add 'active' class to the selected service card
+            if (this.checked) {
+                this.closest('.service-card').classList.add('active');
+            }
+        });
+    });
 
-        function filterOrders(status, button) {
-            const orderCards = document.querySelectorAll('.order-card');
-            const filterButtons = document.querySelectorAll('.filter-pill');
-            filterButtons.forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
+    // Set the order ID and status in the modal
+    function setOrderID(orderID, status) {
+        document.getElementById('orderIDField').value = orderID;
+        document.getElementById('orderStatus').value = status;
+        console.log("OrderID Set: " + document.getElementById('orderIDField').value);
+        console.log("Status Set: " + document.getElementById('orderStatus').value);
 
-            orderCards.forEach(card => {
-                const orderStatus = card.querySelector('.order-status').textContent.trim(); 
+        var modal = new bootstrap.Modal(document.getElementById('statusChangeModal'));
+        modal.show();
+    }
 
-                if (status === 'All' || orderStatus === status) {
-                    card.style.display = 'block';  
+    // Change order status on backend
+    function changeStatus() {
+        var orderID = document.getElementById("orderIDField").value;
+        var newStatus = document.getElementById("orderStatus").value;
+
+        console.log("OrderID: " + orderID + ", Status: " + newStatus);
+
+        $.ajax({
+            type: "POST",
+            url: "Orders.aspx",  // Same page for backend
+            data: {
+                action: 'updateStatus',
+                orderID: orderID,
+                status: newStatus
+            },
+            success: function (response) {
+                alert("Order status updated successfully!");
+                location.reload();  // Reload the page to reflect changes
+            },
+            error: function (err) {
+                alert("Error updating status: " + err);
+            }
+        });
+    }
+
+    // When an order is clicked, show the payment modal with Gcash QR
+    document.querySelectorAll('.order-card-link').forEach(orderCard => {
+        orderCard.addEventListener('click', function () {
+            // Open the payment method modal
+            var paymentModal = new bootstrap.Modal(document.getElementById('paymentModal'));
+            paymentModal.show();
+        });
+    });
+
+
+    window.onload = function () {
+        // Admin Search
+        document.getElementById('adminSearchInput').addEventListener('input', function () {
+            var query = this.value.toLowerCase();  // Get the search query, convert to lowercase for case-insensitive search
+            var ordersAdmin = document.querySelectorAll('#Repeater1 .order-card');  // Get admin orders
+
+            ordersAdmin.forEach(function (order) {
+                // Access the Order ID text
+                var orderID = order.querySelector('.order-id').textContent.toLowerCase().trim();
+
+                // Check if the query matches the Order ID
+                if (orderID.includes(query)) {
+                    order.style.display = 'block';  // Show matching order
+                    order.closest('.col-md-4').style.display = 'block';  // Show the corresponding container div
                 } else {
-                    card.style.display = 'none';  
+                    order.style.display = 'none';  // Hide non-matching order
+                    order.closest('.col-md-4').style.display = 'none';  // Hide the corresponding container div
                 }
             });
-        }
-
-
-        document.getElementById("btnSaveOrder").addEventListener("click", function (event) {
-            var selectedService = document.querySelector('input[name="service"]:checked');
-            if (!selectedService) {
-                alert("Please select a service!");
-                event.preventDefault();  // Prevent the form from submitting
-            }
         });
-
-
-
-        function setOrderID(orderID, status) {
-            // Set the order ID and status in the hidden fields or the modal
-            document.getElementById('orderIDField').value = orderID;  // Corrected ID to 'orderIDField'
-            document.getElementById('orderStatus').value = status;  // Assuming you have a dropdown for the status
-
-            // Debugging log
-            console.log("OrderID Set: " + document.getElementById('orderIDField').value);
-            console.log("Status Set: " + document.getElementById('orderStatus').value);
-
-            // You can handle the modal display and make other updates
-            var modal = new bootstrap.Modal(document.getElementById('statusChangeModal'));
-            modal.show();
-        }
-
-
-
-
-        function changeStatus() {
-            var orderID = document.getElementById("orderIDField").value;  // Retrieve the OrderID
-            var newStatus = document.getElementById("orderStatus").value;  // Retrieve the status value
-
-            console.log("OrderID: " + orderID + ", Status: " + newStatus);  // Debugging log
-
-            $.ajax({
-                type: "POST",
-                url: "Orders.aspx",  // Same page as backend
-                data: {
-                    action: 'updateStatus',  // Custom action for updating status
-                    orderID: orderID,  // Pass orderID as string
-                    status: newStatus   // Pass the new status
-                },
-                success: function (response) {
-                    alert("Order status updated successfully!");  // Confirmation on success
-                    location.reload();  // Reload the page to reflect changes
-                },
-                error: function (err) {
-                    alert("Error updating status: " + err);  // Error handling
-                }
-            });
-
-            console.log("OrderID Field Value: ", document.getElementById("orderIDField").value);
-        }
+    };
 
 
 
@@ -913,6 +963,6 @@ button.order-card-link:focus {
 
 
 
+</script>
 
-    </script>
 </asp:Content>

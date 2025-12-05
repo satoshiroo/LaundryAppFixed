@@ -7,11 +7,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Laundry_Login
+namespace LaundryApp
 {
 
 
-    public partial class CreateAccount
+    public partial class SignUp
     {
 
         /// <summary>

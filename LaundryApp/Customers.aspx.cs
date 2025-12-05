@@ -13,15 +13,14 @@ namespace LaundryApp
         {
             if (!IsPostBack)
             {
-                // Call method to load customer data into the table
                 LoadCustomerData();
             }
         }
 
         private void LoadCustomerData()
         {
-            string connString = "Server=TSUJIN\\SQLEXPRESS; Database=LaundryDB; Integrated Security=True;";
-            string query = "SELECT UserID, CONCAT(FirstName, ' ', LastName) AS Name, ContactNumber, Address FROM Users WHERE UserRole = 'Customer'";  // Corrected query
+            string connString = ConfigurationManager.ConnectionStrings["LaundryConnection"].ConnectionString;
+            string query = "SELECT UserID, FullName, ContactNumber, Address FROM Users WHERE UserRole='Customer'";
 
             using (SqlConnection conn = new SqlConnection(connString))
             {
@@ -29,62 +28,134 @@ namespace LaundryApp
                 DataTable dt = new DataTable();
                 da.Fill(dt);
 
-                // Bind the data to the GridView
                 CustomerTable.DataSource = dt;
                 CustomerTable.DataBind();
             }
         }
 
-        // Event handlers for editing and deleting rows
+        protected void btnSaveCustomer_Click(object sender, EventArgs e)
+        {
+            string fullName = txtFullName.Text.Trim();
+            string contact = txtContactNumber.Text.Trim();
+            string address = txtAddress.Text.Trim();
+
+            if (string.IsNullOrEmpty(fullName))
+            {
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert",
+                    "alert('Full Name is required.');", true);
+                return;
+            }
+
+            string connString = ConfigurationManager.ConnectionStrings["LaundryConnection"].ConnectionString;
+            string generatedUsername = fullName.ToLower().Replace(" ", "") + DateTime.Now.Ticks;
+
+            string query = @"INSERT INTO Users 
+                             (FullName, ContactNumber, Address, UserRole, Username)
+                             VALUES (@FullName, @ContactNumber, @Address, 'Customer', @Username)";
+
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@FullName", fullName);
+                cmd.Parameters.AddWithValue("@ContactNumber", contact);
+                cmd.Parameters.AddWithValue("@Address", address);
+                cmd.Parameters.AddWithValue("@Username", generatedUsername);
+
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch (SqlException ex)
+                {
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "alert",
+                        $"alert('Error saving customer: {ex.Message}');", true);
+                    return;
+                }
+            }
+
+            txtFullName.Text = "";
+            txtContactNumber.Text = "";
+            txtAddress.Text = "";
+
+            LoadCustomerData();
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "CloseModal", "$('#AddCustomerModal').modal('hide');", true);
+        }
+
         protected void CustomerTable_RowEditing(object sender, GridViewEditEventArgs e)
         {
-            // Implement edit functionality (e.g., redirect to an edit page or show a modal)
-            int customerId = Convert.ToInt32(CustomerTable.DataKeys[e.NewEditIndex].Value);
-            Response.Redirect($"EditCustomer.aspx?CustomerID={customerId}");
+            CustomerTable.EditIndex = e.NewEditIndex;
+            LoadCustomerData();
+        }
+
+        protected void CustomerTable_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+        {
+            CustomerTable.EditIndex = -1;
+            LoadCustomerData();
+        }
+
+        protected void CustomerTable_RowUpdating(object sender, GridViewUpdateEventArgs e)
+        {
+            int id = Convert.ToInt32(CustomerTable.DataKeys[e.RowIndex].Value);
+            GridViewRow row = CustomerTable.Rows[e.RowIndex];
+
+            string fullName = ((TextBox)row.Cells[1].Controls[0]).Text.Trim();
+            string contact = ((TextBox)row.Cells[2].Controls[0]).Text.Trim();
+            string address = ((TextBox)row.Cells[3].Controls[0]).Text.Trim();
+
+            string connString = ConfigurationManager.ConnectionStrings["LaundryConnection"].ConnectionString;
+            string query = "UPDATE Users SET FullName=@FullName, ContactNumber=@ContactNumber, Address=@Address WHERE UserID=@UserID";
+
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@FullName", fullName);
+                cmd.Parameters.AddWithValue("@ContactNumber", contact);
+                cmd.Parameters.AddWithValue("@Address", address);
+                cmd.Parameters.AddWithValue("@UserID", id);
+
+                conn.Open();
+                cmd.ExecuteNonQuery();
+                conn.Close();
+            }
+
+            CustomerTable.EditIndex = -1;
+            LoadCustomerData();
         }
 
         protected void CustomerTable_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
-            // Implement delete functionality
-            int customerId = Convert.ToInt32(CustomerTable.DataKeys[e.RowIndex].Value);
-
-            string connString = "Server=TSUJIN\\SQLEXPRESS; Database=LaundryDB; Integrated Security=True;";  // Update with your connection string
-            string query = "DELETE FROM Users WHERE UserID = @CustomerID";
+            int id = Convert.ToInt32(CustomerTable.DataKeys[e.RowIndex].Value);
+            string connString = ConfigurationManager.ConnectionStrings["LaundryConnection"].ConnectionString;
+            string query = "DELETE FROM Users WHERE UserID=@UserID";
 
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@CustomerID", customerId);
+                cmd.Parameters.AddWithValue("@UserID", id);
+
                 conn.Open();
                 cmd.ExecuteNonQuery();
                 conn.Close();
             }
 
-            // Reload the customer data to reflect the deletion
             LoadCustomerData();
         }
 
-        protected void btnSaveCustomer_Click(object sender, EventArgs e)
+        protected void CustomerTable_RowDataBound(object sender, GridViewRowEventArgs e)
         {
-            // Save new customer logic
-            string connString = "your_connection_string"; // Your actual connection string
-            string query = "INSERT INTO Users (FirstName, LastName, ContactNumber, Address, UserRole) VALUES (@FirstName, @LastName, @ContactNumber, @Address, 'Customer')";
-
-            using (SqlConnection conn = new SqlConnection(connString))
+            if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@FirstName", txtFirstName.Text);
-                cmd.Parameters.AddWithValue("@LastName", txtLastName.Text);
-                cmd.Parameters.AddWithValue("@ContactNumber", txtContactNumber.Text);
-                cmd.Parameters.AddWithValue("@Address", txtAddress.Text);
-
-                conn.Open();
-                cmd.ExecuteNonQuery();
-                conn.Close();
+                foreach (Control control in e.Row.Cells[4].Controls)
+                {
+                    if (control is LinkButton btn && btn.CommandName == "Delete")
+                    {
+                        btn.Attributes["onclick"] = "return confirm('Are you sure you want to delete this customer?');";
+                    }
+                }
             }
-
-            // Refresh the customer table
-            LoadCustomerData();
         }
+
+        protected void CustomerTable_SelectedIndexChanged(object sender, EventArgs e) { }
     }
 }

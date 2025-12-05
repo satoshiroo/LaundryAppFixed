@@ -54,7 +54,9 @@
             <div class="col-sm-6 col-lg-3">
                 <div class="dash-card shadow-sm p-4 rounded bg-white">
                     <i class="bi bi-box fs-3 text-primary"></i>
-                    <h4 class="fw-bold mt-2 mb-0">0</h4>
+                    <h4 class="fw-bold mt-2 mb-0">
+                        <asp:Label ID="Label1" runat="server">0</asp:Label>
+                    </h4>
                     <small class="text-muted">Today's Orders</small>
                 </div>
             </div>
@@ -62,7 +64,9 @@
             <div class="col-sm-6 col-lg-3">
                 <div class="dash-card shadow-sm p-4 rounded bg-white">
                     <i class="bi bi-clock fs-3 text-primary"></i>
-                    <h4 class="fw-bold mt-2 mb-0">5</h4>
+                    <h4 class="fw-bold mt-2 mb-0">
+                        <asp:Label ID="lblInProgress" runat="server">5</asp:Label>
+                    </h4>
                     <small class="text-muted">In Progress</small>
                 </div>
             </div>
@@ -70,7 +74,9 @@
             <div class="col-sm-6 col-lg-3">
                 <div class="dash-card shadow-sm p-4 rounded bg-white">
                     <i class="bi bi-check2-circle fs-3 text-success"></i>
-                    <h4 class="fw-bold mt-2 mb-0">0</h4>
+                    <h4 class="fw-bold mt-2 mb-0">
+                        <asp:Label ID="lblReadyForPickup" runat="server">0</asp:Label>
+                    </h4>
                     <small class="text-muted">Ready for Pickup</small>
                 </div>
             </div>
@@ -78,42 +84,43 @@
             <div class="col-sm-6 col-lg-3">
                 <div class="dash-card shadow-sm p-4 rounded bg-white">
                     <i class="bi bi-currency-dollar fs-3 text-purple"></i>
-                    <h4 class="fw-bold mt-2 mb-0">$300.50</h4>
+                    <h4 class="fw-bold mt-2 mb-0">
+                        <asp:Label ID="lblTotalRevenue" runat="server">₱300.50</asp:Label>
+                    </h4>
                     <small class="text-success fw-semibold">▲ +12% this week</small><br />
                     <small class="text-muted">Total Revenue</small>
                 </div>
             </div>
         </div>
 
-        <!-- Recent orders + Order status -->
-        <div class="row g-4">
-            <div class="col-lg-8">
-                <div class="card shadow-sm p-4 rounded bg-white">
-                    <h5 class="fw-bold mb-3">Recent Orders</h5>
-
-                    <!-- Recent orders here -->
-                </div>
-            </div>
-
-            <div class="col-lg-4">
-                <div class="card shadow-sm p-4 rounded bg-white">
-                    <h5 class="fw-bold mb-3">Order Status</h5>
-
-                    <!-- Order status items here -->
-                </div>
-            </div>
-        </div>
-
         <!-- Admin Content (Visible for Admin only) -->
         <div id="adminContent" runat="server" visible="false">
-            <!-- Admin-specific content here -->
-            <h4>Admin Only Content</h4>
-            <p>Admin can manage orders, users, and other administrative tasks here.</p>
+
+            <!-- Recent Orders Section -->
+            <div class="row g-4">
+                <div class="col-lg-8">
+                    <div class="card shadow-sm p-4 rounded bg-white">
+                        <h5 class="fw-bold mb-3">Recent Orders</h5>
+                        <!-- GridView to display recent orders -->
+                        <asp:GridView ID="RecentOrdersGridView" runat="server" AutoGenerateColumns="False" CssClass="table table-striped table-bordered"
+                            EmptyDataText="No orders found" OnRowDataBound="RecentOrdersGridView_RowDataBound">
+                            <Columns>
+                                <asp:BoundField DataField="OrderNumber" HeaderText="Order Number" SortExpression="OrderNumber" />
+                                <asp:BoundField DataField="CustomerName" HeaderText="Customer Name" SortExpression="CustomerName" />
+                                <asp:BoundField DataField="ServiceType" HeaderText="Service Type" SortExpression="ServiceType" />
+                                <asp:BoundField DataField="TotalAmount" HeaderText="Total Amount" SortExpression="TotalAmount" DataFormatString="₱{0:N2}" />
+                                <asp:BoundField DataField="DateCreated" HeaderText="Date Created" SortExpression="DateCreated" DataFormatString="{0:MMM dd, yyyy}" />
+                                <asp:BoundField DataField="OrderID" HeaderText="Order ID" SortExpression="OrderID" />
+                            </Columns>
+                        </asp:GridView>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
         <!-- User Content (Visible for User only) -->
         <div id="userContent" runat="server" visible="false">
-            <!-- User-specific content here -->
             <h4>User Dashboard</h4>
             <p>User-specific tasks and order tracking can be managed here.</p>
         </div>
