@@ -24,6 +24,24 @@ namespace LaundryApp
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl adminContent;
 
         /// <summary>
+        /// UsersRepeater control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater UsersRepeater;
+
+        /// <summary>
+        /// OrdersRepeater control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater OrdersRepeater;
+
+        /// <summary>
         /// userContent control.
         /// </summary>
         /// <remarks>
@@ -31,5 +49,14 @@ namespace LaundryApp
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl userContent;
+
+        /// <summary>
+        /// Repeater1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater Repeater1;
     }
 }

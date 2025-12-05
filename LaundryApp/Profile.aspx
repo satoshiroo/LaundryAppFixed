@@ -185,7 +185,7 @@
                             <asp:TextBox ID="confirmpassword" placeholder="Confirm new password" runat="server"></asp:TextBox>
                         </div>
 
-                        <asp:Button ID="changepass_btn" runat="server" Text="Change Password" CssClass="changepass_button" />
+                        <asp:Button ID="changepass_btn" runat="server" Text="Change Password" CssClass="changepass_button" OnClick="Changepass_Btn_Click" />
 
                         <div class="account_security_tips">
                             <div class="Security_tips_title">
