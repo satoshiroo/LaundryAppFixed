@@ -6,30 +6,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
-    <link href="Login.css" rel="stylesheet" />
+   <link href="Login.css" rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-<script>
-    function showErrorMessage() {
-        var lbl = document.getElementById("<%= msg.ClientID %>");
-
-        // FADE-IN (remove hidden)
-        lbl.classList.remove("hidden");
-
-        // After 3 seconds → fade-OUT
-        setTimeout(function () {
-            lbl.classList.add("hidden");
-        }, 3000);
-    }
-</script>
-
-   
-    <style type="text/css">
-        .model {
-            height: 401px;
-            width: 315px;
-        }
-        * {
+<style>
+    * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -42,16 +23,17 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: linear-gradient(135deg, #a0eaff, #ffb3ff);
+    background: linear-gradient(135deg, #c6f3ff, #e0f7ff);
     padding: 20px;
-
+    position: relative;
+    overflow: hidden;
 }
 
 /* MAIN CONTAINER */
 .container {
     width: 100%;
     max-width: 850px;
-    background: linear-gradient(145deg, #ffffff, #f3e6ff);
+    background: linear-gradient(145deg, #ffffff, #d0f7ff);
     border-radius: 30px;
     box-shadow: 0 15px 35px rgba(0,0,0,0.2);
     overflow: hidden;
@@ -71,36 +53,32 @@ body {
 .Logo-box {
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, #6b00ff, #ff66c4);
+    background: linear-gradient(135deg, #0099cc, #66d9ff);
     color: #fff;
-    padding: 50px 50px 50px 50px;
+    padding: 50px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    border-bottom-right-radius: 120px;
-    border-top-right-radius: 120px;
-    border-top-left-radius: 30px;
-    border-bottom-left-radius: 30px;
+    justify-content: center;
+    border-radius: 30px 0 0 30px;
     text-align: left;
 }
 
 .Logo {
-    font-size: 24px;
+    font-size: 28px;
     font-weight: 700;
-    color: #FFFFFF;
 }
 
 .text-sci h2 {
     font-size: 38px;
     line-height: 1;
-    color: #6b00ff;
+    color: #ffffff;
     font-weight: 800;
 }
 
 .text-sci p {
     margin-top: 15px;
     font-size: 15px;
-    color: #FFFFFF;
+    color: #e0f7ff;
     font-weight: bold;
 }
 
@@ -121,7 +99,7 @@ body {
         font-size: 40px;
         font-weight: 800;
         margin-bottom: 25px;
-        color: #6b00ff;
+        color: #0099cc;
     }
 
 /* INPUT GROUP */
@@ -137,28 +115,27 @@ body {
     input[type="tel"] {
         width: 100%;
         padding: 14px 50px 14px 18px;
-        background: linear-gradient(120deg, #ffe6f7, #e0f7ff);
+        background: linear-gradient(120deg, #e0f7ff, #f0fcff);
         border-radius: 12px;
-        border: 1px solid #d1b3ff;
+        border: 1px solid #99d6f0;
         outline: none;
         font-size: 16px;
-        color: #5a00b3;
+        color: #006699;
         transition: 0.3s;
     }
 
         .input-group input:focus {
-            border-color: #6b00ff;
-            box-shadow: 0 0 8px rgba(107, 0, 255, 0.3);
+            border-color: #00bfff;
+            box-shadow: 0 0 8px rgba(0, 191, 255, 0.3);
         }
 
-    /* ICON */
     .input-group .icon {
         position: absolute;
         right: 15px;
         top: 50%;
         transform: translateY(-50%);
         font-size: 20px;
-        color: #6b00ff;
+        color: #00bfff;
     }
 
 /* Checkbox & Forgot Password */
@@ -170,12 +147,12 @@ body {
 }
 
     .checkbox-forgotlink label {
-        color: #5a00b3;
+        color: #006699;
         font-size: 14px;
     }
 
     .checkbox-forgotlink a {
-        color: #ff66c4;
+        color: #00bfff;
         font-size: 14.5px;
         text-decoration: none;
     }
@@ -188,7 +165,7 @@ body {
 .btn {
     width: 100%;
     height: 50px;
-    background: linear-gradient(135deg, #6b00ff, #ff66c4);
+    background: linear-gradient(135deg, #00bfff, #66d9ff);
     border-radius: 12px;
     border: none;
     color: #fff;
@@ -200,17 +177,17 @@ body {
 }
 
     .btn:hover {
-        background: linear-gradient(135deg, #5500cc, #ff4db8);
+        background: linear-gradient(135deg, #007acc, #33baff);
     }
 
 /* CREATE ACCOUNT LINK */
 .Create-Account-Link {
     margin-top: 20px;
-    color: #5a00b3;
+    color: #007acc;
 }
 
     .Create-Account-Link a {
-        color: #ff66c4;
+        color: #00bfff;
         text-decoration: none;
     }
 
@@ -219,18 +196,31 @@ body {
         }
 
 /* ERROR MESSAGE LABEL */
-#msg {
-    color: #ff4db8;
+#error-msg, .error-text, #msg {
+    color: #ff4d4d;
+    background: #ffe6e6;
+    border: 1px solid #ff4d4d;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-bottom: 15px;
+    display: flex;
     align-items: center;
+    gap: 6px;
 }
 
-/* MODERN GRADIENT CHECKBOX */
+    .error-text::before {
+        content: '⚠';
+        font-size: 16px;
+    }
+
+/* MODERN CHECKBOX */
 .checkbox {
     display: flex;
     align-items: center;
     gap: 8px;
     font-size: 14px;
-    color: #5a00b3;
+    color: #007acc;
     cursor: pointer;
     user-select: none;
 }
@@ -241,26 +231,23 @@ body {
         width: 22px;
         height: 22px;
         border-radius: 6px;
-        border: 2px solid #d1b3ff;
-        background: linear-gradient(120deg, #ffe6f7, #e0f7ff);
+        border: 2px solid #99d6f0;
+        background: linear-gradient(120deg, #e0f7ff, #f0fcff);
         position: relative;
         cursor: pointer;
         transition: all 0.3s ease;
     }
 
-        /* Hover effect */
         .checkbox input[type="checkbox"]:hover {
-            border-color: #6b00ff;
-            box-shadow: 0 0 8px rgba(107, 0, 255, 0.3);
+            border-color: #00bfff;
+            box-shadow: 0 0 8px rgba(0, 191, 255, 0.3);
         }
 
-        /* Checked state */
         .checkbox input[type="checkbox"]:checked {
-            background: linear-gradient(135deg, #6b00ff, #ff66c4);
-            border-color: #6b00ff;
+            background: linear-gradient(135deg, #00bfff, #66d9ff);
+            border-color: #00bfff;
         }
 
-            /* Checkmark */
             .checkbox input[type="checkbox"]:checked::after {
                 content: '✔';
                 color: #fff;
@@ -269,23 +256,128 @@ body {
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%, -50%);
-                pointer-events: none;
             }
 
+/* ERROR CONTAINER FIX */
 .error-container {
-    height: 25px; /* fixed space for the message */
+    height: 25px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-/* Default hidden but still occupying space */
 .error-text[style*="display:none"] {
     visibility: hidden;
 }
 
+/* BUBBLES */
+.bubbles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 1;
+}
 
-/* RESPONSIVE FIX */
+    .bubbles span {
+        position: absolute;
+        bottom: -150px;
+        border-radius: 50%;
+        box-shadow: 0 0 15px rgba(255,255,255,0.7), inset 0 0 10px rgba(255,255,255,0.6);
+        animation: bubbleMove 10s linear infinite;
+        opacity: 0.8;
+        background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(255,255,255,0.5) 70%, rgba(255,255,255,0.15));
+    }
+
+        .bubbles span:nth-child(1) {
+            left: 10%;
+            width: 20px;
+            height: 20px;
+            animation-duration: 12s;
+        }
+
+        .bubbles span:nth-child(2) {
+            left: 22%;
+            width: 28px;
+            height: 28px;
+            animation-duration: 15s;
+        }
+
+        .bubbles span:nth-child(3) {
+            left: 35%;
+            width: 18px;
+            height: 18px;
+            animation-duration: 9s;
+        }
+
+        .bubbles span:nth-child(4) {
+            left: 45%;
+            width: 32px;
+            height: 32px;
+            animation-duration: 14s;
+        }
+
+        .bubbles span:nth-child(5) {
+            left: 55%;
+            width: 24px;
+            height: 24px;
+            animation-duration: 10s;
+        }
+
+        .bubbles span:nth-child(6) {
+            left: 65%;
+            width: 16px;
+            height: 16px;
+            animation-duration: 11s;
+        }
+
+        .bubbles span:nth-child(7) {
+            left: 72%;
+            width: 30px;
+            height: 30px;
+            animation-duration: 13s;
+        }
+
+        .bubbles span:nth-child(8) {
+            left: 80%;
+            width: 22px;
+            height: 22px;
+            animation-duration: 9s;
+        }
+
+        .bubbles span:nth-child(9) {
+            left: 90%;
+            width: 27px;
+            height: 27px;
+            animation-duration: 12s;
+        }
+
+        .bubbles span:nth-child(10) {
+            left: 15%;
+            width: 26px;
+            height: 26px;
+            animation-duration: 16s;
+        }
+
+/* BUBBLE ANIMATION */
+@keyframes bubbleMove {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 0.9;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-1200px) scale(1.4);
+        opacity: 0;
+    }
+}
+
+/* RESPONSIVE */
 @media (max-width: 900px) {
     .container {
         flex-direction: column;
@@ -295,7 +387,6 @@ body {
 
     .login-Box {
         position: relative;
-        right: 0;
         width: 100%;
         height: auto;
         padding: 30px 20px;
@@ -307,13 +398,11 @@ body {
         width: 100%;
         height: auto;
         order: -1;
-        border-radius: 20px 20px 0 0; /* softer corners for mobile */
+        border-radius: 20px 20px 0 0;
         margin-bottom: 20px;
     }
 
     .Logo-box {
-        width: 100%;
-        height: auto;
         padding: 30px 20px;
         border-radius: 20px;
         text-align: center;
@@ -332,11 +421,7 @@ body {
         font-size: 30px;
     }
 
-    .input-group input,
-    input[type="text"],
-    input[type="password"],
-    input[type="email"],
-    input[type="tel"] {
+    .input-group input {
         padding: 12px 18px;
         font-size: 15px;
     }
@@ -357,219 +442,43 @@ body {
         font-size: 14px;
     }
 
-    /* Reduce bubbles on mobile to improve performance */
     .bubbles span {
         width: 15px;
         height: 15px;
         animation-duration: 10s;
     }
 
-        .bubbles span:nth-child(2),
-        .bubbles span:nth-child(4),
-        .bubbles span:nth-child(7) {
-            display: none; /* hide some bubbles to reduce clutter */
+        .bubbles span:nth-child(2), .bubbles span:nth-child(4), .bubbles span:nth-child(7) {
+            display: none;
         }
 }
 
-
-
-
-    /* Reduce bubbles on mobile to improve performance */
-    .bubbles span {
-        width: 15px;
-        height: 15px;
-        animation-duration: 10s;
-    }
-
-        .bubbles span:nth-child(2),
-        .bubbles span:nth-child(4),
-        .bubbles span:nth-child(7) {
-            display: none; /* hide some bubbles to reduce clutter */
-        }
-}
-
-    /* Reduce bubbles on mobile to improve performance */
-    .bubbles span {
-        width: 15px;
-        height: 15px;
-        animation-duration: 10s;
-    }
-
-        .bubbles span:nth-child(2),
-        .bubbles span:nth-child(4),
-        .bubbles span:nth-child(7) {
-            display: none; /* hide some bubbles to reduce clutter */
-        }
-}
-
-/* ERROR MESSAGE STYLE */
-.error-text {
-    color: #ff4d4d; /* bright red */
-    background: #ffe6e6; /* subtle pink background */
-    border: 1px solid #ff4d4d; /* border to highlight */
-    padding: 8px 12px;
-    border-radius: 8px;
-    font-size: 14px;
-    margin-bottom: 15px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    animation: fadeIn 0.3s ease-in-out;
-}
-
-.hidden {
-    animation: fadeOut 0.4s ease forwards;
-}
-
-/* Optional icon for error */
-.error-text::before {
-    content: '⚠'; /* warning icon */
-    font-size: 16px;
-}
-
-/* Fade-in animation */
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-        transform: translateY(-5px);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-
-@keyframes fadeOut {
-    0% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    100% {
-        opacity: 0;
-        transform: translateY(-5px);
-    }
-}
-
-
-
-.bubbles {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    overflow: hidden;
-    z-index: 1;
-}
-
-    /* Bubbles */
-    .bubbles span {
-        position: absolute;
-        bottom: -150px;
-        width: 25px;
-        height: 25px;
-        background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(255,255,255,0.5) 70%, rgba(255,255,255,0.15) );
-        border-radius: 50%;
-        box-shadow: 0 0 15px rgba(255,255,255,0.7), inset 0 0 10px rgba(255,255,255,0.6);
-        animation: bubbleMove 10s linear infinite;
-        opacity: 0.8;
-    }
-
-/* Animation */
-@keyframes bubbleMove {
-    0% {
-        transform: translateY(0) scale(1);
-        opacity: 0.9;
-    }
-
-    50% {
-        opacity: 1;
-    }
-
-    100% {
-        transform: translateY(-1200px) scale(1.4);
-        opacity: 0;
-    }
-}
-
-/* RANDOM LEFT + SIZE + SPEED */
-.bubbles span:nth-child(1) {
-    left: 10%;
-    width: 20px;
-    height: 20px;
-    animation-duration: 12s;
-}
-
-.bubbles span:nth-child(2) {
-    left: 22%;
-    width: 28px;
-    height: 28px;
-    animation-duration: 15s;
-}
-
-.bubbles span:nth-child(3) {
-    left: 35%;
-    width: 18px;
-    height: 18px;
-    animation-duration: 9s;
-}
-
-.bubbles span:nth-child(4) {
-    left: 45%;
-    width: 32px;
-    height: 32px;
-    animation-duration: 14s;
-}
-
-.bubbles span:nth-child(5) {
-    left: 55%;
-    width: 24px;
-    height: 24px;
-    animation-duration: 10s;
-}
-
-.bubbles span:nth-child(6) {
-    left: 65%;
-    width: 16px;
-    height: 16px;
-    animation-duration: 11s;
-}
-
-.bubbles span:nth-child(7) {
-    left: 72%;
-    width: 30px;
-    height: 30px;
-    animation-duration: 13s;
-}
-
-.bubbles span:nth-child(8) {
-    left: 80%;
-    width: 22px;
-    height: 22px;
-    animation-duration: 9s;
-}
-
-.bubbles span:nth-child(9) {
-    left: 90%;
-    width: 27px;
-    height: 27px;
-    animation-duration: 12s;
-}
-
-.bubbles span:nth-child(10) {
-    left: 15%;
-    width: 26px;
-    height: 26px;
-    animation-duration: 16s;
-}
-
-/* Your actual page content */
+/* CONTENT ABOVE BUBBLES */
 .content {
     position: relative;
-    z-index: 5; /* keeps your form above the bubbles */
+    z-index: 5;
 }
+</style>
+<script>
+    function showErrorMessage() {
+        var lbl = document.getElementById("<%= msg.ClientID %>");
+
+        // FADE-IN (remove hidden)
+        lbl.classList.remove("hidden");
+
+        // After 3 seconds → fade-OUT
+        setTimeout(function () {
+            lbl.classList.add("hidden");
+        }, 3000);
+    }
+</script>
+
+   
+    <style type="text/css">
+        .model {
+            height: 401px;
+            width: 315px;
+        }
     </style>
    
 </head>

@@ -48,7 +48,7 @@ namespace LaundryApp
             // Implement delete functionality
             int customerId = Convert.ToInt32(CustomerTable.DataKeys[e.RowIndex].Value);
 
-            string connString = "your_connection_string";  // Update with your connection string
+            string connString = "Server=TSUJIN\\SQLEXPRESS; Database=LaundryDB; Integrated Security=True;";  // Update with your connection string
             string query = "DELETE FROM Users WHERE UserID = @CustomerID";
 
             using (SqlConnection conn = new SqlConnection(connString))
