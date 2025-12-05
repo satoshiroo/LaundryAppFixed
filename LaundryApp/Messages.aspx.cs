@@ -76,7 +76,7 @@ namespace LaundryApp
             {
                 conn.Open();
                 string query = @"
-                    SELECT SenderID, MessageText
+                    SELECT SenderID, MessageText, ImagePath
                     FROM Messages
                     WHERE (SenderID = @Admin AND ReceiverID = @Cust)
                        OR (SenderID = @Cust AND ReceiverID = @Admin)
@@ -96,17 +96,22 @@ namespace LaundryApp
                     {
                         string sender = reader["SenderID"].ToString();
                         string msg = reader["MessageText"].ToString();
+                        string img = reader["ImagePath"] != DBNull.Value ? reader["ImagePath"].ToString() : null;
 
-                        string bubbleClass;
+                        string bubbleClass = (loggedInRole == "Admin")
+                            ? (sender == adminId ? "right" : "left")
+                            : (sender == customerId ? "right" : "left");
 
-                        // Determine bubble side based on logged-in role
-                        if (loggedInRole == "Admin")
-                            bubbleClass = sender == adminId ? "right" : "left";
-                        else
-                            bubbleClass = sender == customerId ? "right" : "left";
+                        // Append text message
+                        if (!string.IsNullOrEmpty(msg))
+                            sbAdmin.Append($"<div class='message {bubbleClass}'>{HttpUtility.HtmlEncode(msg)}</div>");
+                        if (!string.IsNullOrEmpty(img))
+                            sbAdmin.Append($"<div class='message {bubbleClass}'><img src='{img}' width='150' /></div>");
 
-                        sbAdmin.Append($"<div class='message {bubbleClass}'>{msg}</div>");
-                        sbUser.Append($"<div class='message {bubbleClass}'>{msg}</div>");
+                        if (!string.IsNullOrEmpty(msg))
+                            sbUser.Append($"<div class='message {bubbleClass}'>{HttpUtility.HtmlEncode(msg)}</div>");
+                        if (!string.IsNullOrEmpty(img))
+                            sbUser.Append($"<div class='message {bubbleClass}'><img src='{img}' width='150' /></div>");
                     }
 
                     litMessages.Text = sbAdmin.ToString();
@@ -131,7 +136,7 @@ namespace LaundryApp
             string customerId = HiddenSelectedUser.Value;
             string adminId = "ADMIN";
 
-            SaveMessage(adminId, customerId, msg);
+            SaveMessage(adminId, customerId, msg, null);
 
             // Append dynamically
             litMessages.Text += $"<div class='message right'>{HttpUtility.HtmlEncode(msg)}</div>";
@@ -142,48 +147,56 @@ namespace LaundryApp
         protected void btnUserSend_Click(object sender, EventArgs e)
         {
             string msg = txtUserReply.Text.Trim();
-            string imageHtml = "";
             string customerId = Session["UserId"].ToString();
             string adminId = "ADMIN";
+            string imagePath = null;
 
+            // Handle image upload
             if (FileUpload1.HasFile)
             {
                 string ext = Path.GetExtension(FileUpload1.FileName).ToLower();
-
                 if (ext == ".jpg" || ext == ".jpeg" || ext == ".png" || ext == ".gif")
                 {
                     string fileName = Guid.NewGuid().ToString() + ext;
                     string savePath = Server.MapPath("~/uploads/" + fileName);
                     FileUpload1.SaveAs(savePath);
-
-                    imageHtml = $"<img src='/uploads/{fileName}' width='150' />";
-
+                    imagePath = "/uploads/" + fileName;
                 }
             }
 
-            if (string.IsNullOrEmpty(msg) && string.IsNullOrEmpty(imageHtml))
+            // Nothing to send
+            if (string.IsNullOrEmpty(msg) && string.IsNullOrEmpty(imagePath))
                 return;
 
-            SaveMessage(customerId, adminId, msg + imageHtml);
+            // Save message to DB
+            SaveMessage(customerId, adminId, msg, imagePath);
 
-            litUserMessages.Text += $"<div class='message right'>{HttpUtility.HtmlEncode(msg)} {imageHtml}</div>";
+            // Render message in chat (text + image separately)
+            StringBuilder sb = new StringBuilder();
+            if (!string.IsNullOrEmpty(msg))
+                sb.Append($"<div class='message right'>{HttpUtility.HtmlEncode(msg)}</div>");
+            if (!string.IsNullOrEmpty(imagePath))
+                sb.Append($"<div class='message right'><img src='{imagePath}' width='150' /></div>");
+
+            litUserMessages.Text += sb.ToString();
             txtUserReply.Text = "";
         }
 
         // SAVE MESSAGE RECORD
-        private void SaveMessage(string senderId, string receiverId, string message)
+        private void SaveMessage(string senderId, string receiverId, string message, string imagePath)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 string query = @"
-                    INSERT INTO Messages (SenderID, ReceiverID, MessageText, DateSent)
-                    VALUES (@SenderID, @ReceiverID, @MessageText, GETDATE())
+                    INSERT INTO Messages (SenderID, ReceiverID, MessageText, ImagePath, DateSent)
+                    VALUES (@SenderID, @ReceiverID, @MessageText, @ImagePath, GETDATE())
                 ";
 
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@SenderID", senderId);
                 cmd.Parameters.AddWithValue("@ReceiverID", receiverId);
-                cmd.Parameters.AddWithValue("@MessageText", message);
+                cmd.Parameters.AddWithValue("@MessageText", message ?? "");
+                cmd.Parameters.AddWithValue("@ImagePath", (object)imagePath ?? DBNull.Value);
 
                 conn.Open();
                 cmd.ExecuteNonQuery();

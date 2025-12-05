@@ -8,15 +8,14 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-
     <asp:HiddenField ID="HiddenSelectedUser" runat="server" />
 
     <!-- ADMIN PANEL -->
     <asp:Panel ID="AdminPanel" runat="server" CssClass="admin-panel">
         <h3>ADMIN MESSAGES</h3>
         <div class="messages-container">
-
             <div class="customer-list">
+                
                 <asp:TextBox ID="txtsearch" runat="server" CssClass="form-control search-box" 
                              placeholder="Search Customers..." AutoPostBack="true" OnTextChanged="txtsearch_TextChanged"></asp:TextBox>
 
@@ -41,7 +40,6 @@
                     <asp:Button ID="btnSend" runat="server" CssClass="btn btn-primary" Text="Send" OnClick="btnSend_Click" />
                 </div>
             </div>
-
         </div>
     </asp:Panel>
 
@@ -57,40 +55,47 @@
                 <div class="message-input d-flex align-items-center gap-2">
                     <asp:TextBox ID="txtUserReply" runat="server" CssClass="form-control" placeholder="Type your message..."></asp:TextBox>
 
-<label for="FileUpload1" class="upload-icon" style="cursor:pointer;">
-    <ion-icon name="image" style="font-size: 30px;"></ion-icon>
-</label>
-<asp:FileUpload ID="FileUpload1" runat="server" Style="display:none;"
-    onchange="document.getElementById('<%= btnUserSend.ClientID %>').click();" />
+                    <!-- FileUpload for images -->
+                    <asp:FileUpload ID="FileUpload1" runat="server" Style="display:none;" />
 
-
-                    <asp:Button ID="btnSendImage" runat="server" Style="display:none;" OnClick="btnUserSend_Click" />
+                    <!-- Image icon (client-side only) -->
+                    <img src="https://cdn-icons-png.flaticon.com/512/61/61456.png" 
+                         id="btnUploadImage" style="cursor:pointer; width:30px; height:30px;" />
 
                     <asp:Button ID="btnUserSend" runat="server" CssClass="btn btn-primary" Text="Send" OnClick="btnUserSend_Click" />
                 </div>
             </div>
         </div>
     </asp:Panel>
-
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="Scripts" runat="server">
     <script>
+        // Scroll chat to bottom
         function scrollToBottom(id) {
             var box = document.getElementById(id);
             if (box) box.scrollTop = box.scrollHeight;
         }
-
         setInterval(function () {
             scrollToBottom('chatMessages');
             scrollToBottom('chatMessagesUser');
         }, 500);
 
-        const uploadCtrl = document.getElementById('<%= FileUpload1.ClientID %>');
-        const sendBtn = document.getElementById('<%= btnSendImage.ClientID %>');
+        // Image upload functionality
+        const uploadIcon = document.getElementById('btnUploadImage');
+        const fileUpload = document.getElementById('<%= FileUpload1.ClientID %>');
+        const sendBtn = document.getElementById('<%= btnUserSend.ClientID %>');
 
-        uploadCtrl.addEventListener('change', function () {
-            if (uploadCtrl.files.length > 0) sendBtn.click();
+        // Click image icon -> open file picker
+        uploadIcon.addEventListener('click', function () {
+            fileUpload.click();
+        });
+
+        // When a file is selected -> automatically send
+        fileUpload.addEventListener('change', function () {
+            if (fileUpload.files.length > 0) {
+                sendBtn.click();
+            }
         });
     </script>
 
