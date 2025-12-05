@@ -1,4 +1,7 @@
-﻿.admin-panel {
+﻿/* --------------------------- */
+/* Admin Panel & Layout */
+/* --------------------------- */
+.admin-panel {
     font-family: 'Segoe UI', sans-serif;
 }
 
@@ -37,11 +40,15 @@
     transition: 0.2s;
 }
 
-    .user-item:hover, .user-item.active {
+    .user-item:hover,
+    .user-item.active {
         background: #1877f2;
         color: #fff;
     }
 
+/* --------------------------- */
+/* Chat Box */
+/* --------------------------- */
 .chat-box {
     flex-grow: 1;
     background: #fff;
@@ -62,35 +69,64 @@
     padding-right: 5px;
 }
 
+/* --------------------------- */
+/* Messages Styling - Messenger Style */
+/* --------------------------- */
 .message {
     max-width: 70%;
-    padding: 10px 16px;
+    padding: 12px 18px;
     border-radius: 20px;
     font-size: 14px;
     word-wrap: break-word;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    position: relative;
 }
 
-    .message.user {
-        background: #e4e6eb;
+/* --------------------------- */
+/* Messages Styling - Circle Tail Only */
+/* --------------------------- */
+.message {
+    max-width: 70%;
+    padding: 12px 18px;
+    border-radius: 25px; /* fully rounded corners */
+    font-size: 14px;
+    word-wrap: break-word;
+    position: relative;
+}
+
+    /* Left-aligned message - other person / user */
+    .message.left {
         align-self: flex-start;
-        margin-left: 10px; /* space from left */
-        margin-right: auto; /* push away from right */
-        padding: 10px 16px;
+        margin-left: 10px;
+        margin-right: auto;
+        background: #e4e6eb;
+        color: #000;
     }
 
-    .message.admin {
+    /* Right-aligned message - logged-in user / admin */
+    .message.right {
+        align-self: flex-end;
+        margin-right: 10px;
+        margin-left: auto;
         background: #1877f2;
         color: #fff;
-        align-self: flex-end;
-        margin-right: 10px; /* space from right */
-        margin-left: auto; /* push away from left */
-        padding: 10px 16px;
     }
 
+
+
+    /* Images inside messages */
+    .message img {
+        display: block;
+        margin-top: 5px;
+        border-radius: 12px;
+        max-width: 150px;
+    }
+
+/* --------------------------- */
+/* Message Input Box */
+/* --------------------------- */
 .message-input {
     display: flex;
-    gap: 10px;
+    gap: 15px;
     border-top: 1px solid #ddd;
     padding-top: 10px;
 }
@@ -112,7 +148,9 @@
         background: #166fe5;
     }
 
+/* --------------------------- */
 /* Responsive */
+/* --------------------------- */
 @media (max-width: 1200px) {
     .messages-container {
         flex-direction: column;
@@ -129,4 +167,13 @@
         height: 400px;
         margin-bottom: 20px;
     }
+}
+
+.upload-icon ion-icon {
+    color: #555; /* change to whatever matches your theme */
+    transition: color 0.3s;
+}
+
+.upload-icon:hover ion-icon {
+    color: #007bff; /* blue on hover */
 }

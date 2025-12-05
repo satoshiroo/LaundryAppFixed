@@ -17,8 +17,6 @@ namespace LaundryApp
                     customersLink.Visible = true;
                     inventoryLink.Visible = true;
                     machinesLink.Visible = true;
-                
-
                 }
                 else if (userRole == "Customer")
                 {
@@ -26,8 +24,6 @@ namespace LaundryApp
                     customersLink.Visible = false;
                     inventoryLink.Visible = false;
                     machinesLink.Visible = false;
-                
-                  
                 }
             }
             else

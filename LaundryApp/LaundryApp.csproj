@@ -94,6 +94,7 @@
     <Content Include="Login.css" />
     <Content Include="img\pfp.jpg" />
     <Content Include="messages.css" />
+    <Content Include="Orders.aspx" />
     <Content Include="ProfileStyleSheet.css" />
     <Content Include="ResetPassword.aspx" />
     <Content Include="resetpassword.css" />
@@ -101,7 +102,6 @@
     <Content Include="SignUp.css" />
     <Content Include="Web.config" />
     <Content Include="Dashboard.aspx" />
-    <Content Include="Orders.aspx" />
     <Content Include="Inventory.aspx" />
     <Content Include="Machines.aspx" />
     <Content Include="Messages.aspx" />
@@ -111,6 +111,13 @@
     <Content Include="ForgotPassword.aspx" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Orders.aspx.cs">
+      <DependentUpon>Orders.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Orders.aspx.designer.cs">
+      <DependentUpon>Orders.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResetPassword.aspx.cs">
       <DependentUpon>ResetPassword.aspx</DependentUpon>
@@ -139,13 +146,6 @@
     </Compile>
     <Compile Include="Dashboard.aspx.designer.cs">
       <DependentUpon>Dashboard.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Orders.aspx.cs">
-      <DependentUpon>Orders.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Orders.aspx.designer.cs">
-      <DependentUpon>Orders.aspx</DependentUpon>
     </Compile>
     <Compile Include="Inventory.aspx.cs">
       <DependentUpon>Inventory.aspx</DependentUpon>

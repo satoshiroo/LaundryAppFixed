@@ -16,63 +16,77 @@ namespace Laundry_Login
             Response.Cache.SetExpires(DateTime.Now.AddMinutes(-1));
             Response.Cache.SetCacheability(HttpCacheability.NoCache);
             Response.Cache.SetNoStore();
-            
+
             if (!IsPostBack)
-            {
-                msg.Visible = false; // hide error initially
-            }
+                msg.Visible = false;
 
             if (Session["UserRole"] != null)
-            {
                 Response.Redirect("Dashboard.aspx");
-                return;
-            }
         }
+
         private string HashPassword(string password)
         {
             using (SHA256 sha = SHA256.Create())
             {
                 byte[] bytes = sha.ComputeHash(Encoding.UTF8.GetBytes(password));
-                StringBuilder builder = new StringBuilder();
-
+                StringBuilder sb = new StringBuilder();
                 foreach (byte b in bytes)
-                    builder.AppendFormat("{0:x2}", b);
-
-                return builder.ToString();
+                    sb.AppendFormat("{0:x2}", b);
+                return sb.ToString();
             }
         }
 
-
         protected void signin_Click(object sender, EventArgs e)
         {
-            string username = txtUsername.Text.Trim();
+            string usernameOrEmail = txtUsername.Text.Trim();
             string password = txtPassword.Text.Trim();
 
+            if (string.IsNullOrEmpty(usernameOrEmail) || string.IsNullOrEmpty(password))
+            {
+                ShowError("Please input all fields!");
+                return;
+            }
+
             string hashedPassword = HashPassword(password);
-
-
-
             string connString = ConfigurationManager.ConnectionStrings["LaundryConnection"].ConnectionString;
-            string query = "SELECT UserRole FROM Users WHERE Username=@Username AND Password=@Password";
+            string query = @"
+                SELECT UserID, UserRole 
+                FROM Users 
+                WHERE (Username = @User OR Email = @User)
+                AND Password = @Password";
 
             using (SqlConnection conn = new SqlConnection(connString))
             using (SqlCommand cmd = new SqlCommand(query, conn))
             {
-                cmd.Parameters.Add("@Username", SqlDbType.VarChar).Value = username;
+                cmd.Parameters.Add("@User", SqlDbType.VarChar).Value = usernameOrEmail;
                 cmd.Parameters.Add("@Password", SqlDbType.VarChar).Value = hashedPassword;
 
                 try
                 {
                     conn.Open();
-                    var result = cmd.ExecuteScalar();
-                    if (result != null)
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.HasRows)
                     {
-                        string UserRole =  result.ToString();
-                        Session["UserRole"] = UserRole;
+                        reader.Read();
+                        Session["UserID"] = reader["UserID"].ToString();
+                        Session["UserRole"] = reader["UserRole"].ToString();
+
+                        // Remember Me cookie
+                        if (RememberBox.Checked)
+                        {
+                            HttpCookie userCookie = new HttpCookie("UserLogin");
+                            userCookie.Value = usernameOrEmail;
+                            userCookie.Expires = DateTime.Now.AddDays(7);
+                            Response.Cookies.Add(userCookie);
+                        }
+                        else
+                        {
+                            HttpCookie userCookie = new HttpCookie("UserLogin");
+                            userCookie.Expires = DateTime.Now.AddDays(-1);
+                            Response.Cookies.Add(userCookie);
+                        }
 
                         Response.Redirect("Dashboard.aspx");
-
-
                     }
                     else
                     {
@@ -86,14 +100,12 @@ namespace Laundry_Login
             }
         }
 
-        // Display error and trigger fade-in animation
         private void ShowError(string message)
         {
             msg.Text = message;
             msg.Visible = true;
             msg.ForeColor = System.Drawing.Color.Red;
 
-            // Trigger JS function to show fade-in
             ScriptManager.RegisterStartupScript(this, GetType(), "showError", "showErrorMessage();", true);
         }
     }

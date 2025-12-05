@@ -1,42 +1,51 @@
-﻿<%@ Page Title="Messages" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="Messages.aspx.cs" Inherits="LaundryApp.Messages" %>
+﻿<%@ Page Title="Messages" Language="C#" MasterPageFile="~/Site1.Master" 
+    AutoEventWireup="true" CodeBehind="Messages.aspx.cs" Inherits="LaundryApp.Messages" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
     <title>Messages</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-<link href="messages.css" rel="stylesheet" />
+    <link href="messages.css" rel="stylesheet" />
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-    <!-- Admin Panel -->
+
+    <asp:HiddenField ID="HiddenSelectedUser" runat="server" />
+
+    <!-- ADMIN PANEL -->
     <asp:Panel ID="AdminPanel" runat="server" CssClass="admin-panel">
         <h3>ADMIN MESSAGES</h3>
         <div class="messages-container">
-            <!-- LEFT: Customers List -->
+
             <div class="customer-list">
-                <asp:TextBox ID="txtsearch" runat="server" CssClass="form-control search-box" placeholder="Search Customers..."></asp:TextBox>
+                <asp:TextBox ID="txtsearch" runat="server" CssClass="form-control search-box" 
+                             placeholder="Search Customers..." AutoPostBack="true" OnTextChanged="txtsearch_TextChanged"></asp:TextBox>
+
                 <asp:Repeater ID="rptUsers" runat="server">
                     <ItemTemplate>
-                        <div class="user-item" data-userid='<%# Eval("UserId") %>'>
+                        <asp:LinkButton runat="server" CssClass="user-item"
+                                        CommandArgument='<%# Eval("UserId") %>'
+                                        OnClick="User_Click">
                             <%# Eval("Username") %>
-                        </div>
+                        </asp:LinkButton>
                     </ItemTemplate>
                 </asp:Repeater>
             </div>
 
-            <!-- RIGHT: Chat Box -->
             <div class="chat-box">
                 <div class="messages" id="chatMessages">
                     <asp:Literal ID="litMessages" runat="server"></asp:Literal>
                 </div>
-                <div class="message-input">
+
+                <div class="message-input d-flex gap-2">
                     <asp:TextBox ID="txtReply" runat="server" CssClass="form-control" placeholder="Type your message..."></asp:TextBox>
                     <asp:Button ID="btnSend" runat="server" CssClass="btn btn-primary" Text="Send" OnClick="btnSend_Click" />
                 </div>
             </div>
+
         </div>
     </asp:Panel>
 
-    <!-- Customer Panel -->
+    <!-- CUSTOMER PANEL -->
     <asp:Panel ID="UserPanel" runat="server" CssClass="admin-panel">
         <h3>CUSTOMER MESSAGES</h3>
         <div class="messages-container">
@@ -44,13 +53,25 @@
                 <div class="messages" id="chatMessagesUser">
                     <asp:Literal ID="litUserMessages" runat="server"></asp:Literal>
                 </div>
-                <div class="message-input">
+
+                <div class="message-input d-flex align-items-center gap-2">
                     <asp:TextBox ID="txtUserReply" runat="server" CssClass="form-control" placeholder="Type your message..."></asp:TextBox>
+
+<label for="FileUpload1" class="upload-icon" style="cursor:pointer;">
+    <ion-icon name="image" style="font-size: 30px;"></ion-icon>
+</label>
+<asp:FileUpload ID="FileUpload1" runat="server" Style="display:none;"
+    onchange="document.getElementById('<%= btnUserSend.ClientID %>').click();" />
+
+
+                    <asp:Button ID="btnSendImage" runat="server" Style="display:none;" OnClick="btnUserSend_Click" />
+
                     <asp:Button ID="btnUserSend" runat="server" CssClass="btn btn-primary" Text="Send" OnClick="btnUserSend_Click" />
                 </div>
             </div>
         </div>
     </asp:Panel>
+
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="Scripts" runat="server">
@@ -60,10 +81,19 @@
             if (box) box.scrollTop = box.scrollHeight;
         }
 
-        // Auto-scroll every 500ms
         setInterval(function () {
             scrollToBottom('chatMessages');
             scrollToBottom('chatMessagesUser');
         }, 500);
+
+        const uploadCtrl = document.getElementById('<%= FileUpload1.ClientID %>');
+        const sendBtn = document.getElementById('<%= btnSendImage.ClientID %>');
+
+        uploadCtrl.addEventListener('change', function () {
+            if (uploadCtrl.files.length > 0) sendBtn.click();
+        });
     </script>
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </asp:Content>

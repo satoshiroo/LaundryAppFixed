@@ -2,7 +2,8 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
     <style>
-        body {
+        /* General Styles */
+body {
     background-color: #f8f9fc;
 }
 
@@ -86,12 +87,7 @@
     cursor: pointer;
     margin-left: 10px;
 }   
-@media (max-width: 480px) {
-    .service-card {
-        width: 100%; /* Full width for cards on very small screens */
-        margin-bottom: 10px; /* Space between cards */
-    }
-}
+
 /* Mobile View Adjustments */
 @media (max-width: 768px) {
     .summary-card {
@@ -116,11 +112,11 @@
     .d-none.d-md-flex {
         display: none !important;
     }
-    .modal-dialog{
+    .modal-dialog {
         max-width: 90% !important;
         width: 100%;
     }
-    .service-card{
+    .service-card {
         width: 100%;
     }
 }
@@ -152,50 +148,15 @@
     }
 }
 
-/* Modal Styling */
-.modal-dialog {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); /* Center the modal */
-    max-width: 90%; /* Optional: You can adjust the max-width */
-    width: 100%; /* Make sure modal takes full width */
-}
-
-.modal {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* Full viewport height */
-    padding: 0;
-}
-
-.modal-body {
-    padding: 1rem;
-}
-
-.modal-body .form-control,
-.modal-body .form-select {
-    width: 100%;
-    margin-bottom: 1rem;
-}
-
-.modal-footer {
-    display: flex;
-    justify-content: flex-end;
-}
-
 /* Service Card Styles */
 .service-card {
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    padding: 16px;
-    margin: 10px;
-    display: inline-block;
-    width: calc(25% - 20px);
+    width: 23%; /* Adjust the width to fit 4 items in one row */
+    margin-bottom: 15px; /* Space between rows */
     text-align: center;
-    background-color: #fff;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #f7f7f7;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
     transition: all 0.3s ease;
 }
 
@@ -222,16 +183,11 @@ input[type="radio"] {
     display: none;
 }
 
-input[type="radio"]:checked + .service-label {
-    border: 2px solid #007bff;
-    background-color: #e6f7ff;
-}
-
 .service-options {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin-top: 20px;
+    flex-wrap: wrap; /* Allow items to wrap if they don't fit */
+    justify-content: space-between; /* Distribute items evenly */
+    gap: 10px; /* Adds space between the cards */
 }
 
 .service-label img {
@@ -295,7 +251,8 @@ button.order-card-link {
     border: none;
 }
 
-button.order-card-link:hover, button.order-card-link:focus {
+button.order-card-link:hover,
+button.order-card-link:focus {
     background-color: #f0f0f0;
 }
 
@@ -313,12 +270,6 @@ button.order-card-link:hover, button.order-card-link:focus {
 .order-title {
     font-size: 1.2rem;
     color: #000;
-}
-
-@media (max-width: 768px) {
-    .col-md-4 {
-        flex: 0 0 100%;
-    }
 }
 
 /* Status Text Color */
@@ -339,58 +290,168 @@ button.order-card-link:hover, button.order-card-link:focus {
     display: none;
 }
 
+#addOrderModal .modal-dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 80%; /* Adjust to your desired width */
+    width: 80%;
+    min-height: 700px; /* Increase the minimum height */
+    max-height: 90vh; /* Max height to allow for scrolling */
+    overflow-y: auto; /* Enable scrolling if content exceeds height */
+}
+
+#addOrderModal .modal-content {
+    height: auto; /* Adjust height based on content */
+    min-height: 700px; /* Ensure a minimum height */
+    padding: 20px; /* Add padding around the content */
+}
+
+#addOrderModal .service-options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px; /* Adds space between the cards */
+    margin-top: 20px;
+}
+
+
+#addOrderModal .service-card {
+    width: 23%; /* Adjust the width to fit side by side */
+    margin-bottom: 15px; /* Space between rows */
+    text-align: center;
+}
+
+#addOrderModal .modal-footer {
+    display: flex;
+    justify-content: space-between; /* Space the buttons apart */
+    padding: 10px;
+}
+
+#addOrderModal .form-label {
+    font-weight: bold;
+}
+
+#addOrderModal .service-card input[type="radio"] {
+    display: none;
+}
+
+#addOrderModal .form-control {
+    margin-bottom: 10px;
+    width: 100%; /* Ensure full width for form fields */
+}
+
+#addOrderModal .service-card .service-label {
+    display: block;
+    margin-top: 10px;
+    font-weight: 600;
+    color: #333;
+    text-align: center;
+    font-size: 1rem;
+}
+
+#addOrderModal .service-card .service-price {
+    font-size: 1rem;
+    color: #777;
+    margin-top: 8px;
+}
+
+.service-card input[type="radio"]:checked {
+    background-color: #e6f7ff;  /* Light blue background when selected */
+    border: 2px solid #007bff; /* Blue border when selected */
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5); /* Optional: box shadow for emphasis */
+}
+
+/* Ensure the entire service card changes when selected */
+.service-card input[type="radio"]:checked + .service-label {
+    background-color: #e6f7ff;  /* Light blue background for the selected card */
+    border: 2px solid #007bff; /* Border color */
+}
+
+/* Default state for the service card when not selected */
+.service-card input[type="radio"]:not(:checked) + .service-label {
+    background-color: #f7f7f7; /* Default background color */
+    border: 2px solid #ccc; /* Default border */
+    box-shadow: none;  /* Remove box shadow when not selected */
+}
+
+/* Optional: Add a transition effect for smooth color change */
+.service-card input[type="radio"]:checked + .service-label {
+    transition: background-color 0.3s ease, border 0.3s ease;
+}
+
+/* Additional mobile styling */
+@media (max-width: 900px) {
+    #addOrderModal .modal-dialog {
+        width: 100%;
+    }
+
+    .service-card {
+        width: 100%!important; /* Full width for each card on mobile */
+        margin-bottom: 15px ;
+        padding: 0px;
+    }
+    .service-label {
+        font-size: 14px; /* Reduce the font size for service labels */
+    }
+
+    .service-price {
+        font-size: 12px; /* Adjust price text size */
+    }
+    .container-fluid.mt-4{
+        padding: 0px !important;
+    }
+    .toolbar-card.mb-4{
+    }
+}
+
     </style>
 
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container-fluid mt-4">
-        <!-- Title Section -->
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <div>
-                <h2 class="fw-bold mb-0">My Orders</h2>
-                <small class="text-muted">Track your laundry orders and place new ones.</small>
-            </div>
-            <button type="button" class="btn btn-primary rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#addOrderModal">
-                <i class="bi bi-plus-lg me-1"></i> Place Order
-            </button>
-        </div>
 
-        <!-- Summary Cards -->
+        <!-- Admin View -->
+        <asp:PlaceHolder ID="AdminView" runat="server">
+            <h2 class="fw-bold mb-4">Orders View</h2>
+            <p>This section is for admin users to manage orders.</p>
+
+            <!-- Summary Cards -->
         <div class="row mb-4">
             <div class="col-md-3 mb-3 mb-md-0">
                 <div class="summary-card">
                     <h5>Total Orders</h5>
-                    <h3><asp:Label ID="lblTotalOrders" runat="server" Text="0" /></h3>
+                    <h3><asp:Label ID="Label1" runat="server" Text="0" /></h3>
                 </div>
             </div>
             <div class="col-md-3 mb-3 mb-md-0">
                 <div class="summary-card">
                     <h5>Pending</h5>
-                    <h3><asp:Label ID="lblPending" runat="server" Text="0" /></h3>
+                    <h3><asp:Label ID="Label2" runat="server" Text="0" /></h3>
                 </div>
             </div>
             <div class="col-md-3 mb-3 mb-md-0">
                 <div class="summary-card">
                     <h5>In Progress</h5>
-                    <h3><asp:Label ID="lblInProgress" runat="server" Text="0" /></h3>
+                    <h3><asp:Label ID="Label3" runat="server" Text="0" /></h3>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="summary-card">
                     <h5>Completed</h5>
-                    <h3><asp:Label ID="lblCompleted" runat="server" Text="0" /></h3>
+                    <h3><asp:Label ID="Label4" runat="server" Text="0" /></h3>
                 </div>
             </div>
         </div>
 
-        <!-- Search and Order Status -->
+            <!-- Search and Order Status -->
         <div class="toolbar-card mb-4">
             <div class="d-flex align-items-center justify-content-between gap-3">
                 <!-- Search Bar Container -->
                 <div class="input-group flex-grow-1">
-                    <input type="text" class="form-control" placeholder="Search by order ID or service..." id="txtSearch" runat="server" />
-                    <button class="btn btn-secondary" id="searchButton">Search</button>
+                    <input type="text" class="form-control" placeholder="Search by order ID or service..." id="Text1" runat="server" />
                 </div>
 
                 <!-- Order Status Filters (Desktop Only) -->
@@ -413,13 +474,13 @@ button.order-card-link:hover, button.order-card-link:focus {
             </div>
         </div>
 
-        <!-- Orders List Repeater -->
-            <div class="row" id="orderCards">
-                <asp:Repeater ID="rptOrders" runat="server">
+            <!-- Orders List Repeater -->
+            <div class="row" id="orderCardsAdminView">
+                <asp:Repeater ID="Repeater1" runat="server">
                     <ItemTemplate>
                         <div class="col-md-4 mb-4">
-                            <!-- Add a button to open modal for payment selection -->
-                            <button type="button" class="order-card-link" data-bs-toggle="modal" data-bs-target="#paymentModal" data-orderid="<%# Eval("OrderID") %>">
+                            <button type="button" class="order-card-link" data-bs-toggle="modal" data-bs-target="#statusChangeModal" 
+                                    onclick="setOrderID('<%# Eval("OrderID") %>', '<%# Eval("Status") %>')">
                                 <div class="order-card">
                                     <div class="order-card-header">
                                         <span class="order-status 
@@ -430,7 +491,7 @@ button.order-card-link:hover, button.order-card-link:focus {
                                         </span>
                                     </div>
                                     <div class="order-card-body">
-                                        <%# Eval("ServiceType") != DBNull.Value ? Eval("ServiceType") : "N/A" %></p>
+                                        <%# Eval("ServiceType") != DBNull.Value ? Eval("ServiceType") : "N/A" %>
                                         <p><strong>Total:</strong> ₱<%# Eval("TotalAmount") != DBNull.Value ? Convert.ToDecimal(Eval("TotalAmount")).ToString("N2") : "0.00" %></p>
                                         <p><strong>Due Date:</strong> <%# Eval("DueDate") != DBNull.Value ? Eval("DueDate") : "Not Provided" %></p>
                                     </div>
@@ -441,44 +502,189 @@ button.order-card-link:hover, button.order-card-link:focus {
                 </asp:Repeater>
             </div>
 
-        <!-- Payment Selection Modal -->
-        <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+
+        <!-- Status Change Modal -->
+        <div class="modal fade" id="statusChangeModal" tabindex="-1" aria-labelledby="statusChangeModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="paymentModalLabel">Select Payment Method</h5>
+                        <h5 class="modal-title" id="statusChangeModalLabel">Change Order Status</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <!-- Payment Options -->
-                        <form>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="paymentMethod" id="creditCard" value="Credit Card">
-                                <label class="form-check-label" for="creditCard">
-                                    Credit Card
-                                </label>
+                        <form id="statusChangeForm">
+                            <input type="hidden" id="orderIDField" /> <!-- Hidden input to store order ID -->
+                            <div class="mb-3">
+                                <label for="orderStatus" class="form-label">Select Status</label>
+                                <select class="form-select" id="orderStatus">
+                                    <option value="Pending">Pending</option>
+                                    <option value="In Progress">In Progress</option>
+                                    <option value="Ready">Ready</option>
+                                    <option value="Completed">Completed</option>
+                                </select>
                             </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="paymentMethod" id="paypal" value="Paypal">
-                                <label class="form-check-label" for="paypal">
-                                    Paypal
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="paymentMethod" id="bankTransfer" value="Bank Transfer">
-                                <label class="form-check-label" for="bankTransfer">
-                                    Bank Transfer
-                                </label>
-                            </div>
+                            <button type="button" class="btn btn-primary" onclick="changeStatus()">Save Changes</button>
                         </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" id="submitPaymentMethod">Submit</button>
                     </div>
                 </div>
             </div>
         </div>
+
+
+
+
+        </asp:PlaceHolder>
+
+        <!-- User View -->
+        <asp:PlaceHolder ID="UserView" runat="server">
+                <!-- Title Section -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h2 class="fw-bold mb-0">My Orders</h2>
+            <small class="text-muted">Track your laundry orders and place new ones.</small>
+        </div>
+        <button type="button" class="btn btn-primary rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#addOrderModal">
+            <i class="bi bi-plus-lg me-1"></i> Place Order
+        </button>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3 mb-3 mb-md-0">
+            <div class="summary-card">
+                <h5>Total Orders</h5>
+                <h3><asp:Label ID="lblTotalOrders" runat="server" Text="0" /></h3>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3 mb-md-0">
+            <div class="summary-card">
+                <h5>Pending</h5>
+                <h3><asp:Label ID="lblPending" runat="server" Text="0" /></h3>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3 mb-md-0">
+            <div class="summary-card">
+                <h5>In Progress</h5>
+                <h3><asp:Label ID="lblInProgress" runat="server" Text="0" /></h3>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="summary-card">
+                <h5>Completed</h5>
+                <h3><asp:Label ID="lblCompleted" runat="server" Text="0" /></h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search and Order Status -->
+    <div class="toolbar-card mb-4">
+        <div class="d-flex align-items-center justify-content-between gap-3">
+            <!-- Search Bar Container -->
+            <div class="input-group flex-grow-1">
+                <input type="text" class="form-control" placeholder="Search by order ID or service..." id="txtSearch" runat="server" />
+                <button class="btn btn-secondary" id="searchButton">Search</button>
+            </div>
+
+            <!-- Order Status Filters (Desktop Only) -->
+            <div class="d-none d-md-flex align-items-center ms-lg-3">
+                <button type="button" class="filter-pill active" onclick="filterOrders('All', this)">All</button>
+                <button type="button" class="filter-pill" onclick="filterOrders('Pending', this)">Pending</button>
+                <button type="button" class="filter-pill" onclick="filterOrders('In Progress', this)">In Progress</button>
+                <button type="button" class="filter-pill" onclick="filterOrders('Completed', this)">Completed</button>
+            </div>
+
+            <!-- Dropdown for mobile view -->
+            <div class="d-md-none">
+                <select class="form-select" id="orderStatusDropdownMobile" onchange="filterOrders(this.value, null)">
+                    <option value="All">All Orders</option>
+                    <option value="Pending">Pending</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Completed">Completed</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Orders List Repeater -->
+        <div class="row" id="orderCards">
+            <asp:Repeater ID="rptOrders" runat="server">
+                <ItemTemplate>
+                    <div class="col-md-4 mb-4">
+                        <!-- Add a button to open modal for payment selection -->
+                        <button type="button" class="order-card-link" data-bs-toggle="modal" data-bs-target="#paymentModal" data-orderid="<%# Eval("OrderID") %>">
+                            <div class="order-card" style="background-color: #fff; border-radius: 12px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 20px;">
+                                <!-- Service Type (Bigger Text, Left Aligned) -->
+                                <div class="order-service-type" style="font-size: 1.5rem; font-weight: bold; text-align: left; margin-bottom: 15px;">
+                                    <%# Eval("ServiceType") != DBNull.Value ? Eval("ServiceType") : "N/A" %>
+                                </div>
+                                <!-- Order Details -->
+                                <div class="order-details" style="display: flex; flex-direction: column; gap: 10px; text-align: left;">
+                                    <p class="order-status" style="font-weight: bold; font-size: 1.2rem; margin: 0;
+                                        <%# Eval("Status").ToString() == "Pending" ? "color: #FF7F00;" : 
+                                           (Eval("Status").ToString() == "In Progress" ? "color: #FFCC00;" : 
+                                           (Eval("Status").ToString() == "Completed" ? "color: #28a745;" : 
+                                           (Eval("Status").ToString() == "Ready" ? "color: red;" : ""))) %>">
+                                        <%# Eval("Status") %>
+                                    </p>
+                                    <p class="total" style="font-weight: bold; font-size: 1rem; margin: 0;">
+                                        <strong>Total:</strong> ₱<%# Eval("TotalAmount") != DBNull.Value ? Convert.ToDecimal(Eval("TotalAmount")).ToString("N2") : "0.00" %>
+                                    </p>
+                                    <p class="due-date" style="font-size: 0.9rem; color: #777; margin: 0;">
+                                        <strong>Due Date:</strong> <%# Eval("DueDate") != DBNull.Value ? Eval("DueDate") : "Not Provided" %>
+                                    </p>
+                                </div>
+                                <!-- Order ID (Right aligned at the bottom) -->
+                                <div class="order-id" style="font-size: 0.9rem; color: #666; text-align: left; margin-top: 15px; font-weight: bold;">
+                                    Order ID: <%# Eval("OrderID") %>
+                                </div>
+                            </div>
+                        </button>
+                    </div>
+                </ItemTemplate>
+            </asp:Repeater>
+        </div>
+
+
+
+
+    <!-- Payment Selection Modal -->
+    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="paymentModalLabel">Select Payment Method</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Payment Options -->
+                    <form>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="paymentMethod" id="creditCard" value="Credit Card">
+                            <label class="form-check-label" for="creditCard">
+                                Credit Card
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="paymentMethod" id="paypal" value="Paypal">
+                            <label class="form-check-label" for="paypal">
+                                Paypal
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="paymentMethod" id="bankTransfer" value="Bank Transfer">
+                            <label class="form-check-label" for="bankTransfer">
+                                Bank Transfer
+                            </label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="submitPaymentMethod">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 
@@ -584,8 +790,13 @@ button.order-card-link:hover, button.order-card-link:focus {
             </div>
         </div>
     </div>
+        </asp:PlaceHolder>
+        </div>
 
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+
         document.getElementById('<%= ddlPickupDelivery.ClientID %>').addEventListener('change', function () {
             var selectedValue = this.value;
 
@@ -593,7 +804,7 @@ button.order-card-link:hover, button.order-card-link:focus {
             document.getElementById('<%= pickupDateDiv.ClientID %>').style.display = 'none';
             document.getElementById('<%= deliveryAddressDiv.ClientID %>').style.display = 'none';
             document.getElementById('<%= deliveryDateDiv.ClientID %>').style.display = 'none';
-
+            
             // Show Pickup Date for Pickup selection
             if (selectedValue === 'Pickup') {
                 document.getElementById('<%= pickupDateDiv.ClientID %>').style.display = 'block';
@@ -605,7 +816,8 @@ button.order-card-link:hover, button.order-card-link:focus {
             }
         });
 
-        document.addEventListener('DOMContentLoaded', function () {
+
+        document.addEventListener('DOMContentLoaded', function() {
             var selectedValue = document.getElementById('<%= ddlPickupDelivery.ClientID %>').value;
             if (selectedValue === 'Pickup') {
                 document.getElementById('<%= pickupDateDiv.ClientID %>').style.display = 'block';
@@ -614,6 +826,7 @@ button.order-card-link:hover, button.order-card-link:focus {
             }
         });
 
+
         var paymentModal = document.getElementById('paymentModal');
         paymentModal.addEventListener('show.bs.modal', function (event) {
             var button = event.relatedTarget;
@@ -621,31 +834,85 @@ button.order-card-link:hover, button.order-card-link:focus {
             console.log("Selected OrderID: " + orderID);
         });
 
+
         function filterOrders(status, button) {
-            // Get all the order cards
             const orderCards = document.querySelectorAll('.order-card');
-
-            // Get all filter buttons to reset their active states
             const filterButtons = document.querySelectorAll('.filter-pill');
-
-            // Remove 'active' class from all filter buttons
             filterButtons.forEach(btn => btn.classList.remove('active'));
-
-            // Add 'active' class to the clicked button
             button.classList.add('active');
 
-            // Loop through each order card and filter them based on the status
             orderCards.forEach(card => {
-                const orderStatus = card.querySelector('.order-status').textContent.trim(); // Get the status of the order
+                const orderStatus = card.querySelector('.order-status').textContent.trim();
 
-                // Show cards that match the filter criteria
                 if (status === 'All' || orderStatus === status) {
-                    card.style.display = 'block';  // Show the card
+                    card.style.display = 'block';
                 } else {
-                    card.style.display = 'none';   // Hide the card if it doesn't match
+                    card.style.display = 'none';
                 }
             });
         }
+
+
+        document.getElementById("btnSaveOrder").addEventListener("click", function (event) {
+            var selectedService = document.querySelector('input[name="service"]:checked');
+            if (!selectedService) {
+                alert("Please select a service!");
+                event.preventDefault();  // Prevent the form from submitting
+            }
+        });
+
+
+
+        function setOrderID(orderID, status) {
+            // Set the order ID and status in the hidden fields or the modal
+            document.getElementById('orderIDField').value = orderID;  // Corrected ID to 'orderIDField'
+            document.getElementById('orderStatus').value = status;  // Assuming you have a dropdown for the status
+
+            // Debugging log
+            console.log("OrderID Set: " + document.getElementById('orderIDField').value);
+            console.log("Status Set: " + document.getElementById('orderStatus').value);
+
+            // You can handle the modal display and make other updates
+            var modal = new bootstrap.Modal(document.getElementById('statusChangeModal'));
+            modal.show();
+        }
+
+
+
+
+        function changeStatus() {
+            var orderID = document.getElementById("orderIDField").value;  // Retrieve the OrderID
+            var newStatus = document.getElementById("orderStatus").value;  // Retrieve the status value
+
+            console.log("OrderID: " + orderID + ", Status: " + newStatus);  // Debugging log
+
+            $.ajax({
+                type: "POST",
+                url: "Orders.aspx",  // Same page as backend
+                data: {
+                    action: 'updateStatus',  // Custom action for updating status
+                    orderID: orderID,  // Pass orderID as string
+                    status: newStatus   // Pass the new status
+                },
+                success: function (response) {
+                    alert("Order status updated successfully!");  // Confirmation on success
+                    location.reload();  // Reload the page to reflect changes
+                },
+                error: function (err) {
+                    alert("Error updating status: " + err);  // Error handling
+                }
+            });
+
+            console.log("OrderID Field Value: ", document.getElementById("orderIDField").value);
+        }
+
+
+
+
+
+
+
+
 
     </script>
 </asp:Content>

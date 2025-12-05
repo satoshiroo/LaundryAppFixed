@@ -20,7 +20,7 @@ namespace LaundryApp
 
         private void LoadCustomerData()
         {
-            string connString = "Server=TSUJIN\\SQLEXPRESS; Database=LaundryDB; Integrated Security=True;";
+            string connString = ConfigurationManager.ConnectionStrings["LaundryConnection"].ConnectionString;
             string query = "SELECT UserID, CONCAT(FirstName, ' ', LastName) AS Name, ContactNumber, Address FROM Users WHERE UserRole = 'Customer'";  // Corrected query
 
             using (SqlConnection conn = new SqlConnection(connString))
@@ -48,7 +48,7 @@ namespace LaundryApp
             // Implement delete functionality
             int customerId = Convert.ToInt32(CustomerTable.DataKeys[e.RowIndex].Value);
 
-            string connString = "your_connection_string";  // Update with your connection string
+            string connString = ConfigurationManager.ConnectionStrings["LaundryConnection"].ConnectionString;
             string query = "DELETE FROM Users WHERE UserID = @CustomerID";
 
             using (SqlConnection conn = new SqlConnection(connString))
@@ -67,7 +67,7 @@ namespace LaundryApp
         protected void btnSaveCustomer_Click(object sender, EventArgs e)
         {
             // Save new customer logic
-            string connString = "your_connection_string"; // Your actual connection string
+            string connString = ConfigurationManager.ConnectionStrings["LaundryConnection"].ConnectionString;
             string query = "INSERT INTO Users (FirstName, LastName, ContactNumber, Address, UserRole) VALUES (@FirstName, @LastName, @ContactNumber, @Address, 'Customer')";
 
             using (SqlConnection conn = new SqlConnection(connString))
